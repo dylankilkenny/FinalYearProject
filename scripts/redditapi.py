@@ -3,53 +3,65 @@ import csv
 import sys
 
 
-subreddits = ["CryptoCurrency", "Bitcoin", "btc", "Altcoins", "BitcoinMarkets", "CryptoMarkets"]
-titles = []
-shortlink = []
-comments = []
-
 # init Reddit instance
 reddit = praw.Reddit(client_id='-EoTqkifUHRcgQ', client_secret="S0OuT5JY-NQKu9DBeOtF7gd72To",
                      password='cryptoscraping999', user_agent='USERAGENT',
                      username='CryptoScraper')
+subreddits = "CryptoCurrency+Bitcoin+btc+Altcoins+BitcoinMarkets+CryptoMarkets"
 
-# for subreddit in subreddits:
+post = []
+comments = []
 
-#     for submission in reddit.subreddit(subreddit).hot(limit=5):
-        
-#         print(submission.title)
 
-posts = 0
-for submission in reddit.subreddit("CryptoCurrency").submissions(start=1510761773, end=1510848173, extra_query=None):
+
+
+
+def GetData():
     
-    titles.append(submission.title)
-    shortlink.append(submission.shortlink)
-    postcomments = submission.comments.list()
-    comments.append(postcomments)
-    posts+=1
-    print("Posts found" + str(posts))
-    if(posts ==10):
-        break
+    startdate = 1510761773
+    enddate = 1510848173
+    post.append(["ID", "Title", "Subreddit", "Date", "Score", "No. Comments", "Author", "Shortlink"])
+    comments.append(["ID", "PostID", "Body", "Date", "Score", "Author"])
+    postscount = 0
+
+    for submission in reddit.subreddit(subreddits).submissions(start=startdate, end=enddate, extra_query=None):
+        
+        if submission.num_comments == 0:
+            continue
+            
+        post.append([submission.id, submission.title, submission.subreddit_name_prefixed, submission.created_utc, submission.score, submission.num_comments, submission.author, submission.shortlink])
+
+        submission.comments.replace_more(limit=0)
+        for comment in submission.comments.list():
+            comments.append([comment.id, submission.id, comment.body, comment.created_utc, comment.score, comment.author])
+
+        postscount+=1
+        print("Posts found " + str(postscount))
+
+        if(postscount ==1000):
+            SaveData()
+            break
 
 
+def SaveData():
+    
+    #save posts
+    f = open('../data/post.csv', 'wt')
+    try:
+        writer = csv.writer(f)
+        for i in range(len(post)):
+            writer.writerow(post[i])
+    finally:
+        f.close()
 
-f = open('../data/post.csv', 'wt')
-try:
-    writer = csv.writer(f)
-    writer.writerow( ('ID', 'Title', 'Shortlink') )
-    for i in range(len(titles)):
-        writer.writerow([i+1, titles[i], shortlink[i]])
-finally:
-    f.close()
+    #save comments
+    f = open('../data/comments.csv', 'wt')
+    try:
+        writer = csv.writer(f)
+        for i in range(len(comments)):
+            writer.writerow(comments[i])
+    finally:
+        f.close()
 
-f = open('../data/comments.csv', 'wt')
-try:
-    writer = csv.writer(f)
-    writer.writerow( ('ID', 'Comment') )
-    for i in range(len(comments)):
-        for k in range(len(comments[i])):
-            writer.writerow([i+1, comments[i][k]])
-finally:
-    f.close()
-
-# print (open('test.csv', 'rt').read())
+if __name__ == "__main__":
+    GetData()
