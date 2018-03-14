@@ -1,14 +1,13 @@
 import _ from 'lodash'
-import faker from 'faker'
 import React, { Component } from 'react'
 import { Search, Grid, Header } from 'semantic-ui-react'
 
-const source = _.times(5, () => ({
-  title: faker.company.companyName(),
-  description: faker.company.catchPhrase(),
-  image: faker.internet.avatar(),
-  price: faker.finance.amount(0, 100, 2, '$'),
-}))
+const source = {
+  title: "faker.company.companyName()",
+  description: "faker.company.catchPhrase()",
+  image: "faker.internet.avatar()",
+  price: "faker.finance.amount(0, 100, 2, '$')",
+}
 
 export default class SearchExampleStandard extends Component {
   componentWillMount() {
@@ -39,9 +38,7 @@ export default class SearchExampleStandard extends Component {
     const { isLoading, value, results } = this.state
 
     return (
-      <Grid>
-        <Grid.Column width={8}>
-          <Search
+      <Search
             loading={isLoading}
             onResultSelect={this.handleResultSelect}
             onSearchChange={this.handleSearchChange}
@@ -49,14 +46,6 @@ export default class SearchExampleStandard extends Component {
             value={value}
             {...this.props}
           />
-        </Grid.Column>
-        <Grid.Column width={8}>
-          <Header>State</Header>
-          <pre>{JSON.stringify(this.state, null, 2)}</pre>
-          <Header>Options</Header>
-          <pre>{JSON.stringify(source, null, 2)}</pre>
-        </Grid.Column>
-      </Grid>
     )
   }
 }
