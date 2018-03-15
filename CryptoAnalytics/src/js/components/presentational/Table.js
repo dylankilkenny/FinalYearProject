@@ -12,6 +12,8 @@ const TableCoin = (props) => (
         <Table.HeaderCell>Price</Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
         <Table.HeaderCell>Market Cap</Table.HeaderCell>
+        <Table.HeaderCell>Social Volume</Table.HeaderCell>
+        <Table.HeaderCell>Social Sentiment</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
@@ -19,11 +21,15 @@ const TableCoin = (props) => (
         {
         props.coins.map( (coin) => (
             <TableRow 
+            key = {coin.id}
+            id = {coin.id}
             rank={coin.rank} 
             name={coin.name} 
             price_usd={coin.price_usd} 
             symbol={coin.symbol} 
             market_cap_usd={coin.market_cap_usd} 
+            social_volume={coin.social_volume} 
+            social_sentiment={coin.social_sentiment} 
             />
         ))
         }

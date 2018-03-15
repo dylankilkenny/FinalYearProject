@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import { Search, Grid, Header } from 'semantic-ui-react'
 
 const source = {
-  title: "faker.company.companyName()",
-  description: "faker.company.catchPhrase()",
-  image: "faker.internet.avatar()",
-  price: "faker.finance.amount(0, 100, 2, '$')",
+  title: "Faker",
+  description: "Hello",
+  image: "",
+  price: 99,
 }
 
 export default class SearchExampleStandard extends Component {
+
   componentWillMount() {
     this.resetComponent()
   }

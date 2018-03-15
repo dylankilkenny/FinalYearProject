@@ -12,10 +12,13 @@ class TableContainer extends React.Component {
     }
 
     componentDidMount() {
-        const apiUrl = "https://api.coinmarketcap.com/v1/ticker/"
+        const apiUrl = "http://localhost:3000/AllCurrencies"
         fetch(apiUrl)
             .then(response => response.json())
-            .then(data => this.storeCoins(data))
+            .then(data => {
+                console.log(data)
+                this.storeCoins(data)
+            })
             .catch(error => console.log(error))
     }
 
@@ -26,8 +29,8 @@ class TableContainer extends React.Component {
 
     storeCoins = data => {
         const coins = data.map( result => {
-          const  { id, name, symbol, rank, price_usd, market_cap_usd } = result;
-          return { id, name, symbol, rank, price_usd, market_cap_usd };
+          const  { id, name, symbol, rank, price_usd, market_cap_usd, social_volume, social_sentiment } = result;
+          return { id, name, symbol, rank, price_usd, market_cap_usd, social_volume, social_sentiment };
         });
     
         this.setState({ coins })

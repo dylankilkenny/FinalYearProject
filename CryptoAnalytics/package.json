@@ -29,6 +29,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
+    "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.3"
   }

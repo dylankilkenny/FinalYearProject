@@ -1,12 +1,14 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
-  entry: ["./src/js/app.js"],
+  entry: ["./src/js/index.js"],
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "js/[name].js"
+    filename: "js/[name].js",
+    publicPath: '/'
   },
   devServer: {
+    historyApiFallback: true,
     contentBase: "./dist"
   },
   module: {
