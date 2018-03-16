@@ -22,6 +22,7 @@ MongoClient.connect(url, (err, client) => {
 })
 // ------------------------------ //
 
+// --- Loading inital currency data into db --- //
 function cmcReducer(item, index){
     var obj =  {
         id : item. id,
@@ -48,11 +49,13 @@ function getCoins(){
         })
         .catch(err => console.error(err));
 }
+// ----------------------------------------- //
  
 app.get('/', function (req, res) {
     res.send("Hello World!")
 });
 
+// Retrieves all currencies from db
 app.get('/AllCurrencies', function (req, res) {
     db.collection('coins').find().toArray(function(err, results) {
         console.log(results)
@@ -61,10 +64,15 @@ app.get('/AllCurrencies', function (req, res) {
       }) 
 });
 
+// Retrieves one currency from db
 app.post('/OneCurrency', function (req, res) {
+
+    // Specified currency
     var query = { id : req.body.id};
+    
     db.collection("coins").find(query).toArray(function(err, result) {
         if (err) throw err;
+        // Create new object to return
         const response = {
             id : result[0].id,
             rank : result[0].rank,

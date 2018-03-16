@@ -33,7 +33,7 @@ def gather():
             currentrow = [val.text for val in row.find_all('td')]
             currentrow.insert(0, coin)      
             historicaldata.append(currentrow)
-        print(counter, end='\r')
+        print(counter, end="\r")
         counter += 1
 
     Save(headers, historicaldata)
