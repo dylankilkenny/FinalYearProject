@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
-import TableContainer from "./container/TableContainer.js";
-import CurrencyContainer from "./container/CurrencyContainer.js"
+import TableContainer from "./TableContainer.js";
+import CurrencyContainer from "./CurrencyContainer.js"
 
 
 
