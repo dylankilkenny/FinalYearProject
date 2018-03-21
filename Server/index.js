@@ -25,7 +25,7 @@ MongoClient.connect(url, (err, client) => {
 // --- Loading inital currency data into db --- //
 function cmcReducer(item, index){
     var obj =  {
-        id : item. id,
+        id : item.id,
         rank : item.rank,
         name : item.name,
         symbol : item.symbol,
@@ -69,7 +69,7 @@ app.post('/OneCurrency', function (req, res) {
 
     // Specified currency
     var query = { id : req.body.id};
-    
+
     db.collection("coins").find(query).toArray(function(err, result) {
         if (err) throw err;
         // Create new object to return
