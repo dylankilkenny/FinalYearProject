@@ -36,7 +36,23 @@ class RedditAnalyser(object):
             
             
 
-    def CommentsPostsByDay(self):
+    # def CommentsPostsByDay(self):
+    #     try:
+    #         cbd = self.comments.copy()
+    #         cbd = cbd.groupby(['Date']).size().to_frame('n_comment').reset_index()
+
+    #         pbd = self.posts.copy()
+    #         pbd = pbd.groupby(['Date']).size().to_frame('n_post').reset_index()
+
+    #         cpbd = pd.merge(cbd, pbd, on='Date', how='outer')
+    #         cpbd = cpbd.to_json(orient='records', date_format=None)
+            
+    #         return json.loads(cpbd)
+
+    #     except Exception as e:
+    #         logging.exception("CommentsPostsByDay")
+    
+    def CommentsPostsByDay(self, oldc, oldp):
         try:
             cbd = self.comments.copy()
             cbd = cbd.groupby(['Date']).size().to_frame('n_comment').reset_index()
@@ -45,12 +61,16 @@ class RedditAnalyser(object):
             pbd = pbd.groupby(['Date']).size().to_frame('n_post').reset_index()
 
             cpbd = pd.merge(cbd, pbd, on='Date', how='outer')
-            cpbd = cpbd.to_json(orient='records')
-            
-            return json.loads(cpbd)
+            print(cpbd)
+            cpbd['n_post'] = cpbd['n_post'] + oldp
+            cpbd['n_comment'] = cpbd['n_comment'] + oldc
+            cpbd = cpbd.to_json(orient='records', date_format=None)
+
+            return json.loads(cpbd)[0]
 
         except Exception as e:
             logging.exception("CommentsPostsByDay")
+
     
     def MostActiveUsers(self):
         try:
@@ -65,7 +85,7 @@ class RedditAnalyser(object):
             mau = pd.merge(maup, mauc, on='Author', how='outer')
             mau['Activity'] = mau['Comments'] + mau['Posts']
             mau = mau.sort_values('Activity', ascending=False).head(100)
-            mau = mau.to_json(orient='records')
+            mau = mau.to_json(orient='records', date_format=None)
             return json.loads(mau)
 
         except Exception as e:
@@ -84,7 +104,7 @@ class RedditAnalyser(object):
             ous = pd.merge(ousc, ousp, on='Author', how='outer').sort_values('Comments', ascending=False)
             ous['TotalScore'] = ous['Comments'] + ous['Posts']
             ous = ous.sort_values('TotalScore', ascending=False).head(100)
-            ous = ous.to_json(orient='records')        
+            ous = ous.to_json(orient='records', date_format=None)        
             return json.loads(ous)       
         except Exception as e:
             logging.exception("OverallUserScore") 
@@ -103,7 +123,7 @@ class RedditAnalyser(object):
 
             sbd = pd.merge(cs, ps, on='Date', how='outer')
             sbd["Sentiment"] = sbd["Comment_SA"] + sbd["Post_SA"]
-            sbd = sbd.to_json(orient='records')        
+            sbd = sbd.to_json(orient='records', date_format=None)        
             return json.loads(sbd)
 
         except Exception as e:
@@ -123,7 +143,7 @@ class RedditAnalyser(object):
             wc['n'] = wc['n_comment'] + wc['n_post']
             
             self.word_count = wc
-            wc = wc.to_json(orient='records') 
+            wc = wc.to_json(orient='records', date_format=None) 
             return json.loads(wc)
 
         except Exception as e:
@@ -149,7 +169,7 @@ class RedditAnalyser(object):
                 if len(c) > 0:
                     cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
             
-            cm = cm.to_json(orient='records') 
+            cm = cm.to_json(orient='records', date_format=None) 
             return json.loads(cm)
         
         except Exception as e:
@@ -181,7 +201,7 @@ class RedditAnalyser(object):
             #Create df
             data = pd.DataFrame(data=data)
             #Convert datetime to date
-            data["Date"] = data["Date"].dt.date
+            data["Date"] = data["Date"].dt.strftime('%Y-%m-%d')
             #Remove URLs  
             data["Text"] =  data['Text'].str.replace(r'http\S+', '', case=False)
             #Remove Na's
@@ -194,6 +214,7 @@ class RedditAnalyser(object):
             stop = self.stopwords['word'].tolist()
             data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
             # CommentSentiment
+            print(data)
             return data
 
         except Exception as e:

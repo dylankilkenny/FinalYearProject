@@ -10,4 +10,3 @@ for i, row in subreddits.iterrows():
     if comments or posts:
         RedditDB.main(row["Subreddit"])
 
-    
