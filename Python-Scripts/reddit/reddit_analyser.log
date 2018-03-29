@@ -6328,3 +6328,1478 @@ AttributeError: 'NoneType' object has no attribute 'index'
 2018-03-28 21:19:35.226 DEBUG sessions - _log_request: Data: None
 2018-03-28 21:19:35.226 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'syntax': 'cloudsearch', 'restrict_sr': True, 'limit': 1024, 't': 'all', 'sort': 'new', 'q': 'timestamp:1522257274..1522268074'}
 2018-03-28 21:19:35.228 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:23:42.413 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:23:42.414 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:42.414 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522268074', 'sort': 'new', 'raw_json': 1, 't': 'all', 'restrict_sr': True}
+2018-03-29 12:23:42.422 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:23:43.313 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:23:43.323 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:23:43.670 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522268074&sort=new&raw_json=1&t=all&restrict_sr=True HTTP/1.1" 200 1502
+2018-03-29 12:23:43.673 DEBUG sessions - _make_request: Response: 200 (1502 bytes)
+2018-03-29 12:23:43.677 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qz9c/
+2018-03-29 12:23:43.678 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:43.678 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:44.849 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qz9c/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 8582
+2018-03-29 12:23:44.853 DEBUG sessions - _make_request: Response: 200 (8582 bytes)
+2018-03-29 12:23:44.875 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:23:44.875 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:44.876 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522263507', 'after': 't3_87qz9c', 'raw_json': 1, 't': 'all', 'sort': 'new', 'restrict_sr': True}
+2018-03-29 12:23:45.731 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522263507&after=t3_87qz9c&raw_json=1&t=all&sort=new&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 12:23:45.734 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:23:48.569 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:23:48.570 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:48.570 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522268074', 'sort': 'new', 'raw_json': 1, 't': 'all', 'restrict_sr': True}
+2018-03-29 12:23:48.580 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:23:49.176 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:23:49.209 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:23:49.569 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522268074&sort=new&raw_json=1&t=all&restrict_sr=True HTTP/1.1" 200 2410
+2018-03-29 12:23:49.575 DEBUG sessions - _make_request: Response: 200 (2410 bytes)
+2018-03-29 12:23:49.584 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qlfq/
+2018-03-29 12:23:49.584 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:49.585 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:50.486 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qlfq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1698
+2018-03-29 12:23:50.489 DEBUG sessions - _make_request: Response: 200 (1698 bytes)
+2018-03-29 12:23:50.493 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qhuv/
+2018-03-29 12:23:50.493 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:50.493 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:51.441 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qhuv/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3269
+2018-03-29 12:23:51.445 DEBUG sessions - _make_request: Response: 200 (3269 bytes)
+2018-03-29 12:23:51.454 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:23:51.455 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:51.455 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522257483', 'after': 't3_87qhuv', 'raw_json': 1, 't': 'all', 'sort': 'new', 'restrict_sr': True}
+2018-03-29 12:23:52.302 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522257483&after=t3_87qhuv&raw_json=1&t=all&sort=new&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 12:23:52.305 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:23:53.538 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:23:53.538 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:53.538 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522268074', 'sort': 'new', 'raw_json': 1, 't': 'all', 'restrict_sr': True}
+2018-03-29 12:23:53.544 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:23:54.680 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:23:54.691 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:23:55.005 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522268074&sort=new&raw_json=1&t=all&restrict_sr=True HTTP/1.1" 200 2316
+2018-03-29 12:23:55.011 DEBUG sessions - _make_request: Response: 200 (2316 bytes)
+2018-03-29 12:23:55.015 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qvwn/
+2018-03-29 12:23:55.016 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:55.016 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:55.949 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qvwn/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2026
+2018-03-29 12:23:55.953 DEBUG sessions - _make_request: Response: 200 (2026 bytes)
+2018-03-29 12:23:55.957 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qosd/
+2018-03-29 12:23:55.958 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:55.958 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:56.879 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qosd/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3410
+2018-03-29 12:23:56.883 DEBUG sessions - _make_request: Response: 200 (3410 bytes)
+2018-03-29 12:23:56.891 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qitl/
+2018-03-29 12:23:56.892 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:56.892 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:23:57.787 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qitl/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1748
+2018-03-29 12:23:57.790 DEBUG sessions - _make_request: Response: 200 (1748 bytes)
+2018-03-29 12:23:57.795 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:23:57.795 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:23:57.795 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522257274..1522257872', 'after': 't3_87qitl', 'raw_json': 1, 't': 'all', 'sort': 'new', 'restrict_sr': True}
+2018-03-29 12:23:58.676 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?syntax=cloudsearch&limit=1024&q=timestamp%3A1522257274..1522257872&after=t3_87qitl&raw_json=1&t=all&sort=new&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 12:23:58.679 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:27:14.984 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:27:14.987 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:14.987 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'raw_json': 1, 'q': 'timestamp:1522257274..1522268074', 'limit': 1024}
+2018-03-29 12:27:14.995 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:27:15.688 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:27:15.698 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:27:16.009 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&raw_json=1&q=timestamp%3A1522257274..1522268074&limit=1024 HTTP/1.1" 200 1501
+2018-03-29 12:27:16.012 DEBUG sessions - _make_request: Response: 200 (1501 bytes)
+2018-03-29 12:27:16.014 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qz9c/
+2018-03-29 12:27:16.015 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:16.015 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:16.920 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qz9c/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 8594
+2018-03-29 12:27:16.928 DEBUG sessions - _make_request: Response: 200 (8594 bytes)
+2018-03-29 12:27:16.985 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:27:16.985 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:16.986 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'after': 't3_87qz9c', 'q': 'timestamp:1522257274..1522263507', 'raw_json': 1, 'limit': 1024}
+2018-03-29 12:27:17.478 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&after=t3_87qz9c&q=timestamp%3A1522257274..1522263507&raw_json=1&limit=1024 HTTP/1.1" 200 149
+2018-03-29 12:27:17.514 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:27:20.145 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:27:20.146 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:20.146 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'raw_json': 1, 'q': 'timestamp:1522257274..1522268074', 'limit': 1024}
+2018-03-29 12:27:20.152 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:27:20.808 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:27:20.820 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:27:21.141 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&raw_json=1&q=timestamp%3A1522257274..1522268074&limit=1024 HTTP/1.1" 200 2411
+2018-03-29 12:27:21.144 DEBUG sessions - _make_request: Response: 200 (2411 bytes)
+2018-03-29 12:27:21.152 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qlfq/
+2018-03-29 12:27:21.153 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:21.153 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:21.701 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qlfq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1696
+2018-03-29 12:27:21.704 DEBUG sessions - _make_request: Response: 200 (1696 bytes)
+2018-03-29 12:27:21.709 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qhuv/
+2018-03-29 12:27:21.709 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:21.710 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:22.339 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qhuv/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3268
+2018-03-29 12:27:22.342 DEBUG sessions - _make_request: Response: 200 (3268 bytes)
+2018-03-29 12:27:22.349 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:27:22.350 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:22.350 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'after': 't3_87qhuv', 'q': 'timestamp:1522257274..1522257483', 'raw_json': 1, 'limit': 1024}
+2018-03-29 12:27:22.875 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&after=t3_87qhuv&q=timestamp%3A1522257274..1522257483&raw_json=1&limit=1024 HTTP/1.1" 200 149
+2018-03-29 12:27:22.877 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:27:24.071 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:27:24.071 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:24.071 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'raw_json': 1, 'q': 'timestamp:1522257274..1522268074', 'limit': 1024}
+2018-03-29 12:27:24.077 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:27:24.802 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:27:24.812 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:27:25.146 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&raw_json=1&q=timestamp%3A1522257274..1522268074&limit=1024 HTTP/1.1" 200 2320
+2018-03-29 12:27:25.150 DEBUG sessions - _make_request: Response: 200 (2320 bytes)
+2018-03-29 12:27:25.154 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qvwn/
+2018-03-29 12:27:25.154 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:25.154 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:25.732 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qvwn/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2025
+2018-03-29 12:27:25.736 DEBUG sessions - _make_request: Response: 200 (2025 bytes)
+2018-03-29 12:27:25.742 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qosd/
+2018-03-29 12:27:25.742 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:25.742 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:26.327 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qosd/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3416
+2018-03-29 12:27:26.330 DEBUG sessions - _make_request: Response: 200 (3416 bytes)
+2018-03-29 12:27:26.338 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qitl/
+2018-03-29 12:27:26.338 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:26.339 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:27:26.883 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qitl/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1747
+2018-03-29 12:27:26.885 DEBUG sessions - _make_request: Response: 200 (1747 bytes)
+2018-03-29 12:27:26.889 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:27:26.889 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:27:26.889 DEBUG sessions - _log_request: Params: {'t': 'all', 'syntax': 'cloudsearch', 'restrict_sr': True, 'sort': 'new', 'after': 't3_87qitl', 'q': 'timestamp:1522257274..1522257872', 'raw_json': 1, 'limit': 1024}
+2018-03-29 12:27:27.408 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?t=all&syntax=cloudsearch&restrict_sr=True&sort=new&after=t3_87qitl&q=timestamp%3A1522257274..1522257872&raw_json=1&limit=1024 HTTP/1.1" 200 149
+2018-03-29 12:27:27.411 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:28:04.910 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:28:04.910 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:04.910 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522257274..1522268074', 'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'sort': 'new', 'limit': 1024, 't': 'all'}
+2018-03-29 12:28:04.915 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:28:05.643 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:28:05.652 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:28:05.956 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522257274..1522268074&syntax=cloudsearch&restrict_sr=True&raw_json=1&sort=new&limit=1024&t=all HTTP/1.1" 200 1501
+2018-03-29 12:28:05.961 DEBUG sessions - _make_request: Response: 200 (1501 bytes)
+2018-03-29 12:28:05.963 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qz9c/
+2018-03-29 12:28:05.963 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:05.964 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'sort': 'best', 'limit': 2048}
+2018-03-29 12:28:06.684 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qz9c/?raw_json=1&sort=best&limit=2048 HTTP/1.1" 200 8583
+2018-03-29 12:28:06.689 DEBUG sessions - _make_request: Response: 200 (8583 bytes)
+2018-03-29 12:28:06.725 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:28:06.725 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:06.725 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522257274..1522263507', 'syntax': 'cloudsearch', 't': 'all', 'after': 't3_87qz9c', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'restrict_sr': True}
+2018-03-29 12:28:07.155 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522257274..1522263507&syntax=cloudsearch&t=all&after=t3_87qz9c&raw_json=1&sort=new&limit=1024&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 12:28:07.158 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:28:08.714 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:28:08.715 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:08.715 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522257274..1522268074', 'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'sort': 'new', 'limit': 1024, 't': 'all'}
+2018-03-29 12:28:08.739 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:28:40.038 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:28:40.038 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:40.039 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 1024, 'sort': 'new', 'restrict_sr': True, 'q': 'timestamp:1522257274..1522268074', 'syntax': 'cloudsearch', 't': 'all'}
+2018-03-29 12:28:40.044 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:28:40.680 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:28:40.689 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:28:41.006 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?raw_json=1&limit=1024&sort=new&restrict_sr=True&q=timestamp%3A1522257274..1522268074&syntax=cloudsearch&t=all HTTP/1.1" 200 1502
+2018-03-29 12:28:41.010 DEBUG sessions - _make_request: Response: 200 (1502 bytes)
+2018-03-29 12:28:41.015 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87qz9c/
+2018-03-29 12:28:41.015 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:41.016 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:28:41.647 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87qz9c/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 8579
+2018-03-29 12:28:41.652 DEBUG sessions - _make_request: Response: 200 (8579 bytes)
+2018-03-29 12:28:41.677 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:28:41.677 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:28:41.678 DEBUG sessions - _log_request: Params: {'after': 't3_87qz9c', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'restrict_sr': True, 'q': 'timestamp:1522257274..1522263507', 'syntax': 'cloudsearch', 't': 'all'}
+2018-03-29 12:29:53.499 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:29:53.499 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:29:53.499 DEBUG sessions - _log_request: Params: {'limit': 1024, 'raw_json': 1, 'syntax': 'cloudsearch', 't': 'all', 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 'sort': 'new'}
+2018-03-29 12:29:53.506 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:29:54.407 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:29:54.417 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:29:54.722 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?limit=1024&raw_json=1&syntax=cloudsearch&t=all&q=timestamp%3A1522344559..1522351759&restrict_sr=True&sort=new HTTP/1.1" 200 1856
+2018-03-29 12:29:54.725 DEBUG sessions - _make_request: Response: 200 (1856 bytes)
+2018-03-29 12:29:54.728 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8801wn/
+2018-03-29 12:29:54.728 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:29:54.728 DEBUG sessions - _log_request: Params: {'limit': 2048, 'raw_json': 1, 'sort': 'best'}
+2018-03-29 12:29:55.067 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8801wn/?limit=2048&raw_json=1&sort=best HTTP/1.1" 200 2334
+2018-03-29 12:29:55.071 DEBUG sessions - _make_request: Response: 200 (2334 bytes)
+2018-03-29 12:29:55.079 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 12:29:55.080 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:29:55.080 DEBUG sessions - _log_request: Params: {'limit': 2048, 'raw_json': 1, 'sort': 'best'}
+2018-03-29 12:29:55.397 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&raw_json=1&sort=best HTTP/1.1" 200 1710
+2018-03-29 12:29:55.401 DEBUG sessions - _make_request: Response: 200 (1710 bytes)
+2018-03-29 12:29:55.404 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:29:55.404 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:29:55.405 DEBUG sessions - _log_request: Params: {'limit': 1024, 'after': 't3_87zyrq', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'q': 'timestamp:1522344559..1522345312', 'syntax': 'cloudsearch', 'sort': 'new'}
+2018-03-29 12:29:55.661 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?limit=1024&after=t3_87zyrq&raw_json=1&restrict_sr=True&t=all&q=timestamp%3A1522344559..1522345312&syntax=cloudsearch&sort=new HTTP/1.1" 200 149
+2018-03-29 12:29:55.664 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:29:55.825 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 195, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 12:29:55.830 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 195, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 12:29:55.833 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 12:31:32.394 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:31:32.394 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:31:32.395 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 'sort': 'new', 'syntax': 'cloudsearch', 't': 'all', 'limit': 1024}
+2018-03-29 12:31:32.401 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:31:33.017 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:31:33.027 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:31:33.350 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&sort=new&syntax=cloudsearch&t=all&limit=1024 HTTP/1.1" 200 1857
+2018-03-29 12:31:33.355 DEBUG sessions - _make_request: Response: 200 (1857 bytes)
+2018-03-29 12:31:33.362 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8801wn/
+2018-03-29 12:31:33.362 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:31:33.362 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 12:31:34.497 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8801wn/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 2327
+2018-03-29 12:31:34.500 DEBUG sessions - _make_request: Response: 200 (2327 bytes)
+2018-03-29 12:31:34.507 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 12:31:34.507 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:31:34.508 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 12:31:35.636 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 1710
+2018-03-29 12:31:35.639 DEBUG sessions - _make_request: Response: 200 (1710 bytes)
+2018-03-29 12:31:35.644 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:31:35.644 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:31:35.645 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522345312', 'after': 't3_87zyrq', 'raw_json': 1, 'restrict_sr': True, 'sort': 'new', 'syntax': 'cloudsearch', 't': 'all', 'limit': 1024}
+2018-03-29 12:31:36.747 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522345312&after=t3_87zyrq&raw_json=1&restrict_sr=True&sort=new&syntax=cloudsearch&t=all&limit=1024 HTTP/1.1" 200 149
+2018-03-29 12:31:36.749 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:31:38.223 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:31:38.223 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:31:38.223 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 'sort': 'new', 'syntax': 'cloudsearch', 't': 'all', 'limit': 1024}
+2018-03-29 12:31:38.229 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:31:38.963 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:31:38.975 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:31:39.276 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&sort=new&syntax=cloudsearch&t=all&limit=1024 HTTP/1.1" 200 149
+2018-03-29 12:31:39.278 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:39:16.289 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:39:16.293 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:39:16.293 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'restrict_sr': True, 'raw_json': 1, 'syntax': 'cloudsearch'}
+2018-03-29 12:39:16.305 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:39:16.988 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:39:16.999 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:39:17.806 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&sort=new&q=timestamp%3A1522344559..1522351759&limit=1024&restrict_sr=True&raw_json=1&syntax=cloudsearch HTTP/1.1" 200 1300
+2018-03-29 12:39:17.809 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 12:39:17.813 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 12:39:17.813 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:39:17.814 DEBUG sessions - _log_request: Params: {'limit': 2048, 'raw_json': 1, 'sort': 'best'}
+2018-03-29 12:39:18.199 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&raw_json=1&sort=best HTTP/1.1" 200 1714
+2018-03-29 12:39:18.202 DEBUG sessions - _make_request: Response: 200 (1714 bytes)
+2018-03-29 12:39:18.207 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:39:18.207 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:39:18.208 DEBUG sessions - _log_request: Params: {'t': 'all', 'raw_json': 1, 'syntax': 'cloudsearch', 'limit': 1024, 'restrict_sr': True, 'after': 't3_87zyrq', 'sort': 'new', 'q': 'timestamp:1522344559..1522345312'}
+2018-03-29 12:39:18.529 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&raw_json=1&syntax=cloudsearch&limit=1024&restrict_sr=True&after=t3_87zyrq&sort=new&q=timestamp%3A1522344559..1522345312 HTTP/1.1" 200 149
+2018-03-29 12:39:18.532 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:39:19.722 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:39:19.722 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:39:19.722 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'restrict_sr': True, 'raw_json': 1, 'syntax': 'cloudsearch'}
+2018-03-29 12:39:19.728 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:39:20.366 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:39:20.378 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:48:11.385 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:48:11.388 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:48:11.388 DEBUG sessions - _log_request: Params: {'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 'limit': 1024, 'restrict_sr': True, 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 12:48:11.398 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:48:12.021 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:48:12.030 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:48:12.338 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&raw_json=1&syntax=cloudsearch&limit=1024&restrict_sr=True&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 1297
+2018-03-29 12:48:12.342 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 12:48:12.346 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 12:48:12.347 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:48:12.347 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 12:48:12.824 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1708
+2018-03-29 12:48:12.827 DEBUG sessions - _make_request: Response: 200 (1708 bytes)
+2018-03-29 12:48:12.831 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:48:12.831 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:48:12.831 DEBUG sessions - _log_request: Params: {'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 'limit': 1024, 'restrict_sr': True, 'q': 'timestamp:1522344559..1522345312', 't': 'all', 'after': 't3_87zyrq'}
+2018-03-29 12:48:13.260 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&raw_json=1&syntax=cloudsearch&limit=1024&restrict_sr=True&q=timestamp%3A1522344559..1522345312&t=all&after=t3_87zyrq HTTP/1.1" 200 149
+2018-03-29 12:48:13.263 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:48:14.586 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:48:14.587 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:48:14.587 DEBUG sessions - _log_request: Params: {'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 'limit': 1024, 'restrict_sr': True, 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 12:48:14.592 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:48:15.180 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:48:15.192 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:48:15.484 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?sort=new&raw_json=1&syntax=cloudsearch&limit=1024&restrict_sr=True&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 149
+2018-03-29 12:48:15.487 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:48:15.640 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 195, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 12:48:15.650 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 195, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 12:48:15.651 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 12:49:13.566 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:49:13.566 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:13.566 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'sort': 'new'}
+2018-03-29 12:49:13.573 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:49:14.202 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:49:14.211 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:49:14.513 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?raw_json=1&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&sort=new HTTP/1.1" 200 1297
+2018-03-29 12:49:14.516 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 12:49:14.519 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 12:49:14.519 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:14.520 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:49:14.920 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1712
+2018-03-29 12:49:14.923 DEBUG sessions - _make_request: Response: 200 (1712 bytes)
+2018-03-29 12:49:14.926 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 12:49:14.926 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:14.926 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'after': 't3_87zyrq', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522344559..1522345312', 'sort': 'new'}
+2018-03-29 12:49:15.652 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?raw_json=1&after=t3_87zyrq&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&q=timestamp%3A1522344559..1522345312&sort=new HTTP/1.1" 200 149
+2018-03-29 12:49:15.654 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:49:16.756 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 12:49:16.756 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:16.756 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'sort': 'new'}
+2018-03-29 12:49:16.764 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:49:17.761 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:49:17.771 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:49:18.053 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?raw_json=1&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&sort=new HTTP/1.1" 200 149
+2018-03-29 12:49:18.055 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:49:19.151 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:49:19.151 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:19.151 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'sort': 'new'}
+2018-03-29 12:49:19.157 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:49:19.911 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:49:19.937 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:49:20.243 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?raw_json=1&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&sort=new HTTP/1.1" 200 1518
+2018-03-29 12:49:20.246 DEBUG sessions - _make_request: Response: 200 (1518 bytes)
+2018-03-29 12:49:20.250 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/880eo3/
+2018-03-29 12:49:20.250 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:20.251 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 12:49:20.590 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/880eo3/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1361
+2018-03-29 12:49:20.593 DEBUG sessions - _make_request: Response: 200 (1361 bytes)
+2018-03-29 12:49:20.599 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 12:49:20.599 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:20.599 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'after': 't3_88056y', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'q': 'timestamp:1522344559..1522347505', 'sort': 'new'}
+2018-03-29 12:49:20.906 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?raw_json=1&after=t3_88056y&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&q=timestamp%3A1522344559..1522347505&sort=new HTTP/1.1" 200 149
+2018-03-29 12:49:20.908 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:49:22.008 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 12:49:22.009 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:22.009 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'sort': 'new'}
+2018-03-29 12:49:22.015 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:49:22.676 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:49:22.686 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 12:49:23.061 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?raw_json=1&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&syntax=cloudsearch&limit=1024&sort=new HTTP/1.1" 200 149
+2018-03-29 12:49:23.063 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 12:49:24.190 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 12:49:24.190 DEBUG sessions - _log_request: Data: None
+2018-03-29 12:49:24.191 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'sort': 'new'}
+2018-03-29 12:49:24.197 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 12:49:24.827 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 12:49:24.837 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:16:29.769 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:16:30.909 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:16:30.909 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:16:30.909 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True}
+2018-03-29 13:16:30.915 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:16:31.502 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:16:31.513 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:16:31.821 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&t=all&raw_json=1&sort=new&limit=1024&q=timestamp%3A1522344559..1522351759&restrict_sr=True HTTP/1.1" 200 1298
+2018-03-29 13:16:31.825 DEBUG sessions - _make_request: Response: 200 (1298 bytes)
+2018-03-29 13:16:31.828 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:16:31.828 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:16:31.828 DEBUG sessions - _log_request: Params: {'sort': 'best', 'limit': 2048, 'raw_json': 1}
+2018-03-29 13:16:32.467 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&limit=2048&raw_json=1 HTTP/1.1" 200 1712
+2018-03-29 13:16:32.471 DEBUG sessions - _make_request: Response: 200 (1712 bytes)
+2018-03-29 13:16:32.475 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:16:32.475 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:16:32.475 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'after': 't3_87zyrq', 'sort': 'new', 'limit': 1024, 'q': 'timestamp:1522344559..1522345312', 'restrict_sr': True}
+2018-03-29 13:16:33.338 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&t=all&raw_json=1&after=t3_87zyrq&sort=new&limit=1024&q=timestamp%3A1522344559..1522345312&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 13:16:33.341 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:16:33.584 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:16:34.612 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 13:16:34.612 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:16:34.613 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True}
+2018-03-29 13:16:34.618 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:16:35.223 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:16:35.234 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:16:35.521 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?syntax=cloudsearch&t=all&raw_json=1&sort=new&limit=1024&q=timestamp%3A1522344559..1522351759&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 13:16:35.523 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:16:35.836 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:16:36.836 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 13:16:36.836 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:16:36.836 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True}
+2018-03-29 13:16:36.842 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:17:39.111 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:17:40.190 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:17:40.191 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:17:40.191 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'sort': 'new', 'syntax': 'cloudsearch', 'raw_json': 1}
+2018-03-29 13:17:40.197 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:17:40.860 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:17:40.870 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:17:41.159 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&limit=1024&q=timestamp%3A1522344559..1522351759&t=all&sort=new&syntax=cloudsearch&raw_json=1 HTTP/1.1" 200 1298
+2018-03-29 13:17:41.161 DEBUG sessions - _make_request: Response: 200 (1298 bytes)
+2018-03-29 13:17:41.165 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:17:41.165 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:17:41.166 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 13:17:42.090 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 1713
+2018-03-29 13:17:42.093 DEBUG sessions - _make_request: Response: 200 (1713 bytes)
+2018-03-29 13:17:42.097 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:17:42.097 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:17:42.097 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'limit': 1024, 'q': 'timestamp:1522344559..1522345312', 't': 'all', 'after': 't3_87zyrq', 'sort': 'new', 'syntax': 'cloudsearch', 'raw_json': 1}
+2018-03-29 13:17:42.572 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&limit=1024&q=timestamp%3A1522344559..1522345312&t=all&after=t3_87zyrq&sort=new&syntax=cloudsearch&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 13:17:42.575 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:17:42.906 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:17:44.020 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 13:17:44.020 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:17:44.020 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'sort': 'new', 'syntax': 'cloudsearch', 'raw_json': 1}
+2018-03-29 13:17:44.026 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:17:44.607 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:17:44.620 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:17:44.935 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?restrict_sr=True&limit=1024&q=timestamp%3A1522344559..1522351759&t=all&sort=new&syntax=cloudsearch&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 13:17:44.940 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:17:45.208 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 88, in MostActiveUsers
+    mau = mau.fillna()
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/frame.py", line 3035, in fillna
+    downcast=downcast, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/generic.py", line 4277, in fillna
+    raise ValueError('must specify a fill method or value')
+ValueError: must specify a fill method or value
+2018-03-29 13:17:46.114 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 13:17:46.115 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:17:46.115 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'sort': 'new', 'syntax': 'cloudsearch', 'raw_json': 1}
+2018-03-29 13:17:46.120 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:18:38.178 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:18:38.182 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:18:38.182 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 't': 'all', 'sort': 'new', 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'restrict_sr': True}
+2018-03-29 13:18:38.213 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:19:16.890 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:19:16.891 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:19:16.891 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'syntax': 'cloudsearch', 'sort': 'new', 'raw_json': 1, 'restrict_sr': True, 't': 'all'}
+2018-03-29 13:19:16.898 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:19:17.455 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:19:17.466 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:19:17.786 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522351759&limit=1024&syntax=cloudsearch&sort=new&raw_json=1&restrict_sr=True&t=all HTTP/1.1" 200 1298
+2018-03-29 13:19:17.788 DEBUG sessions - _make_request: Response: 200 (1298 bytes)
+2018-03-29 13:19:17.792 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:19:17.792 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:19:17.792 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 13:19:18.156 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1712
+2018-03-29 13:19:18.160 DEBUG sessions - _make_request: Response: 200 (1712 bytes)
+2018-03-29 13:19:18.164 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:19:18.164 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:19:18.164 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522345312', 'limit': 1024, 'syntax': 'cloudsearch', 'sort': 'new', 'after': 't3_87zyrq', 'restrict_sr': True, 't': 'all', 'raw_json': 1}
+2018-03-29 13:19:18.489 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522345312&limit=1024&syntax=cloudsearch&sort=new&after=t3_87zyrq&restrict_sr=True&t=all&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 13:19:18.493 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:19:18.663 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 224, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 13:19:18.671 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 224, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 13:19:18.672 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 13:20:46.410 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:20:46.414 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:46.414 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'limit': 1024}
+2018-03-29 13:20:46.420 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:20:47.022 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:20:47.032 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:20:47.330 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&raw_json=1&limit=1024 HTTP/1.1" 200 1297
+2018-03-29 13:20:47.332 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 13:20:47.335 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:20:47.335 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:47.336 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 13:20:48.568 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 1713
+2018-03-29 13:20:48.571 DEBUG sessions - _make_request: Response: 200 (1713 bytes)
+2018-03-29 13:20:48.574 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:20:48.574 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:48.575 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'after': 't3_87zyrq', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'q': 'timestamp:1522344559..1522345312', 'limit': 1024}
+2018-03-29 13:20:49.780 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&syntax=cloudsearch&after=t3_87zyrq&restrict_sr=True&t=all&raw_json=1&q=timestamp%3A1522344559..1522345312&limit=1024 HTTP/1.1" 200 149
+2018-03-29 13:20:49.782 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:20:50.963 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 13:20:50.963 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:50.964 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'limit': 1024}
+2018-03-29 13:20:50.969 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:20:51.630 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:20:51.658 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:20:51.971 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?sort=new&syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&raw_json=1&limit=1024 HTTP/1.1" 200 149
+2018-03-29 13:20:51.974 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:20:53.503 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 13:20:53.503 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:53.503 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'limit': 1024}
+2018-03-29 13:20:53.511 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:20:54.190 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:20:54.200 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:20:54.533 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?sort=new&syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&raw_json=1&limit=1024 HTTP/1.1" 200 1522
+2018-03-29 13:20:54.538 DEBUG sessions - _make_request: Response: 200 (1522 bytes)
+2018-03-29 13:20:54.543 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/880eo3/
+2018-03-29 13:20:54.543 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:54.543 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 13:20:55.734 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/880eo3/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 1559
+2018-03-29 13:20:55.737 DEBUG sessions - _make_request: Response: 200 (1559 bytes)
+2018-03-29 13:20:55.743 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 13:20:55.743 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:55.743 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'after': 't3_88056y', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'q': 'timestamp:1522344559..1522347505', 'limit': 1024}
+2018-03-29 13:20:56.934 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?sort=new&syntax=cloudsearch&after=t3_88056y&restrict_sr=True&t=all&raw_json=1&q=timestamp%3A1522344559..1522347505&limit=1024 HTTP/1.1" 200 149
+2018-03-29 13:20:56.937 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:20:58.488 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 13:20:58.489 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:20:58.489 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'raw_json': 1, 'limit': 1024}
+2018-03-29 13:20:58.496 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:21:17.914 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 108, in MostActiveUsers
+    mau.pop(newuser)
+TypeError: 'dict' object cannot be interpreted as an integer
+2018-03-29 13:21:18.984 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:21:18.985 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:21:18.985 DEBUG sessions - _log_request: Params: {'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'sort': 'new', 'syntax': 'cloudsearch', 'raw_json': 1}
+2018-03-29 13:21:18.990 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:21:19.687 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:21:19.696 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:21:20.002 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?limit=1024&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&sort=new&syntax=cloudsearch&raw_json=1 HTTP/1.1" 200 1297
+2018-03-29 13:21:20.004 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 13:21:20.007 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:21:20.007 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:21:20.007 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 13:29:23.407 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:29:23.408 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:29:23.409 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'sort': 'new', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 13:29:23.415 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:29:24.034 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:29:24.044 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:29:24.650 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&syntax=cloudsearch&sort=new&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 1300
+2018-03-29 13:29:24.652 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 13:29:24.657 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:29:24.657 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:29:24.657 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 13:29:25.025 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1715
+2018-03-29 13:29:25.028 DEBUG sessions - _make_request: Response: 200 (1715 bytes)
+2018-03-29 13:29:25.033 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:29:25.033 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:29:25.034 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522345312', 'after': 't3_87zyrq', 'limit': 1024, 'raw_json': 1, 'sort': 'new', 't': 'all'}
+2018-03-29 13:29:25.365 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&syntax=cloudsearch&q=timestamp%3A1522344559..1522345312&after=t3_87zyrq&limit=1024&raw_json=1&sort=new&t=all HTTP/1.1" 200 149
+2018-03-29 13:29:25.368 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:29:25.515 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 222, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 13:29:25.520 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 222, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 13:29:25.521 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 13:29:42.669 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 106, in MostActiveUsers
+    mau.pop(newuser)
+TypeError: 'dict' object cannot be interpreted as an integer
+2018-03-29 13:31:01.897 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:31:01.901 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:31:01.901 DEBUG sessions - _log_request: Params: {'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'raw_json': 1, 'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch'}
+2018-03-29 13:31:01.909 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:31:02.542 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:31:02.552 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:31:02.887 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&q=timestamp%3A1522344559..1522351759&t=all&raw_json=1&limit=1024&restrict_sr=True&syntax=cloudsearch HTTP/1.1" 200 1300
+2018-03-29 13:31:02.890 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 13:31:02.896 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:31:02.896 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:31:02.897 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 13:31:04.082 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 1713
+2018-03-29 13:31:04.084 DEBUG sessions - _make_request: Response: 200 (1713 bytes)
+2018-03-29 13:31:04.090 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:31:04.090 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:31:04.090 DEBUG sessions - _log_request: Params: {'sort': 'new', 'restrict_sr': True, 't': 'all', 'q': 'timestamp:1522344559..1522345312', 'raw_json': 1, 'limit': 1024, 'after': 't3_87zyrq', 'syntax': 'cloudsearch'}
+2018-03-29 13:31:05.253 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&restrict_sr=True&t=all&q=timestamp%3A1522344559..1522345312&raw_json=1&limit=1024&after=t3_87zyrq&syntax=cloudsearch HTTP/1.1" 200 149
+2018-03-29 13:31:05.256 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 13:31:06.416 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 13:31:06.417 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:31:06.417 DEBUG sessions - _log_request: Params: {'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'raw_json': 1, 'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch'}
+2018-03-29 13:31:06.424 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:31:06.998 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:31:07.009 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:31:29.137 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 106, in MostActiveUsers
+    mau.pop(newuser)
+TypeError: 'dict' object cannot be interpreted as an integer
+2018-03-29 13:33:12.263 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:33:12.263 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:33:12.263 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'raw_json': 1, 'restrict_sr': True, 'limit': 1024, 'sort': 'new'}
+2018-03-29 13:33:12.269 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:33:12.896 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:33:12.907 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:33:13.235 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&t=all&raw_json=1&restrict_sr=True&limit=1024&sort=new HTTP/1.1" 200 1299
+2018-03-29 13:33:13.238 DEBUG sessions - _make_request: Response: 200 (1299 bytes)
+2018-03-29 13:33:13.243 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:33:13.243 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:33:13.243 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 13:33:22.425 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 107, in MostActiveUsers
+    mau.pop(newuser)
+TypeError: 'dict' object cannot be interpreted as an integer
+2018-03-29 13:34:24.686 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 13:34:24.687 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:34:24.687 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 'restrict_sr': True, 't': 'all', 'sort': 'new'}
+2018-03-29 13:34:24.693 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 13:34:25.394 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 13:34:25.404 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 13:34:25.731 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&restrict_sr=True&t=all&sort=new HTTP/1.1" 200 1300
+2018-03-29 13:34:25.734 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 13:34:25.737 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 13:34:25.738 DEBUG sessions - _log_request: Data: None
+2018-03-29 13:34:25.738 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 13:34:34.331 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 109, in MostActiveUsers
+    mau.pop(newuser)
+TypeError: 'dict' object cannot be interpreted as an integer
+2018-03-29 14:12:33.792 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:12:33.793 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:12:33.793 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'limit': 1024, 'syntax': 'cloudsearch', 'restrict_sr': True, 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1}
+2018-03-29 14:12:33.795 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:12:34.857 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:12:34.863 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:12:35.129 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&sort=new&limit=1024&syntax=cloudsearch&restrict_sr=True&q=timestamp%3A1522344559..1522351759&raw_json=1 HTTP/1.1" 200 1300
+2018-03-29 14:12:35.130 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 14:12:35.132 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:12:35.132 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:12:35.132 DEBUG sessions - _log_request: Params: {'sort': 'best', 'limit': 2048, 'raw_json': 1}
+2018-03-29 14:12:36.163 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&limit=2048&raw_json=1 HTTP/1.1" 200 2108
+2018-03-29 14:12:36.164 DEBUG sessions - _make_request: Response: 200 (2108 bytes)
+2018-03-29 14:12:36.166 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:12:36.166 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:12:36.166 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'after': 't3_87zyrq', 'limit': 1024, 'syntax': 'cloudsearch', 'restrict_sr': True, 'q': 'timestamp:1522344559..1522345312', 'raw_json': 1}
+2018-03-29 14:12:37.153 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&sort=new&after=t3_87zyrq&limit=1024&syntax=cloudsearch&restrict_sr=True&q=timestamp%3A1522344559..1522345312&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 14:12:37.154 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:12:37.205 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 226, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 14:12:37.211 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 226, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 14:12:37.211 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 14:13:23.019 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 95, in MostActiveUsers
+    mau = json.loads(mau)
+UnboundLocalError: local variable 'json' referenced before assignment
+2018-03-29 14:14:48.023 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 94, in MostActiveUsers
+    mau = json.loads(mau)
+UnboundLocalError: local variable 'json' referenced before assignment
+2018-03-29 14:16:04.626 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:16:04.630 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:04.630 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:04.632 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:16:05.420 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:16:05.425 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:16:05.714 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522351759&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 1299
+2018-03-29 14:16:05.715 DEBUG sessions - _make_request: Response: 200 (1299 bytes)
+2018-03-29 14:16:05.716 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:16:05.717 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:05.717 DEBUG sessions - _log_request: Params: {'limit': 2048, 'raw_json': 1, 'sort': 'best'}
+2018-03-29 14:16:06.437 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&raw_json=1&sort=best HTTP/1.1" 200 2106
+2018-03-29 14:16:06.439 DEBUG sessions - _make_request: Response: 200 (2106 bytes)
+2018-03-29 14:16:06.441 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:16:06.441 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:06.441 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522345312', 'after': 't3_87zyrq', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:07.079 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?q=timestamp%3A1522344559..1522345312&after=t3_87zyrq&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:16:07.081 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:16:07.476 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:16:07.476 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:07.476 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:07.479 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:16:08.156 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:16:08.161 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:16:08.413 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?q=timestamp%3A1522344559..1522351759&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:16:08.415 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:16:08.791 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:16:08.791 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:08.791 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:08.794 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:16:09.487 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:16:09.492 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:16:09.764 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?q=timestamp%3A1522344559..1522351759&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 1385
+2018-03-29 14:16:09.765 DEBUG sessions - _make_request: Response: 200 (1385 bytes)
+2018-03-29 14:16:09.767 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:16:09.767 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:09.767 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522347505', 'after': 't3_88056y', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:10.423 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?q=timestamp%3A1522344559..1522347505&after=t3_88056y&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:16:10.425 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:16:10.834 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 14:16:10.835 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:10.835 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:10.837 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:16:11.535 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:16:11.551 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:16:11.814 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?q=timestamp%3A1522344559..1522351759&sort=new&t=all&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:16:11.816 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:16:12.209 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:16:12.209 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:16:12.209 DEBUG sessions - _log_request: Params: {'q': 'timestamp:1522344559..1522351759', 'sort': 'new', 't': 'all', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:16:12.212 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:16:12.862 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:16:12.868 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:25:35.642 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:25:35.645 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:35.645 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'sort': 'new'}
+2018-03-29 14:25:35.648 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:25:36.367 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:25:36.371 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:25:36.633 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&syntax=cloudsearch&t=all&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522351759&sort=new HTTP/1.1" 200 1300
+2018-03-29 14:25:36.634 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 14:25:36.636 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:25:36.637 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:36.637 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 14:25:37.375 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2106
+2018-03-29 14:25:37.377 DEBUG sessions - _make_request: Response: 200 (2106 bytes)
+2018-03-29 14:25:37.379 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:25:37.379 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:37.379 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'after': 't3_87zyrq', 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522345312', 't': 'all'}
+2018-03-29 14:25:38.068 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&after=t3_87zyrq&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522345312&t=all HTTP/1.1" 200 149
+2018-03-29 14:25:38.069 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:25:38.478 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:25:38.479 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:38.479 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'sort': 'new'}
+2018-03-29 14:25:38.481 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:25:39.005 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:25:39.010 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:25:39.271 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?restrict_sr=True&syntax=cloudsearch&t=all&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522351759&sort=new HTTP/1.1" 200 149
+2018-03-29 14:25:39.272 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:25:39.648 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:25:39.648 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:39.648 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522351759', 'sort': 'new'}
+2018-03-29 14:25:39.650 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:25:40.361 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:25:40.366 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:25:40.659 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?restrict_sr=True&syntax=cloudsearch&t=all&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522351759&sort=new HTTP/1.1" 200 1385
+2018-03-29 14:25:40.660 DEBUG sessions - _make_request: Response: 200 (1385 bytes)
+2018-03-29 14:25:40.663 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:25:40.663 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:40.663 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'after': 't3_88056y', 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522347505', 't': 'all'}
+2018-03-29 14:25:48.450 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:25:48.454 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:48.454 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'sort': 'new', 'restrict_sr': True, 'limit': 1024, 't': 'all', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1}
+2018-03-29 14:25:48.456 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:25:49.019 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:25:49.024 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:25:49.564 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&sort=new&restrict_sr=True&limit=1024&t=all&q=timestamp%3A1522344559..1522351759&raw_json=1 HTTP/1.1" 200 1298
+2018-03-29 14:25:49.565 DEBUG sessions - _make_request: Response: 200 (1298 bytes)
+2018-03-29 14:25:49.567 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:25:49.567 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:49.567 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 14:25:50.269 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 2106
+2018-03-29 14:25:50.271 DEBUG sessions - _make_request: Response: 200 (2106 bytes)
+2018-03-29 14:25:50.274 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:25:50.274 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:25:50.274 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'sort': 'new', 'restrict_sr': True, 'limit': 1024, 't': 'all', 'q': 'timestamp:1522344559..1522345312', 'after': 't3_87zyrq', 'raw_json': 1}
+2018-03-29 14:27:18.291 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:27:18.292 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:18.292 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'restrict_sr': True}
+2018-03-29 14:27:18.294 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:18.970 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:18.976 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:19.240 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&t=all&raw_json=1&sort=new&limit=1024&restrict_sr=True HTTP/1.1" 200 1299
+2018-03-29 14:27:19.242 DEBUG sessions - _make_request: Response: 200 (1299 bytes)
+2018-03-29 14:27:19.244 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:27:19.245 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:19.245 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'sort': 'best', 'limit': 2048}
+2018-03-29 14:27:19.810 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&sort=best&limit=2048 HTTP/1.1" 200 2107
+2018-03-29 14:27:19.811 DEBUG sessions - _make_request: Response: 200 (2107 bytes)
+2018-03-29 14:27:19.813 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:27:19.813 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:19.813 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'after': 't3_87zyrq', 't': 'all', 'q': 'timestamp:1522344559..1522345312', 'raw_json': 1, 'sort': 'new', 'limit': 1024, 'restrict_sr': True}
+2018-03-29 14:27:20.343 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&after=t3_87zyrq&t=all&q=timestamp%3A1522344559..1522345312&raw_json=1&sort=new&limit=1024&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:27:20.344 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:27:20.394 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 224, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 14:27:20.398 ERROR RedditAnalyser - CleanseData: CleanseData
+Traceback (most recent call last):
+  File "pandas/_libs/tslib.pyx", line 2091, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: could not convert string to float: 'Date'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 224, in CleanseData
+    source["Date"] = pd.to_datetime(source["Date"],unit='s')
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 373, in to_datetime
+    values = _convert_listlike(arg._values, True, format)
+  File "/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/pandas/core/tools/datetimes.py", line 229, in _convert_listlike
+    errors=errors)
+  File "pandas/_libs/tslib.pyx", line 2001, in pandas._libs.tslib.array_with_unit_to_datetime
+  File "pandas/_libs/tslib.pyx", line 2094, in pandas._libs.tslib.array_with_unit_to_datetime
+ValueError: non convertible value Date with the unit 's'
+2018-03-29 14:27:20.399 ERROR RedditAnalyser - NoPostComments: NoPostComments
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/reddit/RedditAnalyser.py", line 31, in NoPostComments
+    nc = len(self.comments.index)
+AttributeError: 'NoneType' object has no attribute 'index'
+2018-03-29 14:27:45.951 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:27:45.955 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:45.955 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:45.958 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:46.618 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:46.623 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:47.261 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 1299
+2018-03-29 14:27:47.266 DEBUG sessions - _make_request: Response: 200 (1299 bytes)
+2018-03-29 14:27:47.269 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:27:47.269 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:47.269 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 14:27:47.949 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2107
+2018-03-29 14:27:47.950 DEBUG sessions - _make_request: Response: 200 (2107 bytes)
+2018-03-29 14:27:47.952 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:27:47.953 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:47.953 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'after': 't3_87zyrq', 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522345312'}
+2018-03-29 14:27:48.418 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&after=t3_87zyrq&sort=new&t=all&q=timestamp%3A1522344559..1522345312 HTTP/1.1" 200 149
+2018-03-29 14:27:48.419 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:27:48.909 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:27:48.909 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:48.909 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:48.914 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:49.587 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:49.592 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:49.845 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 149
+2018-03-29 14:27:49.846 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:27:50.249 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:27:50.249 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:50.249 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:50.252 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:50.760 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:50.765 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:51.024 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 1386
+2018-03-29 14:27:51.025 DEBUG sessions - _make_request: Response: 200 (1386 bytes)
+2018-03-29 14:27:51.026 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:27:51.027 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:51.027 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'after': 't3_88056y', 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522347505'}
+2018-03-29 14:27:51.497 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&after=t3_88056y&sort=new&t=all&q=timestamp%3A1522344559..1522347505 HTTP/1.1" 200 149
+2018-03-29 14:27:51.498 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:27:51.884 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 14:27:51.884 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:51.884 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:51.887 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:52.414 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:52.419 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:52.682 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 149
+2018-03-29 14:27:52.684 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:27:53.095 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:27:53.095 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:53.096 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:53.109 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:53.786 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:53.791 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:54.082 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 2867
+2018-03-29 14:27:54.084 DEBUG sessions - _make_request: Response: 200 (2867 bytes)
+2018-03-29 14:27:54.085 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806vi/
+2018-03-29 14:27:54.085 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:54.085 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 14:27:55.015 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806vi/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3668
+2018-03-29 14:27:55.016 DEBUG sessions - _make_request: Response: 200 (3668 bytes)
+2018-03-29 14:27:55.020 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806il/
+2018-03-29 14:27:55.020 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:55.020 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 14:27:55.698 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806il/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 8864
+2018-03-29 14:27:55.711 DEBUG sessions - _make_request: Response: 200 (8864 bytes)
+2018-03-29 14:27:55.721 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:27:55.721 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:55.721 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'after': 't3_8806il', 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522347934'}
+2018-03-29 14:27:56.181 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&after=t3_8806il&sort=new&t=all&q=timestamp%3A1522344559..1522347934 HTTP/1.1" 200 157
+2018-03-29 14:27:56.183 DEBUG sessions - _make_request: Response: 200 (157 bytes)
+2018-03-29 14:27:56.762 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 14:27:56.762 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:56.762 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:27:56.764 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:27:57.294 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:27:57.299 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:27:57.676 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&sort=new&t=all&q=timestamp%3A1522344559..1522351759 HTTP/1.1" 200 3726
+2018-03-29 14:27:57.677 DEBUG sessions - _make_request: Response: 200 (3726 bytes)
+2018-03-29 14:27:57.679 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8804tc/
+2018-03-29 14:27:57.679 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:57.679 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 14:27:58.275 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8804tc/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 7318
+2018-03-29 14:27:58.278 DEBUG sessions - _make_request: Response: 200 (7318 bytes)
+2018-03-29 14:27:58.284 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 14:27:58.284 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:27:58.284 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'after': 't3_8804tc', 'sort': 'new', 't': 'all', 'q': 'timestamp:1522344559..1522347389'}
+2018-03-29 14:27:58.799 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&after=t3_8804tc&sort=new&t=all&q=timestamp%3A1522344559..1522347389 HTTP/1.1" 200 149
+2018-03-29 14:27:58.801 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:36.505 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:34:36.508 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:36.509 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:36.511 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:37.238 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:37.243 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:37.532 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 1297
+2018-03-29 14:34:37.534 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 14:34:37.536 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:34:37.536 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:37.536 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 14:34:38.383 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2106
+2018-03-29 14:34:38.384 DEBUG sessions - _make_request: Response: 200 (2106 bytes)
+2018-03-29 14:34:38.387 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:34:38.387 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:38.387 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522345312', 't': 'all', 'after': 't3_87zyrq', 'restrict_sr': True}
+2018-03-29 14:34:39.163 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522345312&t=all&after=t3_87zyrq&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:34:39.164 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:39.566 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:34:39.566 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:39.566 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:39.568 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:40.207 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:40.213 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:40.507 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:34:40.508 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:40.895 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:34:40.895 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:40.895 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:40.897 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:41.538 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:41.544 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:41.827 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 1384
+2018-03-29 14:34:41.829 DEBUG sessions - _make_request: Response: 200 (1384 bytes)
+2018-03-29 14:34:41.830 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:34:41.830 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:41.830 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522347505', 't': 'all', 'after': 't3_88056y', 'restrict_sr': True}
+2018-03-29 14:34:42.605 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522347505&t=all&after=t3_88056y&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:34:42.606 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:43.002 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 14:34:43.002 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:43.002 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:43.004 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:43.557 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:43.561 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:43.815 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:34:43.817 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:44.217 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:34:44.218 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:44.218 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:44.220 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:44.818 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:44.823 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:45.106 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 2870
+2018-03-29 14:34:45.107 DEBUG sessions - _make_request: Response: 200 (2870 bytes)
+2018-03-29 14:34:45.110 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806vi/
+2018-03-29 14:34:45.110 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:45.110 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 14:34:46.146 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806vi/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 3669
+2018-03-29 14:34:46.148 DEBUG sessions - _make_request: Response: 200 (3669 bytes)
+2018-03-29 14:34:46.153 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806il/
+2018-03-29 14:34:46.153 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:46.153 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 14:34:47.273 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806il/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 8886
+2018-03-29 14:34:47.275 DEBUG sessions - _make_request: Response: 200 (8886 bytes)
+2018-03-29 14:34:47.286 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:34:47.286 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:47.286 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522347934', 't': 'all', 'after': 't3_8806il', 'restrict_sr': True}
+2018-03-29 14:34:48.058 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522347934&t=all&after=t3_8806il&restrict_sr=True HTTP/1.1" 200 157
+2018-03-29 14:34:48.059 DEBUG sessions - _make_request: Response: 200 (157 bytes)
+2018-03-29 14:34:48.610 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 14:34:48.611 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:48.611 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522351759', 't': 'all', 'restrict_sr': True}
+2018-03-29 14:34:48.613 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:49.525 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:49.530 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:34:49.791 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522351759&t=all&restrict_sr=True HTTP/1.1" 200 3726
+2018-03-29 14:34:49.793 DEBUG sessions - _make_request: Response: 200 (3726 bytes)
+2018-03-29 14:34:49.795 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8804tc/
+2018-03-29 14:34:49.795 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:49.795 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 14:34:50.694 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8804tc/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 7519
+2018-03-29 14:34:50.697 DEBUG sessions - _make_request: Response: 200 (7519 bytes)
+2018-03-29 14:34:50.704 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 14:34:50.704 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:50.704 DEBUG sessions - _log_request: Params: {'sort': 'new', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'q': 'timestamp:1522344559..1522347389', 't': 'all', 'after': 't3_8804tc', 'restrict_sr': True}
+2018-03-29 14:34:51.880 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?sort=new&syntax=cloudsearch&limit=1024&raw_json=1&q=timestamp%3A1522344559..1522347389&t=all&after=t3_8804tc&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:34:51.882 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:34:59.189 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:34:59.193 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:34:59.193 DEBUG sessions - _log_request: Params: {'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1}
+2018-03-29 14:34:59.195 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:34:59.867 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:34:59.872 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:35:00.157 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?limit=1024&restrict_sr=True&syntax=cloudsearch&t=all&sort=new&q=timestamp%3A1522344559..1522351759&raw_json=1 HTTP/1.1" 200 1297
+2018-03-29 14:35:00.159 DEBUG sessions - _make_request: Response: 200 (1297 bytes)
+2018-03-29 14:35:00.161 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:35:00.161 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:35:00.161 DEBUG sessions - _log_request: Params: {'limit': 2048, 'sort': 'best', 'raw_json': 1}
+2018-03-29 14:35:01.046 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&sort=best&raw_json=1 HTTP/1.1" 200 2106
+2018-03-29 14:35:01.048 DEBUG sessions - _make_request: Response: 200 (2106 bytes)
+2018-03-29 14:35:01.050 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:35:01.050 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:35:01.050 DEBUG sessions - _log_request: Params: {'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'sort': 'new', 'after': 't3_87zyrq', 'q': 'timestamp:1522344559..1522345312', 'raw_json': 1}
+2018-03-29 14:35:01.806 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?limit=1024&restrict_sr=True&syntax=cloudsearch&t=all&sort=new&after=t3_87zyrq&q=timestamp%3A1522344559..1522345312&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 14:35:01.808 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:35:02.238 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:35:02.238 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:35:02.239 DEBUG sessions - _log_request: Params: {'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1}
+2018-03-29 14:35:02.258 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:35:02.937 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:35:02.942 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:35:03.207 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?limit=1024&restrict_sr=True&syntax=cloudsearch&t=all&sort=new&q=timestamp%3A1522344559..1522351759&raw_json=1 HTTP/1.1" 200 149
+2018-03-29 14:35:03.209 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:35:03.606 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:35:03.606 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:35:03.606 DEBUG sessions - _log_request: Params: {'limit': 1024, 'restrict_sr': True, 'syntax': 'cloudsearch', 't': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1}
+2018-03-29 14:35:03.609 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:35:04.270 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:35:04.275 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:03.412 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:50:03.416 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:03.416 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:03.418 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:04.151 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:04.156 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:04.444 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 1300
+2018-03-29 14:50:04.445 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 14:50:04.446 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:50:04.446 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:04.446 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 14:50:04.724 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 2105
+2018-03-29 14:50:04.726 DEBUG sessions - _make_request: Response: 200 (2105 bytes)
+2018-03-29 14:50:04.728 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:50:04.728 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:04.728 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522345312', 'raw_json': 1, 'after': 't3_87zyrq', 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:04.958 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522345312&raw_json=1&after=t3_87zyrq&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 149
+2018-03-29 14:50:04.959 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:05.383 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:50:05.383 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:05.383 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:05.385 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:05.933 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:05.939 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:06.209 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 149
+2018-03-29 14:50:06.211 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:06.607 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:50:06.608 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:06.608 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:06.611 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:07.417 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:07.422 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:07.706 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 1384
+2018-03-29 14:50:07.707 DEBUG sessions - _make_request: Response: 200 (1384 bytes)
+2018-03-29 14:50:07.710 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:50:07.710 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:07.710 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522347505', 'raw_json': 1, 'after': 't3_88056y', 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:07.951 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522347505&raw_json=1&after=t3_88056y&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 149
+2018-03-29 14:50:07.952 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:08.432 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 14:50:08.432 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:08.432 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:08.434 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:09.169 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:09.173 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:09.423 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 149
+2018-03-29 14:50:09.424 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:09.829 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:50:09.829 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:09.830 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:09.832 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:10.361 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:10.365 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:10.650 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522351759&raw_json=1&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 2869
+2018-03-29 14:50:10.651 DEBUG sessions - _make_request: Response: 200 (2869 bytes)
+2018-03-29 14:50:10.654 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806vi/
+2018-03-29 14:50:10.654 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:10.654 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 14:50:11.115 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806vi/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 4229
+2018-03-29 14:50:11.116 DEBUG sessions - _make_request: Response: 200 (4229 bytes)
+2018-03-29 14:50:11.121 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806il/
+2018-03-29 14:50:11.122 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:11.122 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 14:50:11.608 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806il/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 8892
+2018-03-29 14:50:11.619 DEBUG sessions - _make_request: Response: 200 (8892 bytes)
+2018-03-29 14:50:11.628 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 14:50:11.628 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:11.628 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522347934', 'raw_json': 1, 'after': 't3_8806il', 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:11.851 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?syntax=cloudsearch&q=timestamp%3A1522344559..1522347934&raw_json=1&after=t3_8806il&restrict_sr=True&t=all&sort=new&limit=1024 HTTP/1.1" 200 157
+2018-03-29 14:50:11.853 DEBUG sessions - _make_request: Response: 200 (157 bytes)
+2018-03-29 14:50:12.453 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 14:50:12.453 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:12.453 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'q': 'timestamp:1522344559..1522351759', 'raw_json': 1, 'restrict_sr': True, 't': 'all', 'sort': 'new', 'limit': 1024}
+2018-03-29 14:50:12.457 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:17.015 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:50:17.015 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:17.015 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:17.018 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:17.617 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:17.621 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:17.881 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&sort=new&q=timestamp%3A1522344559..1522351759&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 1300
+2018-03-29 14:50:17.882 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 14:50:17.885 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 14:50:17.885 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:17.885 DEBUG sessions - _log_request: Params: {'limit': 2048, 'raw_json': 1, 'sort': 'best'}
+2018-03-29 14:50:18.134 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?limit=2048&raw_json=1&sort=best HTTP/1.1" 200 2105
+2018-03-29 14:50:18.135 DEBUG sessions - _make_request: Response: 200 (2105 bytes)
+2018-03-29 14:50:18.137 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:50:18.137 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:18.137 DEBUG sessions - _log_request: Params: {'t': 'all', 'after': 't3_87zyrq', 'sort': 'new', 'q': 'timestamp:1522344559..1522345312', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:18.338 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?t=all&after=t3_87zyrq&sort=new&q=timestamp%3A1522344559..1522345312&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:50:18.339 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:18.813 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 14:50:18.813 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:18.813 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:18.816 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:19.511 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:19.516 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:19.778 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?t=all&sort=new&q=timestamp%3A1522344559..1522351759&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:50:19.780 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:20.176 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:50:20.176 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:20.177 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:20.179 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:20.840 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 14:50:20.845 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 14:50:21.127 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?t=all&sort=new&q=timestamp%3A1522344559..1522351759&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 1384
+2018-03-29 14:50:21.128 DEBUG sessions - _make_request: Response: 200 (1384 bytes)
+2018-03-29 14:50:21.130 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 14:50:21.130 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:21.131 DEBUG sessions - _log_request: Params: {'t': 'all', 'after': 't3_88056y', 'sort': 'new', 'q': 'timestamp:1522344559..1522347505', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:21.328 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?t=all&after=t3_88056y&sort=new&q=timestamp%3A1522344559..1522347505&syntax=cloudsearch&limit=1024&raw_json=1&restrict_sr=True HTTP/1.1" 200 149
+2018-03-29 14:50:21.330 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 14:50:21.781 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 14:50:21.781 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:21.781 DEBUG sessions - _log_request: Params: {'t': 'all', 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 'syntax': 'cloudsearch', 'limit': 1024, 'raw_json': 1, 'restrict_sr': True}
+2018-03-29 14:50:21.783 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 14:50:37.580 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 14:50:37.583 DEBUG sessions - _log_request: Data: None
+2018-03-29 14:50:37.585 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'sort': 'new', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 't': 'all', 'q': 'timestamp:1522344559..1522351759'}
+2018-03-29 14:50:37.588 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:11.878 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 15:44:11.882 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:11.882 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:11.884 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:12.467 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:12.473 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:12.741 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 1300
+2018-03-29 15:44:12.743 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 15:44:12.745 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 15:44:12.745 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:12.745 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:13.630 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2112
+2018-03-29 15:44:13.631 DEBUG sessions - _make_request: Response: 200 (2112 bytes)
+2018-03-29 15:44:13.633 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 15:44:13.634 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:13.634 DEBUG sessions - _log_request: Params: {'after': 't3_87zyrq', 'sort': 'new', 'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522345312', 't': 'all'}
+2018-03-29 15:44:14.472 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?after=t3_87zyrq&sort=new&restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522345312&t=all HTTP/1.1" 200 149
+2018-03-29 15:44:14.473 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:44:14.906 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 15:44:14.906 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:14.906 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:14.908 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:15.418 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:15.422 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:15.687 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Bitcoincash/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 149
+2018-03-29 15:44:15.690 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:44:16.120 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 15:44:16.120 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:16.120 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:16.123 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:16.826 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:16.845 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:17.170 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 1384
+2018-03-29 15:44:17.171 DEBUG sessions - _make_request: Response: 200 (1384 bytes)
+2018-03-29 15:44:17.174 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/litecoin/search/
+2018-03-29 15:44:17.174 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:17.174 DEBUG sessions - _log_request: Params: {'after': 't3_88056y', 'sort': 'new', 'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522347505', 't': 'all'}
+2018-03-29 15:44:17.994 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/litecoin/search/?after=t3_88056y&sort=new&restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522347505&t=all HTTP/1.1" 200 149
+2018-03-29 15:44:17.995 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:44:18.441 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/cardano/search/
+2018-03-29 15:44:18.441 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:18.441 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:18.444 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:19.104 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:19.108 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:19.371 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/cardano/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 149
+2018-03-29 15:44:19.372 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:44:19.788 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 15:44:19.788 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:19.788 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:19.791 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:20.434 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:20.439 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:20.768 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 2872
+2018-03-29 15:44:20.770 DEBUG sessions - _make_request: Response: 200 (2872 bytes)
+2018-03-29 15:44:20.773 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806vi/
+2018-03-29 15:44:20.773 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:20.773 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:21.768 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806vi/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 5585
+2018-03-29 15:44:21.769 DEBUG sessions - _make_request: Response: 200 (5585 bytes)
+2018-03-29 15:44:21.775 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8806il/
+2018-03-29 15:44:21.775 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:21.775 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:23.093 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8806il/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 12444
+2018-03-29 15:44:23.095 DEBUG sessions - _make_request: Response: 200 (12444 bytes)
+2018-03-29 15:44:23.108 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/NEO/search/
+2018-03-29 15:44:23.108 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:23.108 DEBUG sessions - _log_request: Params: {'after': 't3_8806il', 'sort': 'new', 'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522347934', 't': 'all'}
+2018-03-29 15:44:23.922 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/NEO/search/?after=t3_8806il&sort=new&restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522347934&t=all HTTP/1.1" 200 157
+2018-03-29 15:44:23.924 DEBUG sessions - _make_request: Response: 200 (157 bytes)
+2018-03-29 15:44:24.518 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 15:44:24.518 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:24.518 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:24.521 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:25.247 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:25.256 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:25.552 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 3729
+2018-03-29 15:44:25.555 DEBUG sessions - _make_request: Response: 200 (3729 bytes)
+2018-03-29 15:44:25.557 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8804tc/
+2018-03-29 15:44:25.557 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:25.557 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:26.754 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8804tc/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 9842
+2018-03-29 15:44:26.755 DEBUG sessions - _make_request: Response: 200 (9842 bytes)
+2018-03-29 15:44:26.764 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Stellar/search/
+2018-03-29 15:44:26.765 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:26.765 DEBUG sessions - _log_request: Params: {'after': 't3_8804tc', 'sort': 'new', 'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522347389', 't': 'all'}
+2018-03-29 15:44:27.564 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Stellar/search/?after=t3_8804tc&sort=new&restrict_sr=True&syntax=cloudsearch&raw_json=1&limit=1024&q=timestamp%3A1522344559..1522347389&t=all HTTP/1.1" 200 149
+2018-03-29 15:44:27.565 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:44:28.073 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/eos/search/
+2018-03-29 15:44:28.073 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:28.074 DEBUG sessions - _log_request: Params: {'syntax': 'cloudsearch', 'restrict_sr': True, 'raw_json': 1, 'limit': 1024, 'sort': 'new', 'q': 'timestamp:1522344559..1522351759', 't': 'all'}
+2018-03-29 15:44:28.076 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:44:28.878 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:44:28.883 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:44:29.170 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/eos/search/?syntax=cloudsearch&restrict_sr=True&raw_json=1&limit=1024&sort=new&q=timestamp%3A1522344559..1522351759&t=all HTTP/1.1" 200 1918
+2018-03-29 15:44:29.172 DEBUG sessions - _make_request: Response: 200 (1918 bytes)
+2018-03-29 15:44:29.174 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/880crk/
+2018-03-29 15:44:29.174 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:29.175 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:30.017 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/880crk/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 1725
+2018-03-29 15:44:30.020 DEBUG sessions - _make_request: Response: 200 (1725 bytes)
+2018-03-29 15:44:30.023 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/8809of/
+2018-03-29 15:44:30.024 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:30.024 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:30.917 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/8809of/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 3222
+2018-03-29 15:44:30.919 DEBUG sessions - _make_request: Response: 200 (3222 bytes)
+2018-03-29 15:44:30.923 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zxpi/
+2018-03-29 15:44:30.923 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:30.923 DEBUG sessions - _log_request: Params: {'raw_json': 1, 'limit': 2048, 'sort': 'best'}
+2018-03-29 15:44:32.210 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zxpi/?raw_json=1&limit=2048&sort=best HTTP/1.1" 200 2071
+2018-03-29 15:44:32.212 DEBUG sessions - _make_request: Response: 200 (2071 bytes)
+2018-03-29 15:44:32.214 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/eos/search/
+2018-03-29 15:44:32.214 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:44:32.214 DEBUG sessions - _log_request: Params: {'after': 't3_87zxpi', 'sort': 'new', 'restrict_sr': True, 'syntax': 'cloudsearch', 'raw_json': 1, 'limit': 1024, 'q': 'timestamp:1522344559..1522344894', 't': 'all'}
+2018-03-29 15:45:08.605 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 15:45:08.608 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:45:08.608 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 't': 'all'}
+2018-03-29 15:45:08.611 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:45:09.184 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:45:09.189 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
+2018-03-29 15:45:09.476 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&q=timestamp%3A1522344559..1522351759&limit=1024&sort=new&raw_json=1&syntax=cloudsearch&t=all HTTP/1.1" 200 1300
+2018-03-29 15:45:09.477 DEBUG sessions - _make_request: Response: 200 (1300 bytes)
+2018-03-29 15:45:09.480 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/comments/87zyrq/
+2018-03-29 15:45:09.480 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:45:09.480 DEBUG sessions - _log_request: Params: {'sort': 'best', 'raw_json': 1, 'limit': 2048}
+2018-03-29 15:45:10.264 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /comments/87zyrq/?sort=best&raw_json=1&limit=2048 HTTP/1.1" 200 2111
+2018-03-29 15:45:10.266 DEBUG sessions - _make_request: Response: 200 (2111 bytes)
+2018-03-29 15:45:10.268 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Ripple/search/
+2018-03-29 15:45:10.268 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:45:10.268 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'q': 'timestamp:1522344559..1522345312', 'after': 't3_87zyrq', 'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 't': 'all', 'limit': 1024}
+2018-03-29 15:45:11.039 DEBUG connectionpool - _make_request: https://oauth.reddit.com:443 "GET /r/Ripple/search/?restrict_sr=True&q=timestamp%3A1522344559..1522345312&after=t3_87zyrq&sort=new&raw_json=1&syntax=cloudsearch&t=all&limit=1024 HTTP/1.1" 200 149
+2018-03-29 15:45:11.040 DEBUG sessions - _make_request: Response: 200 (149 bytes)
+2018-03-29 15:45:11.491 DEBUG sessions - _log_request: Fetching: GET https://oauth.reddit.com/r/Bitcoincash/search/
+2018-03-29 15:45:11.492 DEBUG sessions - _log_request: Data: None
+2018-03-29 15:45:11.492 DEBUG sessions - _log_request: Params: {'restrict_sr': True, 'q': 'timestamp:1522344559..1522351759', 'limit': 1024, 'sort': 'new', 'raw_json': 1, 'syntax': 'cloudsearch', 't': 'all'}
+2018-03-29 15:45:11.494 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): www.reddit.com
+2018-03-29 15:45:12.146 DEBUG connectionpool - _make_request: https://www.reddit.com:443 "POST /api/v1/access_token HTTP/1.1" 200 105
+2018-03-29 15:45:12.150 DEBUG connectionpool - _new_conn: Starting new HTTPS connection (1): oauth.reddit.com
