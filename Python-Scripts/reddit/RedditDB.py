@@ -10,15 +10,21 @@ import time
 import os
 import datetime
 
-def GetDocument(db, subreddit):
+def GetSubredditDocument(db, subreddit):
     cursor = db.subreddits.find(
         {"id": subreddit}
     )
     return cursor
 
+def GetCoinDocument(db, coin):
+    cursor = db.coins.find(
+        {"id": coin}
+    )
+    return cursor
+
 def SetNoPostComments(RA, db, subreddit):
     (nc, np) = RA.NoPostComments()
-    cursor = GetDocument(db, subreddit)
+    cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
         if "no_comments" in doc:
             db.subreddits.update_one(
@@ -41,10 +47,9 @@ def SetNoPostComments(RA, db, subreddit):
                 }
             )
             
-
 def SetMostActiveUsers(RA, db, subreddit):
     
-    cursor = GetDocument(db, subreddit)
+    cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
         if "most_active_users" in doc:
             mau = RA.MostActiveUsers(doc["most_active_users"])
@@ -125,7 +130,7 @@ def GetCommentsPostsByDay(db, subreddit):
                 return (day["n_post"], day["n_comment"])
 
 def SetOverallUserScore(RA, db, subreddit):
-    cursor = GetDocument(db, subreddit)
+    cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
         if "overall_user_score" in doc:
             ous = RA.OverallUserScore(doc["overall_user_score"])
@@ -158,7 +163,6 @@ def SetOverallUserScore(RA, db, subreddit):
                 }
             )
     
-
 def SetSentimentByDay(RA, db, subreddit):
     # Get objects with todays date
     cursor = db.subreddits.find(
@@ -198,6 +202,8 @@ def SetSentimentByDay(RA, db, subreddit):
                 }
             )
 
+
+
 def GetSentimentByDay(db, subreddit):
     cursor = db.subreddits.find(
         {"id": subreddit}
@@ -208,31 +214,71 @@ def GetSentimentByDay(db, subreddit):
                 return (day["Post_SA"], day["Comment_SA"], day["Sentiment"])
 
 def SetWordCount(RA, db, subreddit):
-    wc = RA.WordCount()
-    db.subreddits.update_one(
-        {"id": subreddit},
-        {
-            "$set": {
-                "word_count": wc
-            }
-        }
-    )
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "word_count" in doc:
+            wc = RA.WordCount(doc["word_count"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "word_count": ""} }
+            )
+            # Add new data
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$push": {
+                        "word_count": {
+                            "$each": wc,
+                            "$sort": { "n": -1 },
+                            "$slice": 500
+                        }
+                    }
+                }
+            )
+        else:
+            wc = RA.WordCount(None)
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$set": {
+                        "word_count": wc
+                    }
+                }
+            )
 
 def SetCurrencyMentions(RA, db, subreddit):
-    cm = RA.CurrencyMentions()
-    db.subreddits.update_one(
-        {"id": subreddit},
-        {
-            "$set": {
-                "currency_mentions": cm
-            }
-        }
-    )
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "currency_mentions" in doc:
+            cm = RA.CurrencyMentions(doc["currency_mentions"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "currency_mentions": ""} }
+            )
+            # Add new data
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$set": {
+                        "currency_mentions": cm
+                    }
+                }
+            )
+        else:
+            cm = RA.CurrencyMentions(None)
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$set": {
+                        "currency_mentions": cm
+                    }
+                }
+            )
 
 
-
-
-def main(subreddit):
+def main(subreddit, symbol):
     
     # comments = pd.read_csv('../data/comments_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
     # comments = pd.read_csv('../data/small_data.csv', parse_dates=['Date'])
@@ -249,11 +295,6 @@ def main(subreddit):
     currency_symbols = pd.read_csv('../data/CurrencySymbols.csv')
     stopwords = pd.read_csv('../data/stopwords.csv')
 
-    try:
-        os.remove('../data/comments_'+subreddit+'.csv')
-        os.remove('../data/posts_'+subreddit+'.csv')
-    except OSError:
-        pass
 
     # Check if currency is already in subreddits
     if db.subreddits.find({'id': subreddit}).count() < 1:
@@ -316,5 +357,10 @@ def main(subreddit):
     SetCurrencyMentions(RA, db, subreddit)
     end = time.time()
     print("Done | Time elapsed: " + str(end - start))
-
     
+    
+    try:
+        os.remove('../data/comments_'+subreddit+'.csv')
+        os.remove('../data/posts_'+subreddit+'.csv')
+    except OSError:
+        pass

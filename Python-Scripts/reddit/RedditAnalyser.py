@@ -11,26 +11,25 @@ import nltk
 from collections import Counter
 import json
 import logging
+import collections
 
 class RedditAnalyser(object):
 
     def __init__(self, comments, posts, currency_symbols, stopwords):
 
-        logging.basicConfig(filename='reddit_analyser.log',level=logging.DEBUG,
-        format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+        # logging.basicConfig(filename='reddit_analyser.log',level=logging.DEBUG,
+        # format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
         self.afinn = Afinn()
         self.stopwords = stopwords
         self.comments = self.CleanseData(comments, False)
         self.posts = self.CleanseData(posts, True)
         self.currency_symbols = currency_symbols
 
-
     def NoPostComments(self):
         nc = len(self.comments.index)
         np = len(self.posts.index)
         return (nc, np)
 
-    
     def CommentsPostsByDay(self, oldc, oldp):
         cbd = self.comments.copy()
         cbd = cbd.groupby(['Date']).size().to_frame('n_comment').reset_index()
@@ -39,14 +38,13 @@ class RedditAnalyser(object):
         pbd = pbd.groupby(['Date']).size().to_frame('n_post').reset_index()
 
         cpbd = pd.merge(cbd, pbd, on='Date', how='outer')
-        print(cpbd)
+  
         cpbd['n_post'] = cpbd['n_post'] + oldp
         cpbd['n_comment'] = cpbd['n_comment'] + oldc
+        cpbd.fillna(0, inplace=True)                
         cpbd = cpbd.to_json(orient='records', date_format=None)
 
         return json.loads(cpbd)
-
-
     
     def MostActiveUsers(self, oldmau):
         mauc = self.comments.copy()
@@ -105,8 +103,6 @@ class RedditAnalyser(object):
         ous = ous.to_json(orient='records', date_format=None)
 
         if oldous != None:
-            print("entered")
-            
             ous = json.loads(ous)
             updatedous = []
             # Compare new users against users already in database 
@@ -132,7 +128,6 @@ class RedditAnalyser(object):
 
         return json.loads(ous)       
 
-
     def SentimentByDay(self, oldpsa, oldcsa, olds):
         cs = self.comments.copy()
         cs['Comment_SA'] = np.array([ self.AnalyseSentiment(text) for text in cs['Text'] ])
@@ -145,6 +140,7 @@ class RedditAnalyser(object):
         ps =  ps.groupby('Date')['Post_SA'].sum().reset_index()
 
         sbd = pd.merge(cs, ps, on='Date', how='outer')
+        sbd.fillna(0, inplace=True)                
         sbd["Sentiment"] = sbd["Comment_SA"] + sbd["Post_SA"]
 
         sbd['Post_SA'] = sbd['Post_SA'] + oldpsa
@@ -154,24 +150,49 @@ class RedditAnalyser(object):
         sbd = sbd.to_json(orient='records', date_format=None)        
         return json.loads(sbd)
 
-    def WordCount(self):
+    def WordCount(self, oldwc):
         wcc = self.comments.copy()
-        wcc = Counter(" ".join(wcc['Text']).split()).most_common(300)
+        wcc = list(collections.Counter(" ".join(wcc['Text']).split()).items())
         wcc = pd.DataFrame(wcc, columns=['word', 'n_comment'])
 
         wcp = self.posts.copy()
-        wcp = Counter(" ".join(wcp['Text']).split()).most_common(300)
+        wcp = list(collections.Counter(" ".join(wcp['Text']).split()).items())
         wcp = pd.DataFrame(wcp, columns=['word', 'n_post'])
 
         wc = pd.merge(wcc, wcp, on='word', how='outer')
         wc['n'] = wc['n_comment'] + wc['n_post']
-        
+        wc.fillna(0, inplace=True)                
         self.word_count = wc
         wc = wc.to_json(orient='records', date_format=None) 
+
+        if oldwc != None:
+            wc = json.loads(wc)
+            updatedwc = []
+            # Compare new users against users already in database 
+            # and update old users with new info, popping from array
+            # once processed
+            for word in range(len(oldwc)-1):
+                for newword in range(len(wc)-1):
+                    if oldwc[word]['word'] == wc[newword]['word']:
+                        updatedword = {}
+                        updatedword["word"] = oldwc[word]["word"]
+                        updatedword["n_comment"] = oldwc[word]["n_comment"] + wc[newword]["n_comment"]
+                        updatedword["n_post"] = oldwc[word]["n_post"] + wc[newword]["n_post"]
+                        updatedword["n"] = oldwc[word]["n"] + wc[newword]["n"]
+                        updatedwc.append(updatedword)
+                        wc.pop(newword)
+
+            # Append all newly found users to updatedous list
+            for newword in wc:
+                updatedwc.append(newword)
+
+            j = json.dumps(updatedwc)
+            return json.loads(j)
+
         return json.loads(wc)
 
+    def CurrencyMentions(self, oldcm):
 
-    def CurrencyMentions(self):
         word_count = self.word_count
         cm = self.currency_symbols.copy()
 
@@ -190,22 +211,44 @@ class RedditAnalyser(object):
             if len(c) > 0:
                 cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
         
-        cm = cm.to_json(orient='records', date_format=None) 
-        return json.loads(cm)
-        
+        cm = cm.to_json(orient='records', date_format=None)
 
-            
+        if oldcm != None:
+            cm = json.loads(cm)
+            updatedcm = []
+            # Compare new users against users already in database 
+            # and update old users with new info, popping from array
+            # once processed
+            for currency in range(len(oldcm)-1):
+                for newcurrency in range(len(cm)-1):
+                    if oldcm[currency]['Name'] == cm[newcurrency]['Name']:
+                        updatedcurrency = {}
+                        updatedcurrency["Name"] = oldcm[currency]["Name"]
+                        updatedcurrency["Symbol"] = oldcm[currency]["Symbol"]
+                        updatedcurrency["Currency"] = oldcm[currency]["Currency"]
+                        updatedcurrency["Mentions_Name"] = oldcm[currency]["Mentions_Name"] + cm[newcurrency]["Mentions_Name"]
+                        updatedcurrency["Mentions_Sym"] = oldcm[currency]["Mentions_Sym"] + cm[newcurrency]["Mentions_Sym"]
+                        updatedcm.append(updatedcurrency)
+                        cm.pop(newcurrency)
+
+            # Append all newly found users to updatedous list
+            for newcurrency in cm:
+                updatedcm.append(newcurrency)
+
+            j = json.dumps(updatedcm)
+            return json.loads(j)
+        return json.loads(cm)
+         
     def CleanText(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text)).split())
 
-    
     def AnalyseSentiment(self, text):
         analysis = self.CleanText(text)
         return self.afinn.score(analysis)
 
-    
     def CleanseData(self, source, posts):
         #Change date format
+        
         source["Date"] = pd.to_datetime(source["Date"],unit='s')
         #Create df object
         if posts:
