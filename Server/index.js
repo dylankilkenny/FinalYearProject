@@ -16,7 +16,7 @@ MongoClient.connect(url, (err, client) => {
   if (err) return console.log(err)
   db = client.db('dev') // whatever your database name is
   app.listen(3000, () => {
-    //getCoins()
+    getCoins()
     console.log('listening on 3000')
   })
 })
@@ -30,9 +30,7 @@ function cmcReducer(item, index){
         name : item.name,
         symbol : item.symbol,
         price_usd : item.price_usd,
-        market_cap_usd : item.market_cap_usd,
-        social_volume : 12000,
-        social_sentiment : 0.89
+        market_cap_usd : item.market_cap_usd
     }
     return obj
 } 

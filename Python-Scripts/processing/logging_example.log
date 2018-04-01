@@ -1,0 +1,70 @@
+2018-03-27 18:46:10.194 ERROR RedditAnalyser - __init__: __init__
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 17, in __init__
+    1/0
+ZeroDivisionError: division by zero
+2018-03-27 18:46:10.194 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 45, in MostActiveUsers
+    mauc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:46:10.196 ERROR RedditAnalyser - CommentsPostsByDay: CommentsPostsByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 29, in CommentsPostsByDay
+    cbd = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:46:10.197 ERROR RedditAnalyser - OverallUserScore: OverallUserScore
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 64, in OverallUserScore
+    ousc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:46:10.197 ERROR RedditAnalyser - SentimentByDay: SentimentByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 82, in SentimentByDay
+    cs = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:46:10.198 ERROR RedditAnalyser - WordCount: WordCount
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 102, in WordCount
+    wcc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:46:10.199 ERROR RedditAnalyser - CurrencyMentions: CurrencyMentions
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 122, in CurrencyMentions
+    word_count = self.word_count
+AttributeError: 'RedditAnalyser' object has no attribute 'word_count'
+2018-03-27 18:47:24.646 ERROR RedditAnalyser - __init__: __init__
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 18, in __init__
+    1/0
+ZeroDivisionError: division by zero
+2018-03-27 18:47:24.648 ERROR RedditAnalyser - MostActiveUsers: MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 45, in MostActiveUsers
+    mauc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:47:24.650 ERROR RedditAnalyser - CommentsPostsByDay: CommentsPostsByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 29, in CommentsPostsByDay
+    cbd = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:47:24.651 ERROR RedditAnalyser - OverallUserScore: OverallUserScore
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 64, in OverallUserScore
+    ousc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:47:24.653 ERROR RedditAnalyser - SentimentByDay: SentimentByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 82, in SentimentByDay
+    cs = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:47:24.654 ERROR RedditAnalyser - WordCount: WordCount
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 102, in WordCount
+    wcc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+2018-03-27 18:47:24.656 ERROR RedditAnalyser - CurrencyMentions: CurrencyMentions
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 122, in CurrencyMentions
+    word_count = self.word_count
+AttributeError: 'RedditAnalyser' object has no attribute 'word_count'

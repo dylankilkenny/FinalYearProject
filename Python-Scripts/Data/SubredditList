@@ -1,0 +1,258 @@
+,Currency,Subreddit,Name,Symbol
+0,bitcoin,Bitcoin,Bitcoin,BTC
+1,ethereum,ethereum,Ethereum,ETH
+2,ripple,Ripple,Ripple,XRP
+3,bitcoin-cash,Bitcoincash,Bitcoin Cash,BCH
+4,litecoin,litecoin,Litecoin,LTC
+5,cardano,cardano,Cardano,ADA
+6,neo,NEO,NEO,NEO
+7,stellar,Stellar,Stellar,XLM
+8,eos,eos,EOS,EOS
+9,monero,Monero,Monero,XMR
+10,dash,dashpay,Dash,DASH
+11,iota,Iota,IOTA,MIOTA
+12,nem,nem,NEM,XEM
+13,tron,Tronix,TRON,TRX
+14,vechain,Vechain,VeChain,VEN
+15,ethereum-classic,EthereumClassic,Ethereum Classic,ETC
+16,lisk,Lisk,Lisk,LSK
+17,nano,nanocurrency,Nano,NANO
+18,omisego,omise_go,OmiseGO,OMG
+19,qtum,Qtum,Qtum,QTUM
+20,binance-coin,BinanceExchange,Binance Coin,BNB
+21,icon,helloicon,ICON,ICX
+22,digixdao,digix,DigixDAO,DGD
+23,steem,steemit,Steem,STEEM
+24,waves,Wavesplatform,Waves,WAVES
+25,bytecoin-bcn,BytecoinBCN,Bytecoin,BCN
+26,verge,vergecurrency,Verge,XVG
+27,stratis,stratisplatform,Stratis,STRAT
+28,maker,MakerDAO,Maker,MKR
+29,rchain,RChain,RChain,RHOC
+30,dogecoin,dogecoin,Dogecoin,DOGE
+31,ontology,OntologyNetwork,Ontology,ONT
+32,siacoin,siacoin,Siacoin,SC
+33,bitshares,BitShares,BitShares,BTS
+34,decred,decred,Decred,DCR
+35,aeternity,Aeternity,Aeternity,AE
+36,status,statusim,Status,SNT
+37,augur,Augur,Augur,REP
+38,bytom,BytomBlockchain,Bytom,BTM
+39,waltonchain,waltonchain,Waltonchain,WTC
+40,komodo,komodoplatform,Komodo,KMD
+41,ardor,Ardor,Ardor,ARDR
+42,zilliqa,zilliqa,Zilliqa,ZIL
+43,ark,ArkEcosystem,Ark,ARK
+44,aion,AionNetwork,Aion,AION
+45,0x,0xProject,0x,ZRX
+46,hshare,hcash,Hshare,HSR
+47,electroneum,Electroneum,Electroneum,ETN
+48,monacoin,monacoin,MonaCoin,MONA
+49,digibyte,Digibyte,DigiByte,DGB
+50,pivx,pivx,PIVX,PIVX
+51,kucoin-shares,kucoin,KuCoin Shares,KCS
+52,ethos,ethos_io,Ethos,ETHOS
+53,golem-network-tokens,GolemProject,Golem,GNT
+54,factom,factom,Factom,FCT
+55,syscoin,SysCoin,Syscoin,SYS
+56,basic-attention-token,BATProject,Basic Attention Token,BAT
+57,revain,revain_org,Revain,R
+58,qash,LiquidQASH,QASH,QASH
+59,dragonchain,drgn,Dragonchain,DRGN
+60,loopring,loopringorg,Loopring,LRC
+61,nebulas-token,nebulas,Nebulas,NAS
+62,funfair,FunfairTech,FunFair,FUN
+63,gxchain,GXS,GXChain,GXS
+64,iostoken,IOStoken,IOStoken,IOST
+65,reddcoin,reddCoin,ReddCoin,RDD
+66,zcoin,zcoin,ZCoin,XZC
+67,kyber-network,kybernetwork,Kyber Network,KNC
+68,dentacoin,Dentacoin,Dentacoin,DCN
+69,emercoin,EmerCoin,Emercoin,EMC
+70,kin,KinFoundation,Kin,KIN
+71,power-ledger,PowerLedger,Power Ledger,POWR
+72,smartcash,smartcash,SmartCash,SMART
+73,polymath-network,PolymathNetwork,Polymath,POLY
+74,neblio,Neblio,Neblio,NEBL
+75,particl,Particl,Particl,PART
+76,nxt,NXT,Nxt,NXT
+77,maidsafecoin,safenetwork,MaidSafeCoin,MAID
+78,bancor,Bancor,Bancor,BNT
+79,tenx,TenX,TenX,PAY
+80,byteball,ByteBall,Byteball Bytes,GBYTE
+81,nucleus-vision,NucleusVision,Nucleus Vision,NCASH
+82,nexus,nexusearth,Nexus,NXS
+83,dent,dentcoin,Dent,DENT
+84,request-network,RequestNetwork,Request Network,REQ
+85,sirin-labs-token,SirinLabs,SIRIN LABS Token,SRN
+86,iconomi,ICONOMI,Iconomi,ICN
+87,cindicator,Cindicator,Cindicator,CND
+88,bitcore,bitcore_btx,Bitcore,BTX
+89,pillar,PillarProject,Pillar,PLR
+90,enigma-project,enigmacatalyst,Enigma,ENG
+91,decentraland,decentraland,Decentraland,MANA
+92,storj,storj,Storj,STORJ
+93,blocknet,theblocknet,Blocknet,BLOCK
+94,singularitynet,SingularityNet,SingularityNET,AGI
+95,substratum,SubstratumNetwork,Substratum,SUB
+96,bitcoindark,bitcoindark,BitcoinDark,BTCD
+97,minexcoin,minexcoin,MinexCoin,MNX
+98,gnosis-gno,gnosisPM,Gnosis,GNO
+99,achain,Achain_Official,Achain,ACT
+100,vertcoin,vertcoin,Vertcoin,VTC
+101,genesis-vision,genesisvision,Genesis Vision,GVT
+102,civic,civicplatform,Civic,CVC
+103,raiden-network-token,raidennetwork,Raiden Network Token,RDN
+104,storm,stormtoken,Storm,STORM
+105,quantstamp,Quantstamp,Quantstamp,QSP
+106,theta-token,thetatoken,Theta Token,THETA
+107,rlc,iexec,iExec RLC,RLC
+108,enjin-coin,EnjinCoin,Enjin Coin,ENJ
+109,monaco,MonacoCard,Monaco,MCO
+110,gamecredits,GameCreditsCrypto,GameCredits,GAME
+111,metal,MetalPay,Metal,MTL
+112,skycoin,SkycoinProject,Skycoin,SKY
+113,genaro-network,GenaroNetwork,Genaro Network,GNX
+114,paypie,PayPie,PayPie,PPP
+115,ubiq,Ubiq,Ubiq,UBQ
+116,zencash,ZenSys,ZenCash,ZEN
+117,wax,WAX_io,WAX,WAX
+118,nav-coin,NavCoin,NavCoin,NAV
+119,poet,poetproject,Po.et,POE
+120,arcblock,arcblock,Arcblock,ABT
+121,digitalnote,digitalNote,DigitalNote,XDN
+122,asch,Asch_Platform,Asch,XAS
+123,oyster,Oyster,Oyster,PRL
+124,time-new-bank,TimeNewBank,Time New Bank,TNB
+125,einsteinium,einsteinium,Einsteinium,EMC2
+126,credits,CreditsOfficial,Credits,CS
+127,high-performance-blockchain,HPBtrader,High Performance Blockchain,HPB
+128,nuls,nulsservice,Nuls,NULS
+129,ethlend,ETHLend,ETHLend,LEND
+130,medibloc,MediBloc,MediBloc,MED
+131,sophiatx,SophiaTXproject,SophiaTX,SPHTX
+132,adx-net,AdEx,AdEx,ADX
+133,experience-points,TheBigXP,Experience Points,XP
+134,bluzelle,Bluzelle,Bluzelle,BLZ
+135,edgeless,Edgeless,Edgeless,EDG
+136,fusion,FusionFoundation,Fusion,FSN
+137,blockv,blockv,BLOCKv,VEE
+138,c20,cryptotwenty,CRYPTO20,C20
+139,feathercoin,FeatherCOin,Feathercoin,FTC
+140,spankchain,SpankChain,SpankChain,SPANK
+141,streamr-datacoin,streamr,Streamr DATAcoin,DATA
+142,simple-token,Simple_Token,Simple Token,OST
+143,bibox-token,Bibox,Bibox Token,BIX
+144,jibrel-network,JibrelNetwork,Jibrel Network,JNT
+145,sonm,SONM,SONM,SNM
+146,ripio-credit-network,RipioCreditNetwork,Ripio Credit Network,RCN
+147,bitbay,BitBay,BitBay,BAY
+148,telcoin,Telcoin,Telcoin,TEL
+149,peercoin,peercoin,Peercoin,PPC
+150,wagerr,Wagerr,Wagerr,WGR
+151,red-pulse,RedPulseToken,Red Pulse,RPX
+152,xtrabytes,XtraBYtes,XTRABYTES,XBY
+153,origintrail,OriginTrail,OriginTrail,TRAC
+154,vibe,VibeHub,VIBE,VIBE
+155,quantum-resistant-ledger,QRL,Quantum Resistant Ledger,QRL
+156,universa,Universa_Blockchain,Universa,UTNP
+157,amber,ambrosus,Ambrosus,AMB
+158,html-coin,htmlcoin_community,HTMLCOIN,HTML
+159,wings,WingsDAO,Wings,WINGS
+160,ink,InkLabsFoundation,Ink,INK
+161,eidoo,eidoo,Eidoo,EDO
+162,taas,taasfund,TaaS,TAAS
+163,airswap,AirSwap,AirSwap,AST
+164,melon,melonproject,Melon,MLN
+165,singulardtv,SingularDTV,SingularDTV,SNGLS
+166,library-credit,lbry,LBRY Credits,LBC
+167,appcoins,AppcoinsProtocol,AppCoins,APPC
+168,iot-chain,iotchain,IoT Chain,ITC
+169,burst,burstcoin,Burst,BURST
+170,ins-ecosystem,INS_Ecosystem,INS Ecosystem,INS
+171,counterparty,counterparty_xcp,Counterparty,XCP
+172,blockmason,blockmason,BlockMason Credit Protocol,BCPT
+173,wepower,WePowerNetwork,WePower,WPR
+174,cloakcoin,Cloak_Coin,CloakCoin,CLOAK
+175,deepbrain-chain,DeepBrainChain,DeepBrain Chain,DBC
+176,bread,BRDapp,Bread,BRD
+177,cybermiles,CyberMiles,CyberMiles,CMT
+178,utrust,UTRUST_Official,UTRUST,UTK
+179,kickico,KICKICO_Platform,KickCoin,KICK
+180,etherparty,etherparty,Etherparty,FUEL
+181,wabi,WabiToken,WaBi,WABI
+182,groestlcoin,groestlcoin,Groestlcoin,GRS
+183,mobius,MobiusNetwork,Mobius,MOBI
+184,trinity-network-credit,TrinityTNC,Trinity Network Credit,TNC
+185,viacoin,viacoin,Viacoin,VIA
+186,crypterium,Crypterium,Crypterium,CRPT
+187,modum,modum_io,Modum,MOD
+188,unobtanium,Unobtanium,Unobtanium,UNO
+189,decision-token,HorizonState,Decision Token,HST
+190,district0x,district0x,district0x,DNT
+191,refereum,Refereum,,
+192,lunyr,Lunyr,Lunyr,LUN
+193,rock,GBXCommunity,Rock,RKT
+194,tierion,tierion,Tierion,TNT
+195,centra,CentraTech,,
+196,aeon,Aeon,Aeon,AEON
+197,lykke,lykke,Lykke,LKK
+198,humaniq,Humaniq,Humaniq,HMQ
+199,havven,havven,,
+200,adtoken,adChain,,
+201,potcoin,potcoin,PotCoin,POT
+202,blox,Blox_io,,
+203,synereo,Synereo,Synereo,AMP
+204,crown,Crown,Crown,CRW
+205,pepe-cash,pepetraders,Pepe Cash,PEPECASH
+206,cpchain,cpchain,CPChain,CPC
+207,bankex,bankex,,
+208,revolutionvr,Voxelus_Official,,
+209,indahash,indaHash,indaHash,IDH
+210,hive-project,HiveProject_net,Hive Project,HVN
+211,tokencard,TokenCard,TokenCard,TKN
+212,tether,,Tether,USDT
+213,bitcoin-gold,,Bitcoin Gold,BTG
+214,zcash,,Zcash,ZEC
+215,populous,,Populous,PPT
+216,cryptonex,,Cryptonex,CNX
+217,veritaseum,,Veritaseum,VERI
+218,gas,,Gas,GAS
+219,aelf,,aelf,ELF
+220,salt,,SALT,SALT
+221,chainlink,,ChainLink,LINK
+222,dynamic-trading-rights,,Dynamic Trading Rights,DTR
+223,santiment,,Santiment Network Token,SAN
+224,aragon,,Aragon,ANT
+225,ignis,,Ignis,IGNIS
+226,salus,,SaluS,SLS
+227,envion,,Envion,EVN
+228,cube,,Cube,AUTO
+229,poa-network,,POA Network,POA
+230,pura,,Pura,PURA
+231,pundi-x,,Pundi X,PXS
+232,dew,,DEW,DEW
+233,xpa,,XPA,XPA
+234,ion,,ION,ION
+235,medishares,,MediShares,MDS
+236,bridgecoin,,BridgeCoin,BCO
+237,spacechain,,SpaceChain,SPC
+238,naga,,NAGA,NGC
+239,smartmesh,,SmartMesh,SMT
+240,gifto,,Gifto,GTO
+241,gulden,,Gulden,NLG
+242,mobilego,,MobileGo,MGO
+243,electra,,Electra,ECA
+244,delphy,,Delphy,DPY
+245,metaverse,,Metaverse ETP,ETP
+246,data,,DATA,DTA
+247,bottos,,Bottos,BTO
+248,soarcoin,,Soarcoin,SOAR
+249,cobinhood,,Cobinhood,COB
+250,presearch,,Presearch,PRE
+251,bitcny,,bitCNY,BITCNY
+252,triggers,,Triggers,TRIG
+253,game,,Game.com,GTC
+254,rise,,Rise,RISE
+255,deeponion,,DeepOnion,ONION
+256,leocoin,,LEOcoin,LEO

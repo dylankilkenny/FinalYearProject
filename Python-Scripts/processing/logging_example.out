@@ -1,0 +1,70 @@
+ERROR:root:__init__
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 17, in __init__
+    1/0
+ZeroDivisionError: division by zero
+ERROR:root:MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 45, in MostActiveUsers
+    mauc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:CommentsPostsByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 29, in CommentsPostsByDay
+    cbd = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:OverallUserScore
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 64, in OverallUserScore
+    ousc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:SentimentByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 82, in SentimentByDay
+    cs = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:WordCount
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 102, in WordCount
+    wcc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:CurrencyMentions
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 122, in CurrencyMentions
+    word_count = self.word_count
+AttributeError: 'RedditAnalyser' object has no attribute 'word_count'
+ERROR:root:__init__
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 17, in __init__
+    1/0
+ZeroDivisionError: division by zero
+ERROR:root:MostActiveUsers
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 45, in MostActiveUsers
+    mauc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:CommentsPostsByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 29, in CommentsPostsByDay
+    cbd = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:OverallUserScore
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 64, in OverallUserScore
+    ousc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:SentimentByDay
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 82, in SentimentByDay
+    cs = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:WordCount
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 102, in WordCount
+    wcc = self.comments.copy()
+AttributeError: 'RedditAnalyser' object has no attribute 'comments'
+ERROR:root:CurrencyMentions
+Traceback (most recent call last):
+  File "/Users/dylankilkenny/Documents/College/FinalYearProject/Python-Scripts/processing/RedditAnalyser.py", line 122, in CurrencyMentions
+    word_count = self.word_count
+AttributeError: 'RedditAnalyser' object has no attribute 'word_count'
