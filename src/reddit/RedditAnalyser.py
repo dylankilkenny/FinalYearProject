@@ -205,6 +205,39 @@ class RedditAnalyser(object):
             return json.loads(j)
 
         return json.loads(bigram)
+    
+    def BigramByDay(self, oldbigrams):
+        bigramscopy = self.bigram.copy()
+        bigrams = bigramscopy.sort_values('n',ascending = False).head(25)
+        bigrams = bigrams.to_json(orient='records', date_format=None)
+        bigrams = json.loads(bigrams)
+
+        if oldbigrams != None:
+            updatedbigrams =[]
+            for old in range(len(oldbigrams)-1):
+                oldelement = oldbigrams[old]
+                for new in range(len(bigrams)-1):
+                    newelement = bigrams[new]
+                    if oldelement["bigram"] == newelement["bigram"]:
+                        
+                        updated = {}
+                        updated["bigram"] = oldelement["bigram"]
+                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
+                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
+                        updated["n"] = oldelement["n"] + newelement["n"]
+
+                        updatedbigrams.append(updated)
+                        bigrams.pop(new)
+
+            # Append all newly found users to updatedous list
+            for b in bigrams:
+                updatedbigrams.append(b)
+
+            j = json.dumps(updatedbigrams[:25])
+            return json.loads(j)
+            
+        return bigrams
+
 
     def WordCount(self, oldwc):
         wcc = self.comments.copy()
@@ -246,6 +279,38 @@ class RedditAnalyser(object):
             return json.loads(j)
 
         return json.loads(wc)
+    
+    def WordCountByDay(self, oldwordcount):
+        wordcountcopy = self.word_count.copy()
+        wordcount = wordcountcopy.sort_values('n',ascending = False).head(25)
+        wordcount = wordcount.to_json(orient='records', date_format=None)
+        wordcount = json.loads(wordcount)
+
+        if oldwordcount != None:
+            updatedwordcount =[]
+            for old in range(len(oldwordcount)-1):
+                oldelement = oldwordcount[old]
+                for new in range(len(wordcount)-1):
+                    newelement = wordcount[new]
+                    if oldelement["word"] == newelement["word"]:
+                        
+                        updated = {}
+                        updated["word"] = oldelement["word"]
+                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
+                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
+                        updated["n"] = oldelement["n"] + newelement["n"]
+                        updatedwordcount.append(updated)
+                        wordcount.pop(new)
+
+            # Append all newly found users to updatedous list
+            for b in wordcount:
+                updatedwordcount.append(b)
+
+            j = json.dumps(updatedwordcount[:25])
+            return json.loads(j)
+            
+        return wordcount
+
 
     def CurrencyMentions(self, oldcm):
         # Currency mentions single word

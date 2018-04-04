@@ -9,7 +9,7 @@ for i, row in subreddits.iterrows():
 
     print("Fetching("+str(i+1)+"/"+str(len(subreddits))+"): " + row["Subreddit"])
 
-    (comments, posts) = redditapi.GetData(1522716667, 1522777867, row["Subreddit"])
+    (comments, posts) = redditapi.GetData(1522797827, 1522848227, row["Subreddit"])
     if comments or posts:
         RedditDB.main(row["Subreddit"], row["Symbol"])
 
