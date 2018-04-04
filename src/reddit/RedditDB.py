@@ -66,7 +66,7 @@ def SetMostActiveUsers(RA, db, subreddit):
                         "most_active_users": {
                             "$each": mau,
                             "$sort": { "Activity": -1 },
-                            "$slice": 500
+                            "$slice": 1000
                         }
                     }
                 }
@@ -76,8 +76,12 @@ def SetMostActiveUsers(RA, db, subreddit):
             db.subreddits.update_one(
                 {"id": subreddit},
                 {
-                    "$set": {
-                        "most_active_users": mau
+                    "$push": {
+                        "most_active_users": {
+                            "$each": mau,
+                            "$sort": { "Activity": -1 },
+                            "$slice": 1000
+                        }
                     }
                 }
             )
@@ -87,7 +91,7 @@ def SetCommentsPostsByDay(RA, db, subreddit):
     cursor = db.subreddits.find(
         {
             "id": subreddit,
-            "comments_posts_by_day.Date": str(datetime.datetime.now().date())
+            "comments_posts_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
         }
     )
     # if todays date is already present, add old values to new
@@ -97,7 +101,7 @@ def SetCommentsPostsByDay(RA, db, subreddit):
         db.subreddits.update_one(
                 {
                     "id": subreddit,
-                    "comments_posts_by_day.Date": str(datetime.datetime.now().date())
+                    "comments_posts_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
                 },
                 {
                     "$set": {
@@ -126,7 +130,7 @@ def GetCommentsPostsByDay(db, subreddit):
     )
     for doc in cursor:
         for day in doc["comments_posts_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().date()):
+            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')):
                 return (day["n_post"], day["n_comment"])
 
 def SetOverallUserScore(RA, db, subreddit):
@@ -147,7 +151,7 @@ def SetOverallUserScore(RA, db, subreddit):
                         "overall_user_score": {
                             "$each": ous,
                             "$sort": { "TotalScore": -1 },
-                            "$slice": 500
+                            "$slice": 1000
                         }
                     }
                 }
@@ -157,8 +161,12 @@ def SetOverallUserScore(RA, db, subreddit):
             db.subreddits.update_one(
                 {"id": subreddit},
                 {
-                    "$set": {
-                        "overall_user_score": ous
+                    "$push": {
+                        "overall_user_score": {
+                            "$each": ous,
+                            "$sort": { "TotalScore": -1 },
+                            "$slice": 1000
+                        }
                     }
                 }
             )
@@ -168,7 +176,7 @@ def SetSentimentByDay(RA, db, subreddit):
     cursor = db.subreddits.find(
         {
             "id": subreddit,
-            "sentiment_by_day.Date": str(datetime.datetime.now().date())
+            "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
         }
     )
     # if todays date is already present, add old values to new
@@ -178,7 +186,7 @@ def SetSentimentByDay(RA, db, subreddit):
         db.subreddits.update_one(
                 {
                     "id": subreddit,
-                    "sentiment_by_day.Date": str(datetime.datetime.now().date())
+                    "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
                 },
                 {
                     "$set": {
@@ -210,7 +218,7 @@ def GetSentimentByDay(db, subreddit):
     )
     for doc in cursor:
         for day in doc["sentiment_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().date()):
+            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')):
                 return (day["Post_SA"], day["Comment_SA"], day["Sentiment"])
 
 def SetWordCount(RA, db, subreddit):
@@ -281,12 +289,50 @@ def SetCurrencyMentions(RA, db, subreddit):
                 }
             )
 
+def SetBigrams(RA, db, subreddit):
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "bigram_count" in doc:
+            bc = RA.Bigram(doc["bigram_count"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "bigram_count": ""} }
+            )
+            # Add new data
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$push": {
+                        "bigram_count": {
+                            "$each": bc,
+                            "$sort": { "n": -1 },
+                            "$slice": 1000
+                        }
+                    }
+                }
+            )
+        else:
+            bc = RA.Bigram(None)
+            db.subreddits.update_one(
+                {"id": subreddit},
+                {
+                    "$push": {
+                        "bigram_count": {
+                            "$each": bc,
+                            "$sort": { "n": -1 },
+                            "$slice": 1000
+                        }
+                    }
+                }
+            )
+
 
 def main(subreddit, symbol):
     
-    # comments = pd.read_csv('../data/comments_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
+    # comments = pd.read_csv('../data/reddit/comments_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
     # comments = pd.read_csv('../data/small_data.csv', parse_dates=['Date'])
-    # posts = pd.read_csv('../data/post_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
+    # posts = pd.read_csv('../data/reddit/post_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
     # posts = pd.read_csv('../data/small_data_post.csv', parse_dates=['Date'])
 
     # Connect to DB
@@ -312,6 +358,12 @@ def main(subreddit, symbol):
     RA = RedditAnalyser.RedditAnalyser(comments, posts, currency_symbols, stopwords)
     end = time.time()
     print("Time elapsed: " + str(end - start))
+
+    print("Counting bigrams...")    
+    start = time.time()
+    SetBigrams(RA, db, subreddit)
+    end = time.time()
+    print("Time elapsed: " + str(end - start)) 
 
     print("Count number comments and posts...")    
     start = time.time()

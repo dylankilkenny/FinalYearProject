@@ -12,6 +12,7 @@ from collections import Counter
 import json
 import logging
 import collections
+from nltk.collocations import *
 
 class RedditAnalyser(object):
 
@@ -149,6 +150,61 @@ class RedditAnalyser(object):
         
         sbd = sbd.to_json(orient='records', date_format=None)        
         return json.loads(sbd)
+    
+    def Bigram(self, oldb):
+        """
+        Creating a list of bigram frequencies from the gathered 
+        reddit comments and posts
+        """
+        comments = self.comments.copy()
+        comment_counts = collections.Counter()
+        for sent in comments["Text"]:
+            words = nltk.word_tokenize(sent)
+            comment_counts.update(nltk.bigrams(words))
+        bc = pd.DataFrame(list(comment_counts.items()), columns=['bigram', 'n_comment'])
+
+        posts = self.posts.copy()
+        post_counts = collections.Counter()
+        for sent in posts["Text"]:
+            words = nltk.word_tokenize(sent)
+            post_counts.update(nltk.bigrams(words))
+        bp = pd.DataFrame(list(post_counts.items()), columns=['bigram', 'n_post'])
+
+        bigram = pd.merge(bc, bp, on='bigram', how='outer')
+        bigram['n'] = bigram['n_comment'] + bigram['n_post']
+        bigram.fillna(0, inplace=True)
+        bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
+        self.bigram = bigram
+        bigram = bigram.to_json(orient='records', date_format=None)
+
+        if oldb != None:
+            
+            bigram = json.loads(bigram)
+            updatedbigrams = []
+
+            for oldbigram in range(len(oldb)-1):
+                oldelement = oldb[oldbigram]
+                for newbigram in range(len(bigram)-1):
+                    newelement = bigram[newbigram]
+                    if oldelement["bigram"] == newelement["bigram"]:
+                        
+                        updated = {}
+                        updated["bigram"] = oldelement["bigram"]
+                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
+                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
+                        updated["n"] = oldelement["n"] + newelement["n"]
+
+                        updatedbigrams.append(updated)
+                        bigram.pop(newbigram)
+            
+            # Append all newly found users to updatedous list
+            for b in bigram:
+                updatedbigrams.append(b)
+
+            j = json.dumps(updatedbigrams)
+            return json.loads(j)
+
+        return json.loads(bigram)
 
     def WordCount(self, oldwc):
         wcc = self.comments.copy()
@@ -192,10 +248,10 @@ class RedditAnalyser(object):
         return json.loads(wc)
 
     def CurrencyMentions(self, oldcm):
-
+        # Currency mentions single word
         word_count = self.word_count
+        bigram = self.bigram
         cm = self.currency_symbols.copy()
-
         cm['Symbol'] = cm.Symbol.str.lower()
         cm['Name'] = cm.Name.str.lower()
         cm["Mentions_Sym"] = 0
@@ -207,10 +263,15 @@ class RedditAnalyser(object):
                 cm.loc[cm['Symbol'] == symbol, 'Mentions_Sym'] = c[0]
 
         for name in cm['Name']:
-            c = word_count.loc[word_count['word'] == name, 'n'].values
-            if len(c) > 0:
-                cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
-        
+            if len(name.split()) == 1:
+                c = word_count.loc[word_count['word'] == name, 'n'].values
+                if len(c) > 0:
+                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
+            else:
+                c = bigram.loc[bigram['bigram'] == name, 'n'].values
+                if len(c) > 0:
+                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
+
         cm = cm.to_json(orient='records', date_format=None)
 
         if oldcm != None:
@@ -248,7 +309,6 @@ class RedditAnalyser(object):
 
     def CleanseData(self, source, posts):
         #Change date format
-        
         source["Date"] = pd.to_datetime(source["Date"],unit='s')
         #Create df object
         if posts:
@@ -258,7 +318,7 @@ class RedditAnalyser(object):
         #Create df
         data = pd.DataFrame(data=data)
         #Convert datetime to date
-        data["Date"] = data["Date"].dt.strftime('%Y-%m-%d')
+        data["Date"] = data["Date"].dt.strftime('%Y-%m-%d %H:00:00')
         #Remove URLs  
         data["Text"] =  data['Text'].str.replace(r'http\S+', '', case=False)
         #Remove Na's
@@ -270,5 +330,4 @@ class RedditAnalyser(object):
         #Remove Stop words
         stop = self.stopwords['word'].tolist()
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
-        # CommentSentiment
         return data
