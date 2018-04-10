@@ -9,11 +9,11 @@ for i, row in subreddits.iterrows():
 
     print("Fetching("+str(i+1)+"/"+str(len(subreddits))+"): " + row["Subreddit"])
 
-    (comments, posts) = redditapi.GetData(1519862400, 1522886399, row["Subreddit"])
+    (comments, posts) = redditapi.GetData(row["Subreddit"])
     if comments or posts:
         RedditDB.main(row["Subreddit"], row["Symbol"])
 
-for i, row in subreddits.iterrows():
-    RedditCoin.main(row["Subreddit"], row["Symbol"])
+# for i, row in subreddits.iterrows():
+#     RedditCoin.main(row["Subreddit"], row["Symbol"])
     
 

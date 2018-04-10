@@ -13,6 +13,8 @@ import json
 import logging
 import collections
 from nltk.collocations import *
+from pprint import pprint
+import operator
 
 class RedditAnalyser(object):
 
@@ -68,6 +70,7 @@ class RedditAnalyser(object):
             # Compare new users against users already in database 
             # and update old users with new info, popping from array
             # once processed
+            
             for user in range(len(oldmau)-1):
                 for newuser in range(len(mau)-1):
                     if oldmau[user]['Author'] == mau[newuser]['Author']:
@@ -175,6 +178,7 @@ class RedditAnalyser(object):
         bigram.fillna(0, inplace=True)
         bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
         self.bigram = bigram
+        bigram = bigram.head(500)
         bigram = bigram.to_json(orient='records', date_format=None)
 
         if oldb != None:
@@ -207,37 +211,77 @@ class RedditAnalyser(object):
         return json.loads(bigram)
     
     def BigramByDay(self, oldbigrams):
-        bigramscopy = self.bigram.copy()
-        bigrams = bigramscopy.sort_values('n',ascending = False).head(25)
-        bigrams = bigrams.to_json(orient='records', date_format=None)
-        bigrams = json.loads(bigrams)
+        # Merge both datasets
+        comments = self.comments.copy()
+        posts = self.posts.copy()
+        # Change date format from timestamp
+        comments["Date"] = pd.to_datetime(comments['Date'], errors='coerce')
+        posts["Date"] = pd.to_datetime(posts['Date'], errors='coerce')
+        # Convert back to string date without hours
+        comments["Date"] = comments["Date"].dt.strftime('%Y-%m-%d')
+        posts["Date"] = posts["Date"].dt.strftime('%Y-%m-%d')
+        merged = pd.concat([posts,comments])   
+        # Group by date
+        merged = merged.groupby('Date')
+        bbd = []
+        bbd_full = []
+        # loop through groups
+        print(merged)
+        for name, group in merged:
+            merged_counts = collections.Counter()
+            # Loop through text counting bigrams
+            for sent in group["Text"]:
+                words = nltk.word_tokenize(sent)
+                merged_counts.update(nltk.bigrams(words))
+            updated = {}
+            updated_full = {}
+            # join bigrams to one word
+            for key, value in merged_counts.most_common(25):
+                k = ' '.join(key)
+                updated[k] = value
+            # join bigrams to one word
+            for key, value in merged_counts.items():
+                k = ' '.join(key)
+                updated_full[k] = value
+            # append grouped date and counted bigrams to list
+            print(updated)
+            bbd.append([name, updated])
+            bbd_full.append([name, updated_full])
+
+        # Create dataframe with counts
+        bbd = pd.DataFrame(bbd, columns = ['Date','counts'])
+
+        bbd_full = pd.DataFrame(bbd_full, columns = ['Date','counts'])
+        self.bigram_by_day = bbd_full
+
+        bbd = bbd.to_json(orient='records', date_format=None)
+        bbd = json.loads(bbd)
 
         if oldbigrams != None:
-            updatedbigrams =[]
-            for old in range(len(oldbigrams)-1):
-                oldelement = oldbigrams[old]
-                for new in range(len(bigrams)-1):
-                    newelement = bigrams[new]
-                    if oldelement["bigram"] == newelement["bigram"]:
+            
+            updatedbigrams = oldbigrams
+            temp_bbd_counts = list(bbd[0]['counts'].items())
+
+            print(len(updatedbigrams))                      
+            for old_item in list(updatedbigrams.items()):
+                for new_item in temp_bbd_counts:
+                    if old_item[0] == new_item[0]:
+                        print(old_item)
+                        updatedbigrams[old_item[0]] = old_item[1] + new_item[1]
+                        temp_bbd_counts.remove(new_item)
                         
-                        updated = {}
-                        updated["bigram"] = oldelement["bigram"]
-                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
-                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
-                        updated["n"] = oldelement["n"] + newelement["n"]
-
-                        updatedbigrams.append(updated)
-                        bigrams.pop(new)
-
+            print(len(temp_bbd_counts))                      
             # Append all newly found users to updatedous list
-            for b in bigrams:
-                updatedbigrams.append(b)
-
-            j = json.dumps(updatedbigrams[:25])
+            for item in temp_bbd_counts:
+                updatedbigrams[item[0]] = item[1]
+                temp_bbd_counts.remove(item)
+            
+            sort = sorted(updatedbigrams.items(), key=operator.itemgetter(1), reverse=True)   
+            j = json.dumps(dict(sort[:25]))
             return json.loads(j)
             
-        return bigrams
-
+        return bbd
+  
 
     def WordCount(self, oldwc):
         wcc = self.comments.copy()
@@ -281,41 +325,70 @@ class RedditAnalyser(object):
         return json.loads(wc)
     
     def WordCountByDay(self, oldwordcount):
-        wordcountcopy = self.word_count.copy()
-        wordcount = wordcountcopy.sort_values('n',ascending = False).head(25)
-        wordcount = wordcount.to_json(orient='records', date_format=None)
-        wordcount = json.loads(wordcount)
+        # Copy posts and comments
+        comments_copy = self.comments.copy()
+        posts_copy = self.posts.copy()
+
+        # Change date format from timestamp
+        comments_copy["Date"] = pd.to_datetime(comments_copy['Date'], errors='coerce')
+        posts_copy["Date"] = pd.to_datetime(posts_copy['Date'], errors='coerce')
+        # Convert back to string date without hours
+        comments_copy["Date"] = comments_copy["Date"].dt.strftime('%Y-%m-%d')
+        posts_copy["Date"] = posts_copy["Date"].dt.strftime('%Y-%m-%d')
+        # Merge both datasets
+        merged = pd.concat([comments_copy,posts_copy])
+        # Group by date
+        merged = merged.groupby('Date')
+
+        # Loop through dataframe counting most common 25 words for each date
+        wcbd= []
+        # full list of word counts for currency mentions use
+        wcbd_full = []
+        for name, group in merged:
+            texts = " ".join(group['Text'])
+            groupCounts = Counter(texts.split()).most_common(25)
+            wcbd.append([name, dict(groupCounts)])
+            wcbd_full.append([name, dict(Counter(texts.split()))])
+
+        # Create dataframe with counts
+        wcbd = pd.DataFrame(wcbd, columns = ['Date','counts'])
+        wcbd_full = pd.DataFrame(wcbd, columns = ['Date','counts'])
+
+        self.word_count_by_day = wcbd_full
+        
+        wcbd = wcbd.to_json(orient='records', date_format=None)
+        wcbd = json.loads(wcbd)
 
         if oldwordcount != None:
-            updatedwordcount =[]
-            for old in range(len(oldwordcount)-1):
-                oldelement = oldwordcount[old]
-                for new in range(len(wordcount)-1):
-                    newelement = wordcount[new]
-                    if oldelement["word"] == newelement["word"]:
-                        
-                        updated = {}
-                        updated["word"] = oldelement["word"]
-                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
-                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
-                        updated["n"] = oldelement["n"] + newelement["n"]
-                        updatedwordcount.append(updated)
-                        wordcount.pop(new)
+            print(wcbd)
+            print(wcbd[0]['counts'])
+            updatedwordcount = oldwordcount
+            
+            temp_wbcd_counts = list(wcbd[0]['counts'].items())
 
+                  
+            for old_item in list(updatedwordcount.items()):
+                for new_item in temp_wbcd_counts:
+                    if old_item[0] == new_item[0]:
+                        updatedwordcount[old_item[0]] = old_item[1] + new_item[1]
+                        temp_wbcd_counts.remove(new_item)
+                                            
             # Append all newly found users to updatedous list
-            for b in wordcount:
-                updatedwordcount.append(b)
-
-            j = json.dumps(updatedwordcount[:25])
+            for item in temp_wbcd_counts:
+                updatedwordcount[item[0]] = item[1]
+                temp_wbcd_counts.remove(item)
+            
+            sort = sorted(updatedwordcount.items(), key=operator.itemgetter(1), reverse=True)   
+            j = json.dumps(dict(sort[:25]))
             return json.loads(j)
             
-        return wordcount
+        return wcbd
 
 
     def CurrencyMentions(self, oldcm):
         # Currency mentions single word
-        word_count = self.word_count
-        bigram = self.bigram
+        word_count = self.word_count_by_day
+        bigram = self.bigram_by_day
         cm = self.currency_symbols.copy()
         cm['Symbol'] = cm.Symbol.str.lower()
         cm['Name'] = cm.Name.str.lower()
@@ -336,7 +409,7 @@ class RedditAnalyser(object):
                 c = bigram.loc[bigram['bigram'] == name, 'n'].values
                 if len(c) > 0:
                     cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
-
+        self.currency_mentions = cm
         cm = cm.to_json(orient='records', date_format=None)
 
         if oldcm != None:
@@ -364,6 +437,35 @@ class RedditAnalyser(object):
             j = json.dumps(updatedcm)
             return json.loads(j)
         return json.loads(cm)
+    
+    def CurrencyMentionsByDay(self, oldcmbd):
+        cmcopy = self.currency_mentions.copy()
+        cmbd = cmcopy.to_json(orient='records', date_format=None)
+        cmbd = json.loads(cmbd)
+
+        if oldcmbd != None:
+            updatedcmbd =[]
+            for old in range(len(oldcmbd)-1):
+                oldelement = oldcmbd[old]
+                for new in range(len(cmbd)-1):
+                    newelement = cmbd[new]
+                    if oldelement['Name'] == newelement['Name']:
+                        updatedcurrency = {}
+                        updatedcurrency["Name"] = oldelement["Name"]
+                        updatedcurrency["Symbol"] = oldelement["Symbol"]
+                        updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
+                        updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
+                        updatedcmbd.append(updatedcurrency)
+                        cmbd.pop(new)
+
+            # Append all newly found users to updatedous list
+            for b in cmbd:
+                updatedcmbd.append(b)
+
+            j = json.dumps(updatedcmbd)
+            return json.loads(j)
+            
+        return cmbd
          
     def CleanText(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text)).split())
@@ -395,4 +497,6 @@ class RedditAnalyser(object):
         #Remove Stop words
         stop = self.stopwords['word'].tolist()
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
+        banned_users = ["AutoModerator", "RemindMeBot", "tweettranscriberbot"]
+        data = data[~data['Author'].isin(banned_users)]
         return data
