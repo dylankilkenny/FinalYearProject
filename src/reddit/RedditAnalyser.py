@@ -226,7 +226,6 @@ class RedditAnalyser(object):
         bbd = []
         bbd_full = []
         # loop through groups
-        print(merged)
         for name, group in merged:
             merged_counts = collections.Counter()
             # Loop through text counting bigrams
@@ -244,7 +243,6 @@ class RedditAnalyser(object):
                 k = ' '.join(key)
                 updated_full[k] = value
             # append grouped date and counted bigrams to list
-            print(updated)
             bbd.append([name, updated])
             bbd_full.append([name, updated_full])
 
@@ -262,15 +260,12 @@ class RedditAnalyser(object):
             updatedbigrams = oldbigrams
             temp_bbd_counts = list(bbd[0]['counts'].items())
 
-            print(len(updatedbigrams))                      
             for old_item in list(updatedbigrams.items()):
                 for new_item in temp_bbd_counts:
                     if old_item[0] == new_item[0]:
-                        print(old_item)
                         updatedbigrams[old_item[0]] = old_item[1] + new_item[1]
                         temp_bbd_counts.remove(new_item)
                         
-            print(len(temp_bbd_counts))                      
             # Append all newly found users to updatedous list
             for item in temp_bbd_counts:
                 updatedbigrams[item[0]] = item[1]
@@ -293,11 +288,10 @@ class RedditAnalyser(object):
         wcp = pd.DataFrame(wcp, columns=['word', 'n_post'])
 
         wc = pd.merge(wcc, wcp, on='word', how='outer')
-        wc['n'] = wc['n_comment'] + wc['n_post']
-        wc.fillna(0, inplace=True)                
+        wc.fillna(0, inplace=True)
+        wc['n'] = wc['n_comment'] + wc['n_post']      
         self.word_count = wc
         wc = wc.to_json(orient='records', date_format=None) 
-
         if oldwc != None:
             wc = json.loads(wc)
             updatedwc = []
@@ -352,7 +346,7 @@ class RedditAnalyser(object):
 
         # Create dataframe with counts
         wcbd = pd.DataFrame(wcbd, columns = ['Date','counts'])
-        wcbd_full = pd.DataFrame(wcbd, columns = ['Date','counts'])
+        wcbd_full = pd.DataFrame(wcbd_full, columns = ['Date','counts'])
 
         self.word_count_by_day = wcbd_full
         
@@ -360,8 +354,7 @@ class RedditAnalyser(object):
         wcbd = json.loads(wcbd)
 
         if oldwordcount != None:
-            print(wcbd)
-            print(wcbd[0]['counts'])
+     
             updatedwordcount = oldwordcount
             
             temp_wbcd_counts = list(wcbd[0]['counts'].items())
@@ -387,8 +380,8 @@ class RedditAnalyser(object):
 
     def CurrencyMentions(self, oldcm):
         # Currency mentions single word
-        word_count = self.word_count_by_day
-        bigram = self.bigram_by_day
+        word_count = self.word_count
+        bigram = self.bigram
         cm = self.currency_symbols.copy()
         cm['Symbol'] = cm.Symbol.str.lower()
         cm['Name'] = cm.Name.str.lower()
@@ -409,7 +402,8 @@ class RedditAnalyser(object):
                 c = bigram.loc[bigram['bigram'] == name, 'n'].values
                 if len(c) > 0:
                     cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
-        self.currency_mentions = cm
+        
+        cm["n"] = cm["Mentions_Name"] + cm["Mentions_Sym"]
         cm = cm.to_json(orient='records', date_format=None)
 
         if oldcm != None:
@@ -439,27 +433,72 @@ class RedditAnalyser(object):
         return json.loads(cm)
     
     def CurrencyMentionsByDay(self, oldcmbd):
-        cmcopy = self.currency_mentions.copy()
-        cmbd = cmcopy.to_json(orient='records', date_format=None)
+        # Currency mentions single word
+        word_count = self.word_count_by_day
+        bigram = self.bigram_by_day
+        # Create merged dataframe
+        merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
+        merged = pd.DataFrame(data=merged)
+        
+        # Group by date
+        merged = merged.groupby('Date')
+        
+        cm = self.currency_symbols.copy()
+        cm['Symbol'] = cm.Symbol.str.lower()
+        cm['Name'] = cm.Name.str.lower()
+        cm = cm.drop('Currency', 1)
+        cm["Mentions_Sym"] = 0
+        cm["Mentions_Name"] = 0
+
+
+        cmbd = [] 
+        for date, group in merged:
+            word_count = group["word_count"].tolist()
+            bigram_count = group["bigram_count"].tolist()
+            temp_cm = cm
+            for symbol in temp_cm['Symbol']:
+                if symbol in word_count[0]:
+                    temp_cm.loc[temp_cm['Symbol'] == symbol, 'Mentions_Sym'] = word_count[0][symbol]
+            for name in temp_cm['Name']:
+                if len(name.split()) == 1:
+                    if name in word_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = word_count[0][name]
+                else:
+                    if name in bigram_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = bigram_count[0][name]
+
+            temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
+            temp_cm = temp_cm.to_json(orient='records', date_format=None)
+            temp_cm = json.loads(temp_cm)
+            cmbd.append([date, temp_cm])
+                
+        
+        cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
+        cmbd = cmbd.to_json(orient='records', date_format=None)
         cmbd = json.loads(cmbd)
 
         if oldcmbd != None:
             updatedcmbd =[]
+            # get counts at element 0
+            # if its todays date there will only be one row
+            temp_cmbd = cmbd[0]["counts"]
+            
             for old in range(len(oldcmbd)-1):
                 oldelement = oldcmbd[old]
-                for new in range(len(cmbd)-1):
-                    newelement = cmbd[new]
+                for new in range(len(temp_cmbd)-1):
+                    newelement = temp_cmbd[new]
+        
                     if oldelement['Name'] == newelement['Name']:
                         updatedcurrency = {}
                         updatedcurrency["Name"] = oldelement["Name"]
                         updatedcurrency["Symbol"] = oldelement["Symbol"]
                         updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
                         updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
-                        updatedcmbd.append(updatedcurrency)
-                        cmbd.pop(new)
+                        updatedcmbd.append(updatedcurrency)                    
+                        temp_cmbd.pop(new)
 
             # Append all newly found users to updatedous list
-            for b in cmbd:
+            for b in temp_cmbd:
                 updatedcmbd.append(b)
 
             j = json.dumps(updatedcmbd)
@@ -497,6 +536,9 @@ class RedditAnalyser(object):
         #Remove Stop words
         stop = self.stopwords['word'].tolist()
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
-        banned_users = ["AutoModerator", "RemindMeBot", "tweettranscriberbot"]
-        data = data[~data['Author'].isin(banned_users)]
+
+        with open("../data/banned_users.json", "r") as jsonFile:
+            users = json.load(jsonFile)
+
+        data = data[~data['Author'].isin(users["users"])]
         return data

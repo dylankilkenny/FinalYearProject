@@ -348,8 +348,9 @@ def SetCurrencyMentionsByDay(RA, db, subreddit):
     )
     # if todays date is already present, add old values to new
     if cursor.count() > 0:
+        print(True)
         oldcmbd = GetCurrencyMentionsByDay(db, subreddit)
-        cmbd = TA.CurrencyMentionsByDay(oldcmbd)
+        cmbd = RA.CurrencyMentionsByDay(oldcmbd)
         db.subreddits.update_one(
                 {
                     "id": subreddit,
@@ -357,7 +358,7 @@ def SetCurrencyMentionsByDay(RA, db, subreddit):
                 },
                 {
                     "$set": {
-                        "currency_mentions_by_day.$.mentions": cmbd
+                        "currency_mentions_by_day.$.counts": cmbd
                     }
                 }
             )
@@ -371,10 +372,8 @@ def SetCurrencyMentionsByDay(RA, db, subreddit):
                 {
                     "$push": {
                         "currency_mentions_by_day": {
-                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')),
-                            "mentions": cmbd
-                        },
-                        
+                            "$each": cmbd
+                        }
                     }
                 }
             )
@@ -386,7 +385,7 @@ def GetCurrencyMentionsByDay(db, subreddit):
     for doc in cursor:
         for day in doc["currency_mentions_by_day"]:
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["mentions"]
+                return day["counts"]
 
 def SetBigrams(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -513,11 +512,11 @@ def main(subreddit, symbol):
     end = time.time()
     print("Time elapsed: " + str(end - start))
 
-    # print("Counting bigrams...", end="\r")    
-    # start = time.time()
-    # SetBigrams(RA, db, subreddit)
-    # end = time.time()
-    # print("Counting bigrams... Time elapsed: " + str(end - start)) 
+    print("Counting bigrams...", end="\r")    
+    start = time.time()
+    SetBigrams(RA, db, subreddit)
+    end = time.time()
+    print("Counting bigrams... Time elapsed: " + str(end - start)) 
 
     print("bigrams by day...", end="\r")    
     start = time.time()
@@ -555,29 +554,29 @@ def main(subreddit, symbol):
     # end = time.time()
     # print("Calcuating sentiment by day... Time elapsed: " + str(end - start))
     
-    # print("performing word count...", end="\r")    
-    # start = time.time()
-    # SetWordCount(RA, db, subreddit)
-    # end = time.time()
-    # print("performing word count... Time elapsed: " + str(end - start))
+    print("performing word count...", end="\r")    
+    start = time.time()
+    SetWordCount(RA, db, subreddit)
+    end = time.time()
+    print("performing word count... Time elapsed: " + str(end - start))
 
-    # print("performing word count by day...")    
-    # start = time.time()
-    # SetWordCountByDay(RA, db, subreddit)
-    # end = time.time()
-    # print("Time elapsed: " + str(end - start))
+    print("performing word count by day...")    
+    start = time.time()
+    SetWordCountByDay(RA, db, subreddit)
+    end = time.time()
+    print("Time elapsed: " + str(end - start))
     
-    # print("Gathering currency mentions...", end="\r")    
-    # start = time.time()
-    # SetCurrencyMentions(RA, db, subreddit)
-    # end = time.time()
-    # print("Gathering currency mentions... Time elapsed: " + str(end - start))
+    print("Gathering currency mentions...", end="\r")    
+    start = time.time()
+    SetCurrencyMentions(RA, db, subreddit)
+    end = time.time()
+    print("Gathering currency mentions... Time elapsed: " + str(end - start))
 
-    # print("Currency mentions by day...")    
-    # start = time.time()
-    # SetCurrencyMentionsByDay(TA, db)
-    # end = time.time()
-    # print("Done | Time elapsed: " + str(end - start)) 
+    print("Currency mentions by day...")    
+    start = time.time()
+    SetCurrencyMentionsByDay(RA, db, subreddit)
+    end = time.time()
+    print("Done | Time elapsed: " + str(end - start)) 
 
 main("cryptocurrency", 0)
     
