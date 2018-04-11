@@ -43,11 +43,10 @@ class MyListener(StreamListener):
     def on_data(self, data):
         tweet = json.loads(data)
         if "extended_tweet" in tweet:
-            print("Count: " + str(self.count))
+            print("Count: " + str(self.count), end="\r")
             self.count += 1
-            date = time.strftime('%Y-%m-%d', time.strptime(tweet["created_at"],
+            date = time.strftime('%Y-%m-%d %H:00:00', time.strptime(tweet["created_at"],
                                                            '%a %b %d %H:%M:%S +0000 %Y'))
-
             self.tweets.append([
                 date,
                 tweet["user"]["screen_name"],
@@ -78,8 +77,7 @@ if __name__ == "__main__":
     for i, row in CURRENCYS.iterrows():
         hashtags.append("#"+row["Name"])
         hashtags.append("#"+row["Symbol"])
-    print(hashtags)
-    print(len(hashtags))
+
     AUTH = tweepy.OAuthHandler(PERSONAL_KEY, PERSONAL_SECRET)
     AUTH.set_access_token(ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET)
     

@@ -14,6 +14,8 @@ import logging
 import collections
 from langdetect import detect
 import pandas as pd
+import operator
+
 
 class TwitterAnalyser(object):
 
@@ -26,112 +28,61 @@ class TwitterAnalyser(object):
         self.tweets = self.CleanseData(tweets)
         self.currency_symbols = currency_symbols
 
+    def TotalTweets(self):
+        total_tweets = len(self.tweets.index)
+        return total_tweets
 
-    # def NoPostComments(self):
-    #     nc = len(self.comments.index)
-    #     np = len(self.posts.index)
-    #     return (nc, np)
+    def SentimentByCurrency(self, oldsbc):
+        tweet_sentiment = self.tweets_sentiment.copy()
+        sbc = self.currency_symbols.copy()
 
-    # def CommentsPostsByDay(self, oldc, oldp):
-    #     cbd = self.comments.copy()
-    #     cbd = cbd.groupby(['Date']).size().to_frame('n_comment').reset_index()
+        sbc['Symbol'] = sbc.Symbol.str.lower()
+        sbc['Name'] = sbc.Name.str.lower()
+        sbc["Sentiment"] = 0
 
-    #     pbd = self.posts.copy()
-    #     pbd = pbd.groupby(['Date']).size().to_frame('n_post').reset_index()
+        for symbol in sbc['Symbol']:
+            for i, tweet in tweet_sentiment.iterrows():
+                if symbol in tweet["Text"]:
+                    
+                    sbc.loc[sbc['Symbol'] == symbol, 'Sentiment'] = tweet["SA"]
 
-    #     cpbd = pd.merge(cbd, pbd, on='Date', how='outer')
-  
-    #     cpbd['n_post'] = cpbd['n_post'] + oldp
-    #     cpbd['n_comment'] = cpbd['n_comment'] + oldc
-    #     cpbd.fillna(0, inplace=True)                
-    #     cpbd = cpbd.to_json(orient='records', date_format=None)
 
-    #     return json.loads(cpbd)
-    
-    # def MostActiveUsers(self, oldmau):
-    #     mauc = self.comments.copy()
-    #     mauc = mauc['Author'].value_counts().reset_index().rename(
-    #         columns={'index': 'Author', 'Author': 'Comments'})
-
-    #     maup = self.posts.copy()
-    #     maup = maup['Author'].value_counts().reset_index().rename(
-    #         columns={'index': 'Author', 'Author': 'Posts'}) 
-
-    #     mau = pd.merge(maup, mauc, on='Author', how='outer')
-    #     mau['Activity'] = mau['Comments'] + mau['Posts']
-    #     mau = mau.sort_values('Activity', ascending=False).head(100)
-    #     mau.fillna(0, inplace=True)
-    #     mau = mau.to_json(orient='records', date_format=None)
-
-    #     if oldmau != None:
-    #         mau = json.loads(mau)
-    #         updatedmau = []
-    #         # Compare new users against users already in database 
-    #         # and update old users with new info, popping from array
-    #         # once processed
-    #         for user in range(len(oldmau)-1):
-    #             for newuser in range(len(mau)-1):
-    #                 if oldmau[user]['Author'] == mau[newuser]['Author']:
-    #                     updateduser = {}
-    #                     updateduser["Author"] = oldmau[user]["Author"]
-    #                     updateduser["Comments"] = oldmau[user]["Comments"] + mau[newuser]["Comments"]
-    #                     updateduser["Posts"] = oldmau[user]["Posts"] + mau[newuser]["Posts"]
-    #                     updateduser["Activity"] = oldmau[user]["Activity"] + mau[newuser]["Activity"]
-    #                     updatedmau.append(updateduser)
-    #                     mau.pop(newuser)
-
-    #         # Append all newly found users to updatedmau list
-    #         for newuser in mau:
-    #             updatedmau.append(newuser)
-
-    #         j = json.dumps(updatedmau)
-    #         return json.loads(j)
+        for name in sbc['Name']:
+            for i, tweet in tweet_sentiment.iterrows():
+                if name in tweet["Text"]:
+                    oldcount = sbc.loc[sbc["Name"] == name, 'Sentiment'].values
+                    if len(oldcount) > 0:
+                        sbc.loc[sbc['Symbol'] == symbol, 'Sentiment'] = tweet["SA"] + oldcount[0]
         
-    #     return json.loads(mau)
+        sbc = sbc.to_json(orient='records', date_format=None)            
+        sbc = json.loads(sbc)
 
-    # def OverallUserScore(self, oldous):
-    #     ousc = self.comments.copy()
-    #     ousc =  ousc.groupby('Author')['Score'].sum().reset_index().rename(
-    #         columns={'Author': 'Author', 'Score': 'Comments'})
+        if oldsbc != None:
+ 
+            updatedsbc = []
+            # Compare new users against users already in database 
+            # and update old users with new info, popping from array
+            # once processed
+            for currency in range(len(oldsbc)-1):
+                for newcurrency in range(len(sbc)-1):
+                    if oldsbc[currency]['Name'] == sbc[newcurrency]['Name']:
+                        updatedcurrency = {}
+                        updatedcurrency["Name"] = oldsbc[currency]["Name"]
+                        updatedcurrency["Symbol"] = oldsbc[currency]["Symbol"]
+                        updatedcurrency["Currency"] = oldsbc[currency]["Currency"]
+                        updatedcurrency["Sentiment"] = oldsbc[currency]["Sentiment"] + sbc[newcurrency]["Sentiment"]
+                        updatedsbc.append(updatedcurrency)
+                        sbc.pop(newcurrency)
 
-    #     ousp = self.posts.copy()
-    #     ousp =  ousp.groupby('Author')['Score'].sum().reset_index().rename(
-    #         columns={'Author': 'Author', 'Score': 'Posts'})
+            # Append all newly found users to updatedous list
+            for newcurrency in sbc:
+                updatedsbc.append(newcurrency)
 
-    #     ous = pd.merge(ousc, ousp, on='Author', how='outer').sort_values('Comments', ascending=False)
-    #     ous['TotalScore'] = ous['Comments'] + ous['Posts']
-    #     ous = ous.sort_values('TotalScore', ascending=False).head(100)
-    #     ous.fillna(0, inplace=True)        
-    #     ous = ous.to_json(orient='records', date_format=None)
+            j = json.dumps(updatedsbc)
+            return json.loads(j)
+        
+        return sbc
 
-    #     if oldous != None:
-    #         ous = json.loads(ous)
-    #         updatedous = []
-    #         # Compare new users against users already in database 
-    #         # and update old users with new info, popping from array
-    #         # once processed
-    #         for user in range(len(oldous)-1):
-    #             for newuser in range(len(ous)-1):
-    #                 if oldous[user]['Author'] == ous[newuser]['Author']:
-    #                     updateduser = {}
-    #                     updateduser["Author"] = oldous[user]["Author"]
-    #                     updateduser["Comments"] = oldous[user]["Comments"] + ous[newuser]["Comments"]
-    #                     updateduser["Posts"] = oldous[user]["Posts"] + ous[newuser]["Posts"]
-    #                     updateduser["TotalScore"] = oldous[user]["TotalScore"] + ous[newuser]["TotalScore"]
-    #                     updatedous.append(updateduser)
-    #                     ous.pop(newuser)
-
-    #         # Append all newly found users to updatedous list
-    #         for newuser in ous:
-    #             updatedous.append(newuser)
-
-    #         j = json.dumps(updatedous)
-    #         return json.loads(j)
-
-    #     return json.loads(ous)
-
-    def SentimentByCurrency(self):
-        sbc = self.tweets_sentiment.copy()
 
     def SentimentByDay(self, oldsa):
         ts = self.tweets.copy()
@@ -141,16 +92,126 @@ class TwitterAnalyser(object):
         ts =  ts.groupby('Date')['SA'].sum().reset_index()
         ts['SA'] = ts['SA'] + oldsa
 
-        print(ts)
+     
         ts = ts.to_json(orient='records', date_format=None)    
-        print(ts)    
+        
         return json.loads(ts)
+    
+    def MostActiveUsers(self, oldmaut):
+        maut = self.tweets.copy()
+        maut = maut['Author'].value_counts().reset_index().rename(
+            columns={'index': 'Author', 'Author': 'n'})
+
+        maut = maut.sort_values('n', ascending=False).head(500)
+        maut.fillna(0, inplace=True)
+        maut = maut.to_json(orient='records', date_format=None)
+        maut = json.loads(maut)
+
+        if oldmaut != None:
+            updatedmaut = []
+            # Compare new users against users already in database 
+            # and update old users with new info, popping from array
+            # once processed
+            for user in range(len(oldmaut)-1):
+                for newuser in range(len(maut)-1):
+                    if oldmaut[user]['Author'] == maut[newuser]['Author']:
+                        updateduser = {}
+                        updateduser["Author"] = oldmaut[user]["Author"]
+                        updateduser["n"] = oldmaut[user]["n"] + maut[newuser]["n"]
+
+                        updatedmaut.append(updateduser)
+                        maut.pop(newuser)
+
+            # Append all newly found users to updatedmaut list
+            for newuser in maut:
+                updatedmaut.append(newuser)
+
+            j = json.dumps(updatedmaut)
+            return json.loads(j)
+        
+        return maut
+    
+    def Bigram(self, oldb):
+        """
+        Creating a list of bigram frequencies from the gathered 
+        reddit comments and posts
+        """
+        tweets = self.tweets.copy()
+        tweets_counts = collections.Counter()
+        for sent in tweets["Text"]:
+            words = nltk.word_tokenize(sent)
+            tweets_counts.update(nltk.bigrams(words))
+
+        bigram = pd.DataFrame(list(tweets_counts.items()), columns=['bigram', 'n'])
+        bigram.fillna(0, inplace=True)
+
+        bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
+        self.bigram = bigram
+        bigram = bigram.to_json(orient='records', date_format=None)
+
+        if oldb != None:
+            
+            bigram = json.loads(bigram)
+            updatedbigrams = []
+
+            for oldbigram in range(len(oldb)-1):
+                oldelement = oldb[oldbigram]
+                for newbigram in range(len(bigram)-1):
+                    newelement = bigram[newbigram]
+                    if oldelement["bigram"] == newelement["bigram"]:
+                        
+                        updated = {}
+                        updated["bigram"] = oldelement["bigram"]
+                        updated["n"] = oldelement["n"] + newelement["n"]
+
+                        updatedbigrams.append(updated)
+                        bigram.pop(newbigram)
+            
+            # Append all newly found users to updatedous list
+            for b in bigram:
+                updatedbigrams.append(b)
+
+            j = json.dumps(updatedbigrams)
+            return json.loads(j)
+
+        return json.loads(bigram)
+    
+    def BigramByDay(self, oldbigrams):
+        bigramscopy = self.bigram.copy()
+        bigrams = bigramscopy.sort_values('n',ascending = False).head(25)
+        bigrams = bigrams.to_json(orient='records', date_format=None)
+        bigrams = json.loads(bigrams)
+
+        if oldbigrams != None:
+            updatedbigrams =[]
+            for old in range(len(oldbigrams)-1):
+                oldelement = oldbigrams[old]
+                for new in range(len(bigrams)-1):
+                    newelement = bigrams[new]
+                    if oldelement["bigram"] == newelement["bigram"]:
+                        
+                        updated = {}
+                        updated["bigram"] = oldelement["bigram"]
+                        updated["n"] = oldelement["n"] + newelement["n"]
+
+                        updatedbigrams.append(updated)
+                        bigrams.pop(new)
+
+            # Append all newly found users to updatedous list
+            for b in bigrams:
+                updatedbigrams.append(b)
+
+            j = json.dumps(updatedbigrams[:25])
+            return json.loads(j)
+            
+        return bigrams
+
 
     def WordCount(self, oldwc):
         wc = self.tweets.copy()
         wc = list(collections.Counter(" ".join(wc['Text']).split()).items())
         wc = pd.DataFrame(wc, columns=['word', 'n'])
-        print(wc)
+        
         # wc.fillna(0, inplace=True)                
         self.word_count = wc
         wc = wc.to_json(orient='records', date_format=None) 
@@ -178,6 +239,80 @@ class TwitterAnalyser(object):
             return json.loads(j)
 
         return json.loads(wc)
+    
+    def WordCountByDay(self, oldwordcount):
+        tweets_copy = self.tweets.copy()        
+        # Change date format from timestamp
+        tweets_copy["Date"] = pd.to_datetime(tweets_copy['Date'], errors='coerce')
+        # Convert back to string date without hours
+        tweets_copy["Date"] = tweets_copy["Date"].dt.strftime('%Y-%m-%d')
+        # Group by date
+        tweets_copy = tweets_copy.groupby('Date')
+        # Loop through dataframe counting most common 25 words for each date
+        wordcount= []
+        for name, group in tweets_copy:
+            texts = " ".join(group['Text'])
+            groupCounts = Counter(texts.split()).most_common(25)
+            wordcount.append([name, dict(groupCounts)])
+
+        # Create dataframe with counts
+        wordcount = pd.DataFrame(wordcount, columns = ['Date','counts'])
+        wordcount = wordcount.to_json(orient='records', date_format=None)
+        wordcount = json.loads(wordcount)
+
+        if oldwordcount != None:
+            updatedwordcount = oldwordcount
+            temp_word_counts = list(wordcount[0]['counts'].items())
+
+                  
+            for old_item in list(updatedwordcount.items()):
+                for new_item in temp_word_counts:
+                    if old_item[0] == new_item[0]:
+                        updatedwordcount[old_item[0]] = old_item[1] + new_item[1]
+                        temp_word_counts.remove(new_item)
+                                            
+            # Append all newly found users to updatedous list
+            for item in temp_word_counts:
+                updatedwordcount[item[0]] = item[1]
+                temp_word_counts.remove(item)
+            
+            sort = sorted(updatedwordcount.items(), key=operator.itemgetter(1), reverse=True)   
+            j = json.dumps(dict(sort[:25]))
+           
+            return json.loads(j)
+   
+        return wordcount
+
+
+
+
+
+        # wordcount = wordcountcopy.sort_values('n',ascending = False).head(25)
+        # wordcount = wordcount.to_json(orient='records', date_format=None)
+        # wordcount = json.loads(wordcount)
+
+        # if oldwordcount != None:
+        #     updatedwordcount =[]
+        #     for old in range(len(oldwordcount)-1):
+        #         oldelement = oldwordcount[old]
+        #         for new in range(len(wordcount)-1):
+        #             newelement = wordcount[new]
+        #             if oldelement["word"] == newelement["word"]:
+                        
+        #                 updated = {}
+        #                 updated["word"] = oldelement["word"]
+        #                 updated["n"] = oldelement["n"] + newelement["n"]
+        #                 updatedwordcount.append(updated)
+        #                 wordcount.pop(new)
+
+        #     # Append all newly found users to updatedous list
+        #     for b in wordcount:
+        #         updatedwordcount.append(b)
+
+        #     j = json.dumps(updatedwordcount[:25])
+        #     return json.loads(j)
+            
+        # return wordcount
 
     def CurrencyMentions(self, oldcm):
 
@@ -199,7 +334,8 @@ class TwitterAnalyser(object):
             if len(c) > 0:
                 cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
         
-        print(cm)
+        self.currency_mentions = cm
+
         cm = cm.to_json(orient='records', date_format=None)
 
         if oldcm != None:
@@ -214,7 +350,6 @@ class TwitterAnalyser(object):
                         updatedcurrency = {}
                         updatedcurrency["Name"] = oldcm[currency]["Name"]
                         updatedcurrency["Symbol"] = oldcm[currency]["Symbol"]
-                        updatedcurrency["Currency"] = oldcm[currency]["Currency"]
                         updatedcurrency["Mentions_Name"] = oldcm[currency]["Mentions_Name"] + cm[newcurrency]["Mentions_Name"]
                         updatedcurrency["Mentions_Sym"] = oldcm[currency]["Mentions_Sym"] + cm[newcurrency]["Mentions_Sym"]
                         updatedcm.append(updatedcurrency)
@@ -227,7 +362,38 @@ class TwitterAnalyser(object):
             j = json.dumps(updatedcm)
             return json.loads(j)
         return json.loads(cm)
-         
+
+    def CurrencyMentionsByDay(self, oldcmbd):
+        cmcopy = self.currency_mentions.copy()
+        cmbd = cmcopy.to_json(orient='records', date_format=None)
+        cmbd = json.loads(cmbd)
+
+        if oldcmbd != None:
+            updatedcmbd =[]
+            for old in range(len(oldcmbd)-1):
+                oldelement = oldcmbd[old]
+                for new in range(len(cmbd)-1):
+                    newelement = cmbd[new]
+                    if oldelement['Name'] == newelement['Name']:
+                        updatedcurrency = {}
+                        updatedcurrency["Name"] = oldelement["Name"]
+                        updatedcurrency["Symbol"] = oldelement["Symbol"]
+                        updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
+                        updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
+                        updatedcmbd.append(updatedcurrency)
+                        cmbd.pop(new)
+
+            # Append all newly found users to updatedous list
+            for b in cmbd:
+                updatedcmbd.append(b)
+
+            j = json.dumps(updatedcmbd)
+            return json.loads(j)
+            
+        return cmbd
+
+
+
     def CleanText(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text)).split())
 
@@ -244,8 +410,7 @@ class TwitterAnalyser(object):
         #Create df
         data = pd.DataFrame(data=data)
         # #Convert datetime to date
-        data["Date"] = data["Date"].dt.strftime('%Y-%m-%d')
-
+        data["Date"] = data["Date"].dt.strftime('%Y-%m-%d %H:00:00')
         #Remove URLs  
         data["Text"] =  data['Text'].str.replace(r'http\S+', '', case=False)
         #Remove Na's
@@ -257,6 +422,9 @@ class TwitterAnalyser(object):
         #Remove Stop words and no english words
         stop = self.stopwords['word'].tolist()   
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop ]))
-
-        data = data[data["Text"].apply(lambda x: detect(x) == 'en')]
+        try:
+            data = data[data["Text"].apply(lambda x: detect(x) == 'en')]
+        except:
+            print("No language detected")
+        
         return data

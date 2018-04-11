@@ -269,7 +269,6 @@ def SetWordCountByDay(RA, db, subreddit):
     )
     # if todays date is already present, add old values to new
     if cursor.count() > 0:
-        print(True)
         oldwordcount = GetWordCountByDay(db, subreddit)
         wcbd = RA.WordCountByDay(oldwordcount)
         db.subreddits.update_one(
@@ -279,7 +278,7 @@ def SetWordCountByDay(RA, db, subreddit):
                 },
                 {
                     "$set": {
-                        "wordcount_by_day.$.counts": wcbd
+                        "wordcount_by_day.$.word_count": wcbd
                     }
                 }
             )
@@ -290,11 +289,13 @@ def SetWordCountByDay(RA, db, subreddit):
                 {
                     "id": subreddit
                 },
-                {   
+                {
                     "$push": {
                         "wordcount_by_day": {
-                            "$each": wcbd
-                        }
+                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d')),
+                            "word_count": wcbd
+                        },
+                        
                     }
                 }
             )
@@ -306,7 +307,7 @@ def GetWordCountByDay(db, subreddit):
     for doc in cursor:
         for day in doc["wordcount_by_day"]:
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+                return day["word_count"]
 
 def SetCurrencyMentions(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -338,55 +339,6 @@ def SetCurrencyMentions(RA, db, subreddit):
                 }
             )
 
-def SetCurrencyMentionsByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        print(True)
-        oldcmbd = GetCurrencyMentionsByDay(db, subreddit)
-        cmbd = RA.CurrencyMentionsByDay(oldcmbd)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "currency_mentions_by_day.$.counts": cmbd
-                    }
-                }
-            )
-    # else create new object
-    else:
-        cmbd = RA.CurrencyMentionsByDay(None)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {
-                    "$push": {
-                        "currency_mentions_by_day": {
-                            "$each": cmbd
-                        }
-                    }
-                }
-            )
-
-def GetCurrencyMentionsByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
-    for doc in cursor:
-        for day in doc["currency_mentions_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
-
 def SetBigrams(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
@@ -405,7 +357,7 @@ def SetBigrams(RA, db, subreddit):
                         "bigram_count": {
                             "$each": bc,
                             "$sort": { "n": -1 },
-                            "$slice": 500
+                            "$slice": 1000
                         }
                     }
                 }
@@ -419,7 +371,7 @@ def SetBigrams(RA, db, subreddit):
                         "bigram_count": {
                             "$each": bc,
                             "$sort": { "n": -1 },
-                            "$slice": 500
+                            "$slice": 1000
                         }
                     }
                 }
@@ -444,7 +396,7 @@ def SetBigramsByDay(RA, db, subreddit):
                 },
                 {
                     "$set": {
-                        "bigram_by_day.$.counts": bbd
+                        "bigram_by_day.$.bigrams": bbd
                     }
                 }
             )
@@ -458,8 +410,10 @@ def SetBigramsByDay(RA, db, subreddit):
                 {
                     "$push": {
                         "bigram_by_day": {
-                            "$each": bbd
-                        }
+                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d')),
+                            "bigrams": bbd
+                        },
+                        
                     }
                 }
             )
@@ -471,7 +425,7 @@ def GetBigramByDay(db, subreddit):
     for doc in cursor:
         for day in doc["bigram_by_day"]:
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+                return day["bigrams"]
     
     
 
@@ -479,7 +433,7 @@ def GetBigramByDay(db, subreddit):
 def main(subreddit, symbol):
     
     # comments = pd.read_csv('../data/reddit/comments_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
-    # comments = pd.read_csv('../data/reddit/small_data.csv', parse_dates=['Date'])
+    # comments = pd.read_csv('../data/small_data.csv', parse_dates=['Date'])
     # posts = pd.read_csv('../data/reddit/post_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
     # posts = pd.read_csv('../data/small_data_post.csv', parse_dates=['Date'])
 
@@ -499,11 +453,11 @@ def main(subreddit, symbol):
         db.subreddits.insert(
             {"id": subreddit})
     
-    # try:
-    #     os.remove('../data/reddit/comments_'+subreddit+'.csv')
-    #     os.remove('../data/reddit/posts_'+subreddit+'.csv')
-    # except OSError:
-    #     pass
+    try:
+        os.remove('../data/reddit/comments_'+subreddit+'.csv')
+        os.remove('../data/reddit/posts_'+subreddit+'.csv')
+    except OSError:
+        pass
     
 
     print("\nInstantiating reddit analyser...")
@@ -518,11 +472,11 @@ def main(subreddit, symbol):
     end = time.time()
     print("Counting bigrams... Time elapsed: " + str(end - start)) 
 
-    print("bigrams by day...", end="\r")    
-    start = time.time()
-    SetBigramsByDay(RA, db, subreddit)
-    end = time.time()
-    print("Time elapsed: " + str(end - start)) 
+    # print("bigrams by day...")    
+    # start = time.time()
+    # SetBigramsByDay(RA, db, subreddit)
+    # end = time.time()
+    # print("Time elapsed: " + str(end - start)) 
 
     print("Count number comments and posts...", end="\r")    
     start = time.time()
@@ -560,23 +514,16 @@ def main(subreddit, symbol):
     end = time.time()
     print("performing word count... Time elapsed: " + str(end - start))
 
-    print("performing word count by day...")    
-    start = time.time()
-    SetWordCountByDay(RA, db, subreddit)
-    end = time.time()
-    print("Time elapsed: " + str(end - start))
+    # print("performing word count by day...")    
+    # start = time.time()
+    # SetWordCountByDay(RA, db, subreddit)
+    # end = time.time()
+    # print("Time elapsed: " + str(end - start))
     
     print("Gathering currency mentions...", end="\r")    
     start = time.time()
     SetCurrencyMentions(RA, db, subreddit)
     end = time.time()
-    print("Gathering currency mentions... Time elapsed: " + str(end - start))
-
-    print("Currency mentions by day...")    
-    start = time.time()
-    SetCurrencyMentionsByDay(RA, db, subreddit)
-    end = time.time()
-    print("Done | Time elapsed: " + str(end - start)) 
-
-main("cryptocurrency", 0)
+    print("Gathering currency mentions... Time elapsed: " + str(end - start))    
+    
     
