@@ -224,6 +224,8 @@ class RedditAnalyser(object):
         # Group by date
         merged = merged.groupby('Date')
         bbd = []
+        # keeping a copy of the full list of bigrams
+        # for later use with currency mentions
         bbd_full = []
         # loop through groups
         for name, group in merged:
@@ -238,7 +240,7 @@ class RedditAnalyser(object):
             for key, value in merged_counts.most_common(25):
                 k = ' '.join(key)
                 updated[k] = value
-            # join bigrams to one word
+            # join full list of bigrams to one word
             for key, value in merged_counts.items():
                 k = ' '.join(key)
                 updated_full[k] = value
@@ -291,6 +293,7 @@ class RedditAnalyser(object):
         wc.fillna(0, inplace=True)
         wc['n'] = wc['n_comment'] + wc['n_post']      
         self.word_count = wc
+        wc = wc.head(500)
         wc = wc.to_json(orient='records', date_format=None) 
         if oldwc != None:
             wc = json.loads(wc)

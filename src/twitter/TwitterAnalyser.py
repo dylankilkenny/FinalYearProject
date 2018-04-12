@@ -147,6 +147,7 @@ class TwitterAnalyser(object):
 
         bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
         self.bigram = bigram
+        bigram = bigram.head(500)
         bigram = bigram.to_json(orient='records', date_format=None)
 
         if oldb != None:
@@ -177,34 +178,71 @@ class TwitterAnalyser(object):
         return json.loads(bigram)
     
     def BigramByDay(self, oldbigrams):
-        bigramscopy = self.bigram.copy()
-        bigrams = bigramscopy.sort_values('n',ascending = False).head(25)
-        bigrams = bigrams.to_json(orient='records', date_format=None)
-        bigrams = json.loads(bigrams)
+        tweets_copy = self.tweets.copy()        
+        # Change date format from timestamp
+        tweets_copy["Date"] = pd.to_datetime(tweets_copy['Date'], errors='coerce')
+        # Convert back to string date without hours
+        tweets_copy["Date"] = tweets_copy["Date"].dt.strftime('%Y-%m-%d')
+        # Group by date
+        tweets_copy = tweets_copy.groupby('Date')
+        # Loop through dataframe counting most common 25 words for each date
+        bigrams = []
+        # keeping a copy of the full list of bigrams
+        # for later use with currency mentions
+        bigrams_full = []
+
+         # loop through groups
+        for name, group in tweets_copy:
+            counts = collections.Counter()
+            # Loop through text counting bigrams
+            for sent in group["Text"]:
+                words = nltk.word_tokenize(sent)
+                counts.update(nltk.bigrams(words))
+            updated = {}
+            # keeping a copy of the full list of bigrams
+            # for later use with currency mentions
+            updated_full = {}
+            # join bigrams to one word
+            for key, value in counts.most_common(25):
+                k = ' '.join(key)
+                updated[k] = value
+            # join full list of bigrams to one word
+            for key, value in counts.items():
+                k = ' '.join(key)
+                updated_full[k] = value
+            # append grouped date and counted bigrams to list
+            bigrams.append([name, updated])
+            bigrams_full.append([name, updated_full])
+        
+        # Create dataframe with counts
+        bbd = pd.DataFrame(bigrams, columns = ['Date','counts'])
+        bigrams_full = pd.DataFrame(bigrams_full, columns = ['Date','counts'])
+        self.bigram_by_day = bigrams_full
+
+        bbd = bbd.to_json(orient='records', date_format=None)
+        bbd = json.loads(bbd)
 
         if oldbigrams != None:
-            updatedbigrams =[]
-            for old in range(len(oldbigrams)-1):
-                oldelement = oldbigrams[old]
-                for new in range(len(bigrams)-1):
-                    newelement = bigrams[new]
-                    if oldelement["bigram"] == newelement["bigram"]:
-                        
-                        updated = {}
-                        updated["bigram"] = oldelement["bigram"]
-                        updated["n"] = oldelement["n"] + newelement["n"]
+            
+            updatedbigrams = oldbigrams
+            temp_bbd_counts = list(bbd[0]['counts'].items())
 
-                        updatedbigrams.append(updated)
-                        bigrams.pop(new)
+            for old_item in list(updatedbigrams.items()):
+                for new_item in temp_bbd_counts:
+                    if old_item[0] == new_item[0]:
+                        updatedbigrams[old_item[0]] = old_item[1] + new_item[1]
+                        temp_bbd_counts.remove(new_item)
 
             # Append all newly found users to updatedous list
-            for b in bigrams:
-                updatedbigrams.append(b)
-
-            j = json.dumps(updatedbigrams[:25])
+            for item in temp_bbd_counts:
+                updatedbigrams[item[0]] = item[1]
+                temp_bbd_counts.remove(item)
+            
+            sort = sorted(updatedbigrams.items(), key=operator.itemgetter(1), reverse=True)   
+            j = json.dumps(dict(sort[:25]))
             return json.loads(j)
             
-        return bigrams
+        return bbd
 
 
     def WordCount(self, oldwc):
@@ -214,6 +252,7 @@ class TwitterAnalyser(object):
         
         # wc.fillna(0, inplace=True)                
         self.word_count = wc
+        wc = wc.head(500)        
         wc = wc.to_json(orient='records', date_format=None) 
 
         if oldwc != None:
@@ -250,13 +289,20 @@ class TwitterAnalyser(object):
         tweets_copy = tweets_copy.groupby('Date')
         # Loop through dataframe counting most common 25 words for each date
         wordcount= []
+        # full list of word counts for currency mentions use
+        wcbd_full = []
         for name, group in tweets_copy:
             texts = " ".join(group['Text'])
             groupCounts = Counter(texts.split()).most_common(25)
             wordcount.append([name, dict(groupCounts)])
+            wcbd_full.append([name, dict(Counter(texts.split()))])
+            
 
         # Create dataframe with counts
         wordcount = pd.DataFrame(wordcount, columns = ['Date','counts'])
+        wcbd_full = pd.DataFrame(wcbd_full, columns = ['Date','counts'])
+        self.word_count_by_day = wcbd_full
+
         wordcount = wordcount.to_json(orient='records', date_format=None)
         wordcount = json.loads(wordcount)
 
@@ -284,36 +330,6 @@ class TwitterAnalyser(object):
         return wordcount
 
 
-
-
-
-        # wordcount = wordcountcopy.sort_values('n',ascending = False).head(25)
-        # wordcount = wordcount.to_json(orient='records', date_format=None)
-        # wordcount = json.loads(wordcount)
-
-        # if oldwordcount != None:
-        #     updatedwordcount =[]
-        #     for old in range(len(oldwordcount)-1):
-        #         oldelement = oldwordcount[old]
-        #         for new in range(len(wordcount)-1):
-        #             newelement = wordcount[new]
-        #             if oldelement["word"] == newelement["word"]:
-                        
-        #                 updated = {}
-        #                 updated["word"] = oldelement["word"]
-        #                 updated["n"] = oldelement["n"] + newelement["n"]
-        #                 updatedwordcount.append(updated)
-        #                 wordcount.pop(new)
-
-        #     # Append all newly found users to updatedous list
-        #     for b in wordcount:
-        #         updatedwordcount.append(b)
-
-        #     j = json.dumps(updatedwordcount[:25])
-        #     return json.loads(j)
-            
-        # return wordcount
-
     def CurrencyMentions(self, oldcm):
 
         word_count = self.word_count
@@ -334,7 +350,6 @@ class TwitterAnalyser(object):
             if len(c) > 0:
                 cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
         
-        self.currency_mentions = cm
 
         cm = cm.to_json(orient='records', date_format=None)
 
@@ -364,33 +379,106 @@ class TwitterAnalyser(object):
         return json.loads(cm)
 
     def CurrencyMentionsByDay(self, oldcmbd):
-        cmcopy = self.currency_mentions.copy()
-        cmbd = cmcopy.to_json(orient='records', date_format=None)
+        # Currency mentions single word
+        word_count = self.word_count_by_day
+        bigram = self.bigram_by_day
+        # Create merged dataframe
+        merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
+        merged = pd.DataFrame(data=merged)
+
+        # Group by date
+        merged = merged.groupby('Date')
+        
+        cm = self.currency_symbols.copy()
+        cm['Symbol'] = cm.Symbol.str.lower()
+        cm['Name'] = cm.Name.str.lower()
+        cm = cm.drop('Currency', 1)
+        cm["Mentions_Sym"] = 0
+        cm["Mentions_Name"] = 0
+
+        cmbd = [] 
+        for date, group in merged:
+            word_count = group["word_count"].tolist()
+            bigram_count = group["bigram_count"].tolist()
+            temp_cm = cm
+            for symbol in temp_cm['Symbol']:
+                if symbol in word_count[0]:
+                    temp_cm.loc[temp_cm['Symbol'] == symbol, 'Mentions_Sym'] = word_count[0][symbol]
+            for name in temp_cm['Name']:
+                if len(name.split()) == 1:
+                    if name in word_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = word_count[0][name]
+                else:
+                    if name in bigram_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = bigram_count[0][name]
+
+            temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
+            temp_cm = temp_cm.to_json(orient='records', date_format=None)
+            temp_cm = json.loads(temp_cm)
+            cmbd.append([date, temp_cm])
+                
+        
+        cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
+        cmbd = cmbd.to_json(orient='records', date_format=None)
         cmbd = json.loads(cmbd)
 
         if oldcmbd != None:
             updatedcmbd =[]
+            # get counts at element 0
+            # if its todays date there will only be one row
+            temp_cmbd = cmbd[0]["counts"]
+            
             for old in range(len(oldcmbd)-1):
                 oldelement = oldcmbd[old]
-                for new in range(len(cmbd)-1):
-                    newelement = cmbd[new]
+                for new in range(len(temp_cmbd)-1):
+                    newelement = temp_cmbd[new]
+        
                     if oldelement['Name'] == newelement['Name']:
                         updatedcurrency = {}
                         updatedcurrency["Name"] = oldelement["Name"]
                         updatedcurrency["Symbol"] = oldelement["Symbol"]
                         updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
                         updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
-                        updatedcmbd.append(updatedcurrency)
-                        cmbd.pop(new)
+                        updatedcmbd.append(updatedcurrency)                    
+                        temp_cmbd.pop(new)
 
             # Append all newly found users to updatedous list
-            for b in cmbd:
+            for b in temp_cmbd:
                 updatedcmbd.append(b)
 
             j = json.dumps(updatedcmbd)
             return json.loads(j)
             
         return cmbd
+
+
+        # cmcopy = self.currency_mentions.copy()
+        # cmbd = cmcopy.to_json(orient='records', date_format=None)
+        # cmbd = json.loads(cmbd)
+
+        # if oldcmbd != None:
+        #     updatedcmbd =[]
+        #     for old in range(len(oldcmbd)-1):
+        #         oldelement = oldcmbd[old]
+        #         for new in range(len(cmbd)-1):
+        #             newelement = cmbd[new]
+        #             if oldelement['Name'] == newelement['Name']:
+        #                 updatedcurrency = {}
+        #                 updatedcurrency["Name"] = oldelement["Name"]
+        #                 updatedcurrency["Symbol"] = oldelement["Symbol"]
+        #                 updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
+        #                 updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
+        #                 updatedcmbd.append(updatedcurrency)
+        #                 cmbd.pop(new)
+
+        #     # Append all newly found users to updatedous list
+        #     for b in cmbd:
+        #         updatedcmbd.append(b)
+
+        #     j = json.dumps(updatedcmbd)
+        #     return json.loads(j)
+            
+        # return cmbd
 
 
 

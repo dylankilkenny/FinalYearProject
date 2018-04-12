@@ -24,7 +24,7 @@ def GetData(subreddit):
     comments = []
     CommentCounter = 0
     PostCounter = 0
-
+    
     # Submission ID's 
     with open("submissions.json", "r") as jsonFile:
         submissions = json.load(jsonFile)

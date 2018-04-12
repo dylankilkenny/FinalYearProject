@@ -18,12 +18,13 @@ def getPushshiftData(after, sub):
 
 def main(date):
     subreddits = pd.read_csv('../data/reddit/SubredditList.csv')
+    data = []
     post_ids = []
 
     for i, row in subreddits.iterrows():
         
         sub = row["Subreddit"]
-        print(sub)
+        print("Fetching post ID's for "+ row["Subreddit"]+" ("+str(i+1)+"/"+str(len(subreddits))+")")
 
         data = getPushshiftData(sub=sub, after=date)
         while len(data) > 0:
@@ -37,12 +38,16 @@ def main(date):
         obj = {}
         obj['subreddit'] = sub
         obj['id'] = post_ids
+        # data.append(obj)
         js["data"].append(obj)
 
         with open("submissions.json", "w") as jsonFile:
             json.dump(js, jsonFile)
-        print(len(post_ids))
+        
+        print("No. Posts: "+ str(len(post_ids)))
         post_ids = []
+    
+    return data
 
 if __name__ == '__main__':
     main(sys.argv[1])

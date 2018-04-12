@@ -269,7 +269,7 @@ def SetWordCountByDay(RA, db, subreddit):
     )
     # if todays date is already present, add old values to new
     if cursor.count() > 0:
-        print(True)
+    
         oldwordcount = GetWordCountByDay(db, subreddit)
         wcbd = RA.WordCountByDay(oldwordcount)
         db.subreddits.update_one(
@@ -348,7 +348,7 @@ def SetCurrencyMentionsByDay(RA, db, subreddit):
     )
     # if todays date is already present, add old values to new
     if cursor.count() > 0:
-        print(True)
+        
         oldcmbd = GetCurrencyMentionsByDay(db, subreddit)
         cmbd = RA.CurrencyMentionsByDay(oldcmbd)
         db.subreddits.update_one(
@@ -493,24 +493,26 @@ def main(subreddit, symbol):
     currency_symbols = pd.read_csv('../data/CurrencySymbols.csv')
     stopwords = pd.read_csv('../data/stopwords.csv')
 
+    try:
+        os.remove('../data/reddit/comments_'+subreddit+'.csv')
+        os.remove('../data/reddit/posts_'+subreddit+'.csv')
+    except OSError:
+        pass
+    
+    if posts.size < 1 and comments.size < 1:
+        print("\nNo comments or posts found, returning.")
+        return
 
     # Check if currency is already in subreddits
     if db.subreddits.find({'id': subreddit}).count() < 1:
         db.subreddits.insert(
             {"id": subreddit})
     
-    # try:
-    #     os.remove('../data/reddit/comments_'+subreddit+'.csv')
-    #     os.remove('../data/reddit/posts_'+subreddit+'.csv')
-    # except OSError:
-    #     pass
-    
-
-    print("\nInstantiating reddit analyser...")
+    print("\nInstantiating reddit analyser...", end="\r")
     start = time.time()
     RA = RedditAnalyser.RedditAnalyser(comments, posts, currency_symbols, stopwords)
     end = time.time()
-    print("Time elapsed: " + str(end - start))
+    print("Instantiating reddit analyser... Time elapsed: " + str(end - start))
 
     print("Counting bigrams...", end="\r")    
     start = time.time()
@@ -522,7 +524,7 @@ def main(subreddit, symbol):
     start = time.time()
     SetBigramsByDay(RA, db, subreddit)
     end = time.time()
-    print("Time elapsed: " + str(end - start)) 
+    print("bigrams by day... Time elapsed: " + str(end - start)) 
 
     print("Count number comments and posts...", end="\r")    
     start = time.time()
@@ -560,11 +562,11 @@ def main(subreddit, symbol):
     end = time.time()
     print("performing word count... Time elapsed: " + str(end - start))
 
-    print("performing word count by day...")    
+    print("performing word count by day...", end="\r")    
     start = time.time()
     SetWordCountByDay(RA, db, subreddit)
     end = time.time()
-    print("Time elapsed: " + str(end - start))
+    print("performing word count by day... Time elapsed: " + str(end - start))
     
     print("Gathering currency mentions...", end="\r")    
     start = time.time()
@@ -572,11 +574,9 @@ def main(subreddit, symbol):
     end = time.time()
     print("Gathering currency mentions... Time elapsed: " + str(end - start))
 
-    print("Currency mentions by day...")    
+    print("Currency mentions by day...", end="\r")    
     start = time.time()
     SetCurrencyMentionsByDay(RA, db, subreddit)
     end = time.time()
-    print("Done | Time elapsed: " + str(end - start)) 
+    print("Currency mentions by day... Time elapsed: " + str(end - start)) 
 
-main("cryptocurrency", 0)
-    

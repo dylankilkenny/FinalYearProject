@@ -310,7 +310,7 @@ def SetBigramsByDay(TA, db):
                 },
                 {
                     "$set": {
-                        "bigram_by_day.$.bigrams": bbd
+                        "bigram_by_day.$.counts": bbd
                     }
                 }
             )
@@ -324,10 +324,8 @@ def SetBigramsByDay(TA, db):
                 {
                     "$push": {
                         "bigram_by_day": {
-                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d')),
-                            "bigrams": bbd
-                        },
-                        
+                            "$each": bbd
+                        }
                     }
                 }
             )
@@ -337,7 +335,7 @@ def GetBigramByDay(db):
     for doc in cursor:
         for day in doc["bigram_by_day"]:
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["bigrams"]
+                return day["counts"]
     
 
 def SetCurrencyMentions(TA, db):
@@ -390,7 +388,7 @@ def SetCurrencyMentionsByDay(TA, db):
                 },
                 {
                     "$set": {
-                        "currency_mentions_by_day.$.mentions": cmbd
+                        "currency_mentions_by_day.$.counts": cmbd
                     }
                 }
             )
@@ -404,10 +402,8 @@ def SetCurrencyMentionsByDay(TA, db):
                 {
                     "$push": {
                         "currency_mentions_by_day": {
-                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d')),
-                            "mentions": cmbd
-                        },
-                        
+                            "$each": cmbd
+                        }
                     }
                 }
             )
@@ -417,13 +413,13 @@ def GetCurrencyMentionsByDay(db):
     for doc in cursor:
         for day in doc["currency_mentions_by_day"]:
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["mentions"]
+                return day["counts"]
 
 def main():
 
     for file in listdir("../data/twitter"):
         if ".csv" in file:
-            print(file)
+            print("\n"+file)
             # Connect to DB
             client = MongoClient("mongodb://localhost:27017/")
             db = client.dev
@@ -440,82 +436,77 @@ def main():
                 db.tweets.insert(
                     {"id": "tweets"})
                 
-            SetTotalTweets
-            print("\nInstantiating twitter analyser...")
+            print("\nInstantiating twitter analyser...", end="\r")
             start = time.time()
             TA = TwitterAnalyser.TwitterAnalyser(tweets, currency_symbols, stopwords)
             end = time.time()
-            print("Done | Time elapsed: " + str(end - start))
-            print()
-
-            # print("Total tweets...", end="\r")    
-            # start = time.time()
-            # SetTotalTweets(TA, db)
-            # end = time.time()
-            # print("Time elapsed: " + str(end - start)) 
-
-            # print("Counting bigrams...", end="\r")    
-            # start = time.time()
-            # SetBigrams(TA, db)
-            # end = time.time()
-            # print("Time elapsed: " + str(end - start)) 
-
-            # print("bigrams by day...")     
-            # start = time.time()
-            # SetBigramsByDay(TA, db)
-            # end = time.time()
-            # print("Time elapsed: " + str(end - start)) 
+            print("Instantiating twitter analyser... Time elapsed: " + str(end - start))
 
 
-            # print("Gathering most active users...")    
-            # start = time.time()
-            # SetMostActiveUsers(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
-            # print()
+            print("Total tweets...", end="\r")    
+            start = time.time()
+            SetTotalTweets(TA, db)
+            end = time.time()
+            print("Total tweets... Time elapsed: " + str(end - start)) 
 
-            # print("Calcuating sentiment by day...")    
-            # start = time.time()
-            # SetSentimentByDay(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
-            # print()
+            print("Counting bigrams...", end="\r")    
+            start = time.time()
+            SetBigrams(TA, db)
+            end = time.time()
+            print("Counting bigrams... Time elapsed: " + str(end - start)) 
+
+            print("bigrams by day...", end="\r")     
+            start = time.time()
+            SetBigramsByDay(TA, db)
+            end = time.time()
+            print("bigrams by day... Time elapsed: " + str(end - start)) 
+
+
+            print("Gathering most active users...", end="\r")    
+            start = time.time()
+            SetMostActiveUsers(TA, db)
+            end = time.time()
+            print("Gathering most active users... Time elapsed: " + str(end - start))
+
+            print("Calcuating sentiment by day...", end="\r")    
+            start = time.time()
+            SetSentimentByDay(TA, db)
+            end = time.time()
+            print("Calcuating sentiment by day... Time elapsed: " + str(end - start))
             
-            # print("performing word count...")    
-            # start = time.time()
-            # SetWordCount(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
-            # print()
+            print("performing word count...", end="\r")    
+            start = time.time()
+            SetWordCount(TA, db)
+            end = time.time()
+            print("performing word count... Time elapsed: " + str(end - start))
 
-            print("performing word count by day...")    
+            print("performing word count by day...", end="\r")    
             start = time.time()
             SetWordCountByDay(TA, db)
             end = time.time()
-            print("Time elapsed: " + str(end - start))
+            print("erforming word count by day... Time elapsed: " + str(end - start))
                     
-            # print("Gathering currency mentions...")    
-            # start = time.time()
-            # SetCurrencyMentions(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
+            print("Gathering currency mentions...", end="\r")    
+            start = time.time()
+            SetCurrencyMentions(TA, db)
+            end = time.time()
+            print("Gathering currency mentions... Time elapsed: " + str(end - start))
 
-            # print("Currency mentions by day...")    
-            # start = time.time()
-            # SetCurrencyMentionsByDay(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
+            print("Currency mentions by day...", end="\r")    
+            start = time.time()
+            SetCurrencyMentionsByDay(TA, db)
+            end = time.time()
+            print("Currency mentions by day... Time elapsed: " + str(end - start))
             
-            # print("Sentiment by currency...")    
-            # start = time.time()
-            # SetSentimentByCurrency(TA, db)
-            # end = time.time()
-            # print("Done | Time elapsed: " + str(end - start))
-            # SetSentimentByCurrency
+            print("Sentiment by currency...", end="\r")    
+            start = time.time()
+            SetSentimentByCurrency(TA, db)
+            end = time.time()
+            print("Sentiment by currency... Time elapsed: " + str(end - start))
             
-            # try:
-            #     os.remove("../data/twitter/"+file)
-            # except OSError:
-            #     pass
+            try:
+                os.remove("../data/twitter/"+file)
+            except OSError:
+                pass
 
 main()

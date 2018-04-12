@@ -1,9 +1,13 @@
 import RedditDB
 import redditapi
 import RedditCoin
+import RedditPosts
 import pandas as pd
+import sys
 
 subreddits = pd.read_csv('../data/reddit/SubredditList.csv')
+
+# post_ids = RedditPosts.main(sys.argv[1])
 
 for i, row in subreddits.iterrows():
 
@@ -16,4 +20,3 @@ for i, row in subreddits.iterrows():
 # for i, row in subreddits.iterrows():
 #     RedditCoin.main(row["Subreddit"], row["Symbol"])
     
-
