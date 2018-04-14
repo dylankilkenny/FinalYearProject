@@ -54,6 +54,7 @@ class TwitterAnalyser(object):
                     if len(oldcount) > 0:
                         sbc.loc[sbc['Symbol'] == symbol, 'Sentiment'] = tweet["SA"] + oldcount[0]
         
+        
         sbc = sbc.to_json(orient='records', date_format=None)            
         sbc = json.loads(sbc)
 
@@ -89,12 +90,17 @@ class TwitterAnalyser(object):
         ts['SA'] = np.array([ self.AnalyseSentiment(text) for text in ts['Text'] ])
         self.tweets_sentiment = ts     
         ts = ts.drop(['Author', 'Text'], 1)
-        ts =  ts.groupby('Date')['SA'].sum().reset_index()
-        ts['SA'] = ts['SA'] + oldsa
+        ts = ts.groupby('Date')['SA'].sum().reset_index()
 
+        if oldsa != None:
+            oldsa = pd.DataFrame.from_records(data=oldsa)
+            oldnew_merged = pd.concat([ts,oldsa])
+            oldnew_merged = oldnew_merged.groupby('Date').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
      
         ts = ts.to_json(orient='records', date_format=None)    
-        
         return json.loads(ts)
     
     def MostActiveUsers(self, oldmaut):
@@ -219,28 +225,37 @@ class TwitterAnalyser(object):
         bigrams_full = pd.DataFrame(bigrams_full, columns = ['Date','counts'])
         self.bigram_by_day = bigrams_full
 
+        if oldbigrams != None:
+            oldbigrams = pd.DataFrame.from_records(data=oldbigrams)
+            oldnew_merged = pd.concat([bbd,oldbigrams])
+
+            oldnew_merged = oldnew_merged.groupby('Date')
+            flattened = []
+            # loop through groups
+            for name, group in oldnew_merged:
+                for obj in list(group["counts"]):
+                    for item in obj.items():
+                        flattened.append([name, item[0], item[1]])
+
+            # Goal is to group similar dates and marge words together 
+            # keeping the 25 most popular for each date
+            flattened = pd.DataFrame(flattened, columns = ['Date','words','n'])
+            flattened = flattened.groupby(['Date', 'words'])['n'].sum().reset_index()
+            flattened = flattened.sort_values(['Date','n'], ascending=[True, False])
+            flattened = flattened.groupby('Date', as_index=False).head(25)
+            transformed = []
+            # loop through groups
+            for name, group in flattened.groupby('Date'):
+                group_dict = dict(zip(group.words, group.n))
+                transformed.append([name, group_dict])
+            
+            transformed = pd.DataFrame(transformed, columns = ['Date','counts'])
+            transformed = transformed.to_json(orient='records', date_format=None)
+            transformed= json.loads(transformed)
+            return transformed
+
         bbd = bbd.to_json(orient='records', date_format=None)
         bbd = json.loads(bbd)
-
-        if oldbigrams != None:
-            
-            updatedbigrams = oldbigrams
-            temp_bbd_counts = list(bbd[0]['counts'].items())
-
-            for old_item in list(updatedbigrams.items()):
-                for new_item in temp_bbd_counts:
-                    if old_item[0] == new_item[0]:
-                        updatedbigrams[old_item[0]] = old_item[1] + new_item[1]
-                        temp_bbd_counts.remove(new_item)
-
-            # Append all newly found users to updatedous list
-            for item in temp_bbd_counts:
-                updatedbigrams[item[0]] = item[1]
-                temp_bbd_counts.remove(item)
-            
-            sort = sorted(updatedbigrams.items(), key=operator.itemgetter(1), reverse=True)   
-            j = json.dumps(dict(sort[:25]))
-            return json.loads(j)
             
         return bbd
 
@@ -303,30 +318,38 @@ class TwitterAnalyser(object):
         wcbd_full = pd.DataFrame(wcbd_full, columns = ['Date','counts'])
         self.word_count_by_day = wcbd_full
 
+        if oldwordcount != None:
+            oldwordcount = pd.DataFrame.from_records(data=oldwordcount)
+            oldnew_merged = pd.concat([wordcount,oldwordcount])
+            oldnew_merged = oldnew_merged.groupby('Date')
+            flattened = []
+            # loop through groups
+            for name, group in oldnew_merged:
+                for obj in list(group["counts"]):
+                    for item in obj.items():
+                        flattened.append([name, item[0], item[1]])
+
+            # Goal is to group similar dates and marge words together 
+            # keeping the 25 most popular for each date
+            flattened = pd.DataFrame(flattened, columns = ['Date','words','n'])
+            flattened = flattened.groupby(['Date', 'words'])['n'].sum().reset_index()
+            flattened = flattened.sort_values(['Date','n'], ascending=[True, False])
+            flattened = flattened.groupby('Date', as_index=False).head(25)
+            transformed = []
+            # loop through groups
+            for name, group in flattened.groupby('Date'):
+                group_dict = dict(zip(group.words, group.n))
+                transformed.append([name, group_dict])
+            
+            transformed = pd.DataFrame(transformed, columns = ['Date','counts'])
+            print(transformed)
+            transformed = transformed.to_json(orient='records', date_format=None)
+            transformed= json.loads(transformed)
+            return transformed
+
         wordcount = wordcount.to_json(orient='records', date_format=None)
         wordcount = json.loads(wordcount)
 
-        if oldwordcount != None:
-            updatedwordcount = oldwordcount
-            temp_word_counts = list(wordcount[0]['counts'].items())
-
-                  
-            for old_item in list(updatedwordcount.items()):
-                for new_item in temp_word_counts:
-                    if old_item[0] == new_item[0]:
-                        updatedwordcount[old_item[0]] = old_item[1] + new_item[1]
-                        temp_word_counts.remove(new_item)
-                                            
-            # Append all newly found users to updatedous list
-            for item in temp_word_counts:
-                updatedwordcount[item[0]] = item[1]
-                temp_word_counts.remove(item)
-            
-            sort = sorted(updatedwordcount.items(), key=operator.itemgetter(1), reverse=True)   
-            j = json.dumps(dict(sort[:25]))
-           
-            return json.loads(j)
-   
         return wordcount
 
 
@@ -379,13 +402,43 @@ class TwitterAnalyser(object):
         return json.loads(cm)
 
     def CurrencyMentionsByDay(self, oldcmbd):
-        # Currency mentions single word
-        word_count = self.word_count_by_day
-        bigram = self.bigram_by_day
+        tweets = self.tweets.copy()
+        # Change date format from timestamp
+        tweets["Date"] = pd.to_datetime(tweets['Date'], errors='coerce')
+        # Convert back to string date without hours
+        tweets["Date"] = tweets["Date"].dt.strftime('%Y-%m-%d %H:00:00')  
+        # Group by date
+        tweets = tweets.groupby('Date')
+        bigram = []
+        word_count = []        
+        # loop through groups
+        for name, group in tweets:
+            # word count
+            texts = " ".join(group['Text'])
+            word_count.append([name, dict(Counter(texts.split()))])
+            ####
+            # Bigrams
+            merged_counts = collections.Counter()
+            # Loop through text counting bigrams
+            for sent in group["Text"]:
+                words = nltk.word_tokenize(sent)
+                merged_counts.update(nltk.bigrams(words))
+            updated_full = {}
+            # join full list of bigrams to one word
+            for key, value in merged_counts.items():
+                k = ' '.join(key)
+                updated_full[k] = value
+            # append grouped date and counted bigrams to list
+            bigram.append([name, updated_full])
+        # Create dataframe with counts
+        bigram = pd.DataFrame(bigram, columns = ['Date','counts'])
+        # Create dataframe with counts
+        word_count = pd.DataFrame(word_count, columns = ['Date','counts'])
+
         # Create merged dataframe
         merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
         merged = pd.DataFrame(data=merged)
-
+        
         # Group by date
         merged = merged.groupby('Date')
         
@@ -395,6 +448,15 @@ class TwitterAnalyser(object):
         cm = cm.drop('Currency', 1)
         cm["Mentions_Sym"] = 0
         cm["Mentions_Name"] = 0
+        # Currency mentions single word
+        word_count = self.word_count_by_day
+        bigram = self.bigram_by_day
+        # Create merged dataframe
+        merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
+        merged = pd.DataFrame(data=merged)
+
+        # Group by date
+        merged = merged.groupby('Date')
 
         cmbd = [] 
         for date, group in merged:
@@ -413,41 +475,44 @@ class TwitterAnalyser(object):
                         temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = bigram_count[0][name]
 
             temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
+            temp_cm = temp_cm.drop(['Mentions_Name','Mentions_Sym'], 1)
+            temp_cm = temp_cm[temp_cm['n'] != 0]
             temp_cm = temp_cm.to_json(orient='records', date_format=None)
             temp_cm = json.loads(temp_cm)
             cmbd.append([date, temp_cm])
                 
         
         cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
+        
+        if oldcmbd != None:
+            oldcmbd = pd.DataFrame.from_records(data=oldcmbd)
+            oldnew_merged = pd.concat([cmbd,oldcmbd])
+            oldnew_merged = oldnew_merged.groupby('Date')
+            flattened = []
+            # loop through groups
+            for name, group in oldnew_merged:
+                for obj in list(group["counts"]):
+                    for item in obj:
+                        flattened.append([name, item['Symbol'], item['Name'],item['n']])
+
+            
+
+            flattened = pd.DataFrame(flattened, columns = ['Date','Symbol','Name', 'n'])
+            flattened = flattened.groupby(['Date','Symbol','Name'])['n'].sum().reset_index()
+            transformed = []
+
+            # loop through groups
+            for name, group in flattened.groupby('Date'):
+                objs = [{'Symbol':a, 'Name':b, 'n':c} for a,b,c in zip(group.Symbol, group.Name, group.n)]
+                transformed.append([name, objs])
+            
+            transformed = pd.DataFrame(transformed, columns = ['Date','counts'])
+            transformed = transformed.to_json(orient='records', date_format=None)
+            transformed= json.loads(transformed)
+            return transformed
+
         cmbd = cmbd.to_json(orient='records', date_format=None)
         cmbd = json.loads(cmbd)
-
-        if oldcmbd != None:
-            updatedcmbd =[]
-            # get counts at element 0
-            # if its todays date there will only be one row
-            temp_cmbd = cmbd[0]["counts"]
-            
-            for old in range(len(oldcmbd)-1):
-                oldelement = oldcmbd[old]
-                for new in range(len(temp_cmbd)-1):
-                    newelement = temp_cmbd[new]
-        
-                    if oldelement['Name'] == newelement['Name']:
-                        updatedcurrency = {}
-                        updatedcurrency["Name"] = oldelement["Name"]
-                        updatedcurrency["Symbol"] = oldelement["Symbol"]
-                        updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
-                        updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
-                        updatedcmbd.append(updatedcurrency)                    
-                        temp_cmbd.pop(new)
-
-            # Append all newly found users to updatedous list
-            for b in temp_cmbd:
-                updatedcmbd.append(b)
-
-            j = json.dumps(updatedcmbd)
-            return json.loads(j)
             
         return cmbd
 

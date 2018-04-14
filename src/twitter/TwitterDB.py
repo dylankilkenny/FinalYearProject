@@ -48,7 +48,7 @@ def SetSentimentByCurrency(TA, db):
     # Get objects with todays date
     cursor = db.tweets.find(
         {
-            "sentiment_by_currency.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
+            "sentiment_by_currency.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
         }
     )
     # if todays date is already present, add old values to new
@@ -57,7 +57,7 @@ def SetSentimentByCurrency(TA, db):
         sbc = TA.SentimentByCurrency(oldsbc)
         db.tweets.update_one(
                 {
-                    "sentiment_by_currency.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
+                    "sentiment_by_currency.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
                 },
                 {
                     "$set": {
@@ -75,7 +75,7 @@ def SetSentimentByCurrency(TA, db):
                 {
                     "$push": {
                         "sentiment_by_currency": {
-                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d')),
+                            "Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')),
                             "SA": sbc
                         }
                     }
@@ -86,50 +86,38 @@ def GetSentimentByCurrency(db):
     cursor = db.tweets.find()
     for doc in cursor:
         for day in doc["sentiment_by_currency"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
+            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d  %H:00:00')):
                 return day["SA"]
     
 def SetSentimentByDay(TA, db):
-    # Get objects with todays date
-    cursor = db.tweets.find(
-        {
-            "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        olds = GetSentimentByDay(db)
-        sbd = TA.SentimentByDay(olds)
-        db.subreddits.update_one(
-                {
-                    "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-                },
-                {
-                    "$set": {
-                        "sentiment_by_day.$.SA": sbd[0]["SA"]
-                    }
-                }
-            )
-    # else create new object
-    else:
-        sbd = TA.SentimentByDay(0)
-        db.tweets.update_one(
-                {
-                    "id": "tweets"
-                },
-                {
-                    "$set": {
-                        "sentiment_by_day": sbd
-                    }
-                }
-            )
-
-def GetSentimentByDay(db):
     cursor = db.tweets.find()
     for doc in cursor:
-        for day in doc["sentiment_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().date()):
-                return day["SA"]
+        if "sentiment_by_day" in doc:
+            sbd = TA.SentimentByDay(doc["sentiment_by_day"])
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$set": {
+                            "sentiment_by_day": sbd
+                        }
+                    }
+                )
+        # else create new object
+        else:
+            sbd = TA.SentimentByDay(None)
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$set": {
+                            "sentiment_by_day": sbd
+                        }
+                    }
+                )
+
 
 def SetMostActiveUsers(TA, db):
     
@@ -209,50 +197,42 @@ def SetWordCount(TA, db):
             )
 
 def SetWordCountByDay(TA, db):
-    # Get objects with todays date
-    cursor = db.tweets.find(
-        {
-            "wordcount_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        print(True)
-        oldwordcount = GetWordCountByDay(db)
-        wcbd = TA.WordCountByDay(oldwordcount)
-        db.tweets.update_one(
-                {
-                    "id": "tweets",
-                    "wordcount_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "wordcount_by_day.$.counts": wcbd
-                    }
-                }
-            )
-    # else create new object
-    else:
-        wcbd = TA.WordCountByDay(None)
-        db.tweets.update_one(
-                {
-                    "id": "tweets"
-                },
-                {
-                    "$push": {
-                        "wordcount_by_day": {
-                            "$each": wcbd
-                        }
-                    }
-                }
-            )
-
-def GetWordCountByDay(db):
     cursor = GetTweetDocument(db)
     for doc in cursor:
-        for day in doc["wordcount_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+        if "wordcount_by_day" in doc:
+            wcbd = TA.WordCountByDay(doc["wordcount_by_day"])
+            # Remove old data
+            db.tweets.update(
+                {"id": "tweets"},
+                { "$unset": { "wordcount_by_day": ""} }
+            )
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "wordcount_by_day": {
+                                "$each": wcbd
+                            }
+                        }
+                    }
+                )
+        # else create new object
+        else:
+            wcbd = TA.WordCountByDay(None)
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "wordcount_by_day": {
+                                "$each": wcbd
+                            }
+                        }
+                    }
+                )
 
 def SetBigrams(TA, db):
     cursor = GetTweetDocument(db)
@@ -293,42 +273,42 @@ def SetBigrams(TA, db):
             )
 
 def SetBigramsByDay(TA, db):
-    # Get objects with todays date
-    cursor = db.tweets.find(
-        {
-            "bigram_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        oldbigrams = GetBigramByDay(db)
-        bbd = TA.BigramByDay(oldbigrams)
-        db.tweets.update_one(
-                {
-                    "id": "tweets",
-                    "bigram_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "bigram_by_day.$.counts": bbd
-                    }
-                }
+    cursor = GetTweetDocument(db)
+    for doc in cursor:
+        if "bigram_by_day" in doc:
+            bbd = TA.BigramByDay(doc["bigram_by_day"])
+            # Remove old data
+            db.tweets.update(
+                {"id": "tweets"},
+                { "$unset": { "bigram_by_day": ""} }
             )
-    # else create new object
-    else:
-        bbd = TA.BigramByDay(None)
-        db.tweets.update_one(
-                {
-                    "id": "tweets"
-                },
-                {
-                    "$push": {
-                        "bigram_by_day": {
-                            "$each": bbd
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "bigram_by_day": {
+                                "$each": bbd
+                            }
                         }
                     }
-                }
-            )
+                )
+        # else create new object
+        else:
+            bbd = TA.BigramByDay(None)
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "bigram_by_day": {
+                                "$each": bbd
+                            }
+                        }
+                    }
+                )
 
 def GetBigramByDay(db):
     cursor = GetTweetDocument(db)
@@ -371,49 +351,42 @@ def SetCurrencyMentions(TA, db):
             )
 
 def SetCurrencyMentionsByDay(TA, db):
-    # Get objects with todays date
-    cursor = db.tweets.find(
-        {
-            "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        oldcmbd = GetCurrencyMentionsByDay(db)
-        cmbd = TA.CurrencyMentionsByDay(oldcmbd)
-        db.tweets.update_one(
-                {
-                    "id": "tweets",
-                    "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "currency_mentions_by_day.$.counts": cmbd
-                    }
-                }
-            )
-    # else create new object
-    else:
-        cmbd = TA.CurrencyMentionsByDay(None)
-        db.tweets.update_one(
-                {
-                    "id": "tweets"
-                },
-                {
-                    "$push": {
-                        "currency_mentions_by_day": {
-                            "$each": cmbd
-                        }
-                    }
-                }
-            )
-
-def GetCurrencyMentionsByDay(db):
     cursor = GetTweetDocument(db)
     for doc in cursor:
-        for day in doc["currency_mentions_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+        if "currency_mentions_by_day" in doc:
+            cmbd = TA.CurrencyMentionsByDay(doc["currency_mentions_by_day"])
+            # Remove old data
+            db.tweets.update(
+                {"id": "tweets"},
+                { "$unset": { "currency_mentions_by_day": ""} }
+            )
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "currency_mentions_by_day": {
+                                "$each": cmbd
+                            }
+                        }
+                    }
+                )
+        # else create new object
+        else:
+            cmbd = TA.CurrencyMentionsByDay(None)
+            db.tweets.update_one(
+                    {
+                        "id": "tweets"
+                    },
+                    {
+                        "$push": {
+                            "currency_mentions_by_day": {
+                                "$each": cmbd
+                            }
+                        }
+                    }
+                )
 
 def main():
 
@@ -504,9 +477,9 @@ def main():
             end = time.time()
             print("Sentiment by currency... Time elapsed: " + str(end - start))
             
-            try:
-                os.remove("../data/twitter/"+file)
-            except OSError:
-                pass
+            # try:
+            #     os.remove("../data/twitter/"+file)
+            # except OSError:
+            #     pass
 
 main()
