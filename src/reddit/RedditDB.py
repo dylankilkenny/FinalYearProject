@@ -16,12 +16,6 @@ def GetSubredditDocument(db, subreddit):
     )
     return cursor
 
-def GetCoinDocument(db, coin):
-    cursor = db.coins.find(
-        {"id": coin}
-    )
-    return cursor
-
 def SetNoPostComments(RA, db, subreddit):
     (nc, np) = RA.NoPostComments()
     cursor = GetSubredditDocument(db, subreddit)
@@ -87,51 +81,39 @@ def SetMostActiveUsers(RA, db, subreddit):
             )
 
 def SetCommentsPostsByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "comments_posts_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        (oldp, oldc) = GetCommentsPostsByDay(db, subreddit)
-        cpbd = RA.CommentsPostsByDay(oldc, oldp)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "comments_posts_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-                },
-                {
-                    "$set": {
-                        "comments_posts_by_day.$.n_comment": cpbd[0]["n_comment"],
-                        "comments_posts_by_day.$.n_post": cpbd[0]["n_post"]
-                    }
-                }
-            )
-    # else create new object
-    else:
-        cpbd = RA.CommentsPostsByDay(0, 0)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {
-                    "$set": {
-                        "comments_posts_by_day": cpbd
-                    }
-                }
-            )
-        
-def GetCommentsPostsByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
+    cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
-        for day in doc["comments_posts_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')):
-                return (day["n_post"], day["n_comment"])
+        if "comments_posts_by_day" in doc:
+            cpbd = RA.CommentsPostsByDay(doc["comments_posts_by_day"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "comments_posts_by_day": ""} }
+            )
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$set": {
+                            "comments_posts_by_day": cpbd
+                        }
+                    }
+                )
+        # else create new object
+        else:
+            cpbd = RA.CommentsPostsByDay(None)
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$set": {
+                            "comments_posts_by_day": cpbd
+                        }
+                    }
+                )
+
 
 def SetOverallUserScore(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -172,54 +154,40 @@ def SetOverallUserScore(RA, db, subreddit):
             )
     
 def SetSentimentByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        (oldpsa, oldcsa, olds) = GetSentimentByDay(db, subreddit)
-        sbd = RA.SentimentByDay(oldpsa, oldcsa, olds)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "sentiment_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00'))
-                },
-                {
-                    "$set": {
-                        "sentiment_by_day.$.Post_SA": sbd[0]["Post_SA"],
-                        "sentiment_by_day.$.Comment_SA": sbd[0]["Comment_SA"],
-                        "sentiment_by_day.$.Sentiment": sbd[0]["Sentiment"]
-                    }
-                }
-            )
-    # else create new object
-    else:
-        sbd = RA.SentimentByDay(0, 0, 0)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {
-                    "$set": {
-                        "sentiment_by_day": sbd
-                    }
-                }
-            )
-
-
-
-def GetSentimentByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
+    cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
-        for day in doc["sentiment_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d %H:00:00')):
-                return (day["Post_SA"], day["Comment_SA"], day["Sentiment"])
+        if "sentiment_by_day" in doc:
+            # (oldpsa, oldcsa, olds) = GetSentimentByDay(db, subreddit)
+            sbd = RA.SentimentByDay(doc["sentiment_by_day"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "overall_user_score": ""} }
+            )
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$set": {
+                            "sentiment_by_day": sbd
+                        }
+                    }
+                )
+        # else create new object
+        else:
+            sbd = RA.SentimentByDay(None)
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$set": {
+                            "sentiment_by_day": sbd
+                        }
+                    }
+                )
+
 
 def SetWordCount(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -260,53 +228,42 @@ def SetWordCount(RA, db, subreddit):
             )
 
 def SetWordCountByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "wordcount_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-    
-        oldwordcount = GetWordCountByDay(db, subreddit)
-        wcbd = RA.WordCountByDay(oldwordcount)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "wordcount_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "wordcount_by_day.$.counts": wcbd
-                    }
-                }
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "wordcount_by_day" in doc:
+            wcbd = RA.WordCountByDay(doc["wordcount_by_day"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "wordcount_by_day": ""} }
             )
-    # else create new object
-    else:
-        wcbd = RA.WordCountByDay(None)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {   
-                    "$push": {
-                        "wordcount_by_day": {
-                            "$each": wcbd
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$push": {
+                            "wordcount_by_day": {
+                                "$each": wcbd
+                            }
                         }
                     }
-                }
-            )
-
-def GetWordCountByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
-    for doc in cursor:
-        for day in doc["wordcount_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+                )
+        # else create new object
+        else:
+            wcbd = RA.WordCountByDay(None)
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {   
+                        "$push": {
+                            "wordcount_by_day": {
+                                "$each": wcbd
+                            }
+                        }
+                    }
+                )                
 
 def SetCurrencyMentions(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -339,53 +296,42 @@ def SetCurrencyMentions(RA, db, subreddit):
             )
 
 def SetCurrencyMentionsByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        
-        oldcmbd = GetCurrencyMentionsByDay(db, subreddit)
-        cmbd = RA.CurrencyMentionsByDay(oldcmbd)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "currency_mentions_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "currency_mentions_by_day.$.counts": cmbd
-                    }
-                }
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "currency_mentions_by_day" in doc:
+            cmbd = RA.CurrencyMentionsByDay(doc["currency_mentions_by_day"])
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "currency_mentions_by_day": ""} }
             )
-    # else create new object
-    else:
-        cmbd = RA.CurrencyMentionsByDay(None)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {
-                    "$push": {
-                        "currency_mentions_by_day": {
-                            "$each": cmbd
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$push": {
+                            "currency_mentions_by_day": {
+                                "$each": cmbd
+                            }
                         }
                     }
-                }
-            )
-
-def GetCurrencyMentionsByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
-    for doc in cursor:
-        for day in doc["currency_mentions_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+                )
+        # else create new object
+        else:
+            cmbd = RA.CurrencyMentionsByDay(None)
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$push": {
+                            "currency_mentions_by_day": {
+                                "$each": cmbd
+                            }
+                        }
+                    }
+                )
 
 def SetBigrams(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -426,52 +372,50 @@ def SetBigrams(RA, db, subreddit):
             )
 
 def SetBigramsByDay(RA, db, subreddit):
-    # Get objects with todays date
-    cursor = db.subreddits.find(
-        {
-            "id": subreddit,
-            "bigram_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-        }
-    )
-    # if todays date is already present, add old values to new
-    if cursor.count() > 0:
-        oldbigrams = GetBigramByDay(db, subreddit)
-        bbd = RA.BigramByDay(oldbigrams)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit,
-                    "bigram_by_day.Date": str(datetime.datetime.now().strftime('%Y-%m-%d'))
-                },
-                {
-                    "$set": {
-                        "bigram_by_day.$.counts": bbd
-                    }
-                }
+    cursor = GetSubredditDocument(db, subreddit)
+    for doc in cursor:
+        if "bigram_by_day" in doc:
+            oldbigrams = GetBigramByDay(db, subreddit)
+            bbd = RA.BigramByDay(oldbigrams)
+            # Remove old data
+            db.subreddits.update(
+                {"id": subreddit},
+                { "$unset": { "bigram_by_day": ""} }
             )
-    # else create new object
-    else:
-        bbd = RA.BigramByDay(None)
-        db.subreddits.update_one(
-                {
-                    "id": subreddit
-                },
-                {
-                    "$push": {
-                        "bigram_by_day": {
-                            "$each": bbd
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$push": {
+                            "bigram_by_day": {
+                                "$each": bbd
+                            }
                         }
                     }
-                }
-            )
+                )
+        # else create new object
+        else:
+            bbd = RA.BigramByDay(None)
+            db.subreddits.update_one(
+                    {
+                        "id": subreddit
+                    },
+                    {
+                        "$push": {
+                            "bigram_by_day": {
+                                "$each": bbd
+                            }
+                        }
+                    }
+                )
 
 def GetBigramByDay(db, subreddit):
     cursor = db.subreddits.find(
         {"id": subreddit}
     )
     for doc in cursor:
-        for day in doc["bigram_by_day"]:
-            if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d')):
-                return day["counts"]
+        return doc["bigram_by_day"]
     
     
 
@@ -488,16 +432,17 @@ def main(subreddit, symbol):
     db = client.dev
 
     # Load Data
-    comments = pd.read_csv('../data/reddit/comments_'+subreddit+'.csv', parse_dates=['Date'])
-    posts = pd.read_csv('../data/reddit/posts_'+subreddit+'.csv', parse_dates=['Date'])
+    comments = pd.read_csv('../data/reddit/comments_'+subreddit+'.csv')
+    posts = pd.read_csv('../data/reddit/posts_'+subreddit+'.csv')
     currency_symbols = pd.read_csv('../data/CurrencySymbols.csv')
     stopwords = pd.read_csv('../data/stopwords.csv')
 
-    try:
-        os.remove('../data/reddit/comments_'+subreddit+'.csv')
-        os.remove('../data/reddit/posts_'+subreddit+'.csv')
-    except OSError:
-        pass
+    # try:
+    #     os.remove('../data/reddit/comments_'+subreddit+'.csv')
+    #     os.remove('../data/reddit/posts_'+subreddit+'.csv')
+    # except OSError:
+    #     pass
+    
     
     if posts.size < 1 and comments.size < 1:
         print("\nNo comments or posts found, returning.")
