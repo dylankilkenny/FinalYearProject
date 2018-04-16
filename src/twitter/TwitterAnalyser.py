@@ -110,31 +110,19 @@ class TwitterAnalyser(object):
 
         maut = maut.sort_values('n', ascending=False).head(500)
         maut.fillna(0, inplace=True)
+
+        if oldmaut != None:
+            oldmaut = pd.DataFrame.from_records(data=oldmaut)
+            oldnew_merged = pd.concat([maut,oldmaut])
+            oldnew_merged = oldnew_merged.groupby('Author').sum().reset_index()
+            oldnew_merged = oldnew_merged.sort_values('n', ascending=False).head(500)
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+
         maut = maut.to_json(orient='records', date_format=None)
         maut = json.loads(maut)
 
-        if oldmaut != None:
-            updatedmaut = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for user in range(len(oldmaut)-1):
-                for newuser in range(len(maut)-1):
-                    if oldmaut[user]['Author'] == maut[newuser]['Author']:
-                        updateduser = {}
-                        updateduser["Author"] = oldmaut[user]["Author"]
-                        updateduser["n"] = oldmaut[user]["n"] + maut[newuser]["n"]
-
-                        updatedmaut.append(updateduser)
-                        maut.pop(newuser)
-
-            # Append all newly found users to updatedmaut list
-            for newuser in maut:
-                updatedmaut.append(newuser)
-
-            j = json.dumps(updatedmaut)
-            return json.loads(j)
-        
         return maut
     
     def Bigram(self, oldb):
@@ -193,9 +181,6 @@ class TwitterAnalyser(object):
         tweets_copy = tweets_copy.groupby('Date')
         # Loop through dataframe counting most common 25 words for each date
         bigrams = []
-        # keeping a copy of the full list of bigrams
-        # for later use with currency mentions
-        bigrams_full = []
 
          # loop through groups
         for name, group in tweets_copy:
@@ -205,25 +190,18 @@ class TwitterAnalyser(object):
                 words = nltk.word_tokenize(sent)
                 counts.update(nltk.bigrams(words))
             updated = {}
-            # keeping a copy of the full list of bigrams
-            # for later use with currency mentions
-            updated_full = {}
             # join bigrams to one word
             for key, value in counts.most_common(25):
                 k = ' '.join(key)
                 updated[k] = value
-            # join full list of bigrams to one word
-            for key, value in counts.items():
-                k = ' '.join(key)
-                updated_full[k] = value
+
             # append grouped date and counted bigrams to list
             bigrams.append([name, updated])
-            bigrams_full.append([name, updated_full])
+
         
         # Create dataframe with counts
         bbd = pd.DataFrame(bigrams, columns = ['Date','counts'])
-        bigrams_full = pd.DataFrame(bigrams_full, columns = ['Date','counts'])
-        self.bigram_by_day = bigrams_full
+
 
         if oldbigrams != None:
             oldbigrams = pd.DataFrame.from_records(data=oldbigrams)
@@ -304,19 +282,16 @@ class TwitterAnalyser(object):
         tweets_copy = tweets_copy.groupby('Date')
         # Loop through dataframe counting most common 25 words for each date
         wordcount= []
-        # full list of word counts for currency mentions use
-        wcbd_full = []
+
         for name, group in tweets_copy:
             texts = " ".join(group['Text'])
             groupCounts = Counter(texts.split()).most_common(25)
             wordcount.append([name, dict(groupCounts)])
-            wcbd_full.append([name, dict(Counter(texts.split()))])
+
             
 
         # Create dataframe with counts
         wordcount = pd.DataFrame(wordcount, columns = ['Date','counts'])
-        wcbd_full = pd.DataFrame(wcbd_full, columns = ['Date','counts'])
-        self.word_count_by_day = wcbd_full
 
         if oldwordcount != None:
             oldwordcount = pd.DataFrame.from_records(data=oldwordcount)
@@ -342,7 +317,6 @@ class TwitterAnalyser(object):
                 transformed.append([name, group_dict])
             
             transformed = pd.DataFrame(transformed, columns = ['Date','counts'])
-            print(transformed)
             transformed = transformed.to_json(orient='records', date_format=None)
             transformed= json.loads(transformed)
             return transformed
@@ -356,6 +330,7 @@ class TwitterAnalyser(object):
     def CurrencyMentions(self, oldcm):
 
         word_count = self.word_count
+        bigram = self.bigram        
         cm = self.currency_symbols.copy()
 
         cm['Symbol'] = cm.Symbol.str.lower()
@@ -369,10 +344,14 @@ class TwitterAnalyser(object):
                 cm.loc[cm['Symbol'] == symbol, 'Mentions_Sym'] = c[0]
 
         for name in cm['Name']:
-            c = word_count.loc[word_count['word'] == name, 'n'].values
-            if len(c) > 0:
-                cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
-        
+            if len(name.split()) == 1:
+                c = word_count.loc[word_count['word'] == name, 'n'].values
+                if len(c) > 0:
+                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
+            else:
+                c = bigram.loc[bigram['bigram'] == name, 'n'].values
+                if len(c) > 0:
+                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]        
 
         cm = cm.to_json(orient='records', date_format=None)
 
@@ -438,7 +417,6 @@ class TwitterAnalyser(object):
         # Create merged dataframe
         merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
         merged = pd.DataFrame(data=merged)
-        
         # Group by date
         merged = merged.groupby('Date')
         
@@ -448,15 +426,6 @@ class TwitterAnalyser(object):
         cm = cm.drop('Currency', 1)
         cm["Mentions_Sym"] = 0
         cm["Mentions_Name"] = 0
-        # Currency mentions single word
-        word_count = self.word_count_by_day
-        bigram = self.bigram_by_day
-        # Create merged dataframe
-        merged = {"Date": word_count["Date"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
-        merged = pd.DataFrame(data=merged)
-
-        # Group by date
-        merged = merged.groupby('Date')
 
         cmbd = [] 
         for date, group in merged:
@@ -483,7 +452,7 @@ class TwitterAnalyser(object):
                 
         
         cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
-        
+
         if oldcmbd != None:
             oldcmbd = pd.DataFrame.from_records(data=oldcmbd)
             oldnew_merged = pd.concat([cmbd,oldcmbd])
@@ -517,36 +486,6 @@ class TwitterAnalyser(object):
         return cmbd
 
 
-        # cmcopy = self.currency_mentions.copy()
-        # cmbd = cmcopy.to_json(orient='records', date_format=None)
-        # cmbd = json.loads(cmbd)
-
-        # if oldcmbd != None:
-        #     updatedcmbd =[]
-        #     for old in range(len(oldcmbd)-1):
-        #         oldelement = oldcmbd[old]
-        #         for new in range(len(cmbd)-1):
-        #             newelement = cmbd[new]
-        #             if oldelement['Name'] == newelement['Name']:
-        #                 updatedcurrency = {}
-        #                 updatedcurrency["Name"] = oldelement["Name"]
-        #                 updatedcurrency["Symbol"] = oldelement["Symbol"]
-        #                 updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
-        #                 updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
-        #                 updatedcmbd.append(updatedcurrency)
-        #                 cmbd.pop(new)
-
-        #     # Append all newly found users to updatedous list
-        #     for b in cmbd:
-        #         updatedcmbd.append(b)
-
-        #     j = json.dumps(updatedcmbd)
-        #     return json.loads(j)
-            
-        # return cmbd
-
-
-
     def CleanText(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text)).split())
 
@@ -568,6 +507,8 @@ class TwitterAnalyser(object):
         data["Text"] =  data['Text'].str.replace(r'http\S+', '', case=False)
         #Remove Na's
         data = data.dropna(how='any',axis=0)
+        # Remove Hashtags
+        data["Text"] = data["Text"].str.replace(r"#(\w+)",'')
         #Remove punctuation
         data["Text"] = data["Text"].str.replace('[^\w\s]','')
         #To lower case

@@ -134,12 +134,8 @@ def SetMostActiveUsers(TA, db):
             db.tweets.update_one(
                 {"id": "tweets"},
                 {
-                    "$push": {
-                        "most_active_users": {
-                            "$each": mau,
-                            "$sort": { "Activity": -1 },
-                            "$slice": 1000
-                        }
+                    "$set": {
+                        "most_active_users": mau
                     }
                 }
             )
@@ -148,12 +144,8 @@ def SetMostActiveUsers(TA, db):
             db.tweets.update_one(
                 {"id": "tweets"},
                 {
-                    "$push": {
-                        "most_active_users": {
-                            "$each": mau,
-                            "$sort": { "Activity": -1 },
-                            "$slice": 1000
-                        }
+                    "$set": {
+                        "most_active_users": mau
                     }
                 }
             )
@@ -477,9 +469,9 @@ def main():
             end = time.time()
             print("Sentiment by currency... Time elapsed: " + str(end - start))
             
-            # try:
-            #     os.remove("../data/twitter/"+file)
-            # except OSError:
-            #     pass
+            try:
+                os.remove("../data/twitter/"+file)
+            except OSError:
+                pass
 
 main()

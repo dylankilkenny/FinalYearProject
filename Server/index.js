@@ -4,6 +4,7 @@ const fs = require('fs')
 const cors = require('cors')
 const fetch = require('node-fetch')
 const bodyParser = require('body-parser');
+const RedditAPI = require('./reddit-api')
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 app.use(cors())
@@ -11,12 +12,12 @@ app.use(cors())
 // ---------  Database  ---------- //
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
-let db
+let db;
 MongoClient.connect(url, (err, client) => {
   if (err) return console.log(err)
   db = client.db('dev') // whatever your database name is
   app.listen(3000, () => {
-    getCoins()
+    // getCoins()
     console.log('listening on 3000')
   })
 })
@@ -51,6 +52,9 @@ function getCoins(){
  
 app.get('/', function (req, res) {
     res.send("Hello World!")
+    RedditAPI.NoPostsAndComments(db, "btc", function(data){
+        console.log(data)
+    })
 });
 
 // Retrieves all currencies from db
@@ -59,7 +63,7 @@ app.get('/AllCurrencies', function (req, res) {
         console.log(results)
         res.json(results)
         // send HTML file populated with quotes here
-      }) 
+    }) 
 });
 
 // Retrieves one currency from db

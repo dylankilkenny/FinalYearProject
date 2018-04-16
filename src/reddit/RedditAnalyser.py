@@ -518,16 +518,20 @@ class RedditAnalyser(object):
             temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
             temp_cm = temp_cm.drop(['Mentions_Name','Mentions_Sym'], 1)
             temp_cm = temp_cm[temp_cm['n'] != 0]
+            
             temp_cm = temp_cm.to_json(orient='records', date_format=None)
             temp_cm = json.loads(temp_cm)
             cmbd.append([date, temp_cm])
                 
         
         cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
-
+        
         if oldcmbd != None:
             oldcmbd = pd.DataFrame.from_records(data=oldcmbd)
             oldnew_merged = pd.concat([cmbd,oldcmbd])
+            oldnew_merged =  oldnew_merged[oldnew_merged['counts'].str.len() != 0]
+            if len(oldnew_merged) < 1:
+                return None
             oldnew_merged = oldnew_merged.groupby('Date')
             flattened = []
             # loop through groups
@@ -546,48 +550,18 @@ class RedditAnalyser(object):
             for name, group in flattened.groupby('Date'):
                 objs = [{'Symbol':a, 'Name':b, 'n':c} for a,b,c in zip(group.Symbol, group.Name, group.n)]
                 transformed.append([name, objs])
-                # print(t)
-                # return
-                # keys = ('Symbol', 'Name', 'n')
-                # values = (group.Symbol, group.Name, group.n)
-                
-                # group_dict = dict(zip(keys,values))
-                
             
             transformed = pd.DataFrame(transformed, columns = ['Date','counts'])
             transformed = transformed.to_json(orient='records', date_format=None)
             transformed= json.loads(transformed)
             return transformed
+        # bit of a hack. removes rows where no counts have been found
+        cmbd =  cmbd[cmbd['counts'].str.len() != 0]
+        if len(cmbd) < 1:
+                return None
         cmbd = cmbd.to_json(orient='records', date_format=None)
         cmbd = json.loads(cmbd)
 
-        if oldcmbd != None:
-            updatedcmbd =[]
-            # get counts at element 0
-            # if its todays date there will only be one row
-            temp_cmbd = cmbd[0]["counts"]
-            
-            for old in range(len(oldcmbd)-1):
-                oldelement = oldcmbd[old]
-                for new in range(len(temp_cmbd)-1):
-                    newelement = temp_cmbd[new]
-        
-                    if oldelement['Name'] == newelement['Name']:
-                        updatedcurrency = {}
-                        updatedcurrency["Name"] = oldelement["Name"]
-                        updatedcurrency["Symbol"] = oldelement["Symbol"]
-                        updatedcurrency["Mentions_Name"] = oldelement["Mentions_Name"] + newelement["Mentions_Name"]
-                        updatedcurrency["Mentions_Sym"] = oldelement["Mentions_Sym"] + newelement["Mentions_Sym"]
-                        updatedcmbd.append(updatedcurrency)                    
-                        temp_cmbd.pop(new)
-
-            # Append all newly found users to updatedous list
-            for b in temp_cmbd:
-                updatedcmbd.append(b)
-
-            j = json.dumps(updatedcmbd)
-            return json.loads(j)
-            
         return cmbd
          
     def CleanText(self, text):

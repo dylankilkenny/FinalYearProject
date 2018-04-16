@@ -6,8 +6,8 @@ import json
 import sys
 
 
-def getPushshiftData(after, sub):
-    url = 'https://api.pushshift.io/reddit/search/submission?&size=1000&after='+str(after)+'&subreddit='+str(sub)
+def getPushshiftData(after, sub, before):
+    url = 'https://api.pushshift.io/reddit/search/submission?&size=1000&after='+str(after)+'&before='+str(before)+'&subreddit='+str(sub)
     r = requests.get(url)
     data = json.loads(r.text)
     return data['data']
@@ -16,7 +16,7 @@ def getPushshiftData(after, sub):
 
 
 
-def main(date):
+def main(after, before):
     subreddits = pd.read_csv('../data/reddit/SubredditList.csv')
     data = []
     post_ids = []
@@ -26,11 +26,12 @@ def main(date):
         sub = row["Subreddit"]
         print("Fetching post ID's for "+ row["Subreddit"]+" ("+str(i+1)+"/"+str(len(subreddits))+")")
 
-        data = getPushshiftData(sub=sub, after=date)
+        data = getPushshiftData(sub=sub, after=after, before=before)
         while len(data) > 0:
             for submission in data:
                 post_ids.append(submission["id"])
-            data = getPushshiftData(sub=sub, after=data[-1]['created_utc'])
+                print(submission['created_utc'])
+            data = getPushshiftData(sub=sub, after=data[-1]['created_utc'], before=before)
 
         with open("submissions.json", "r") as jsonFile:
             js = json.load(jsonFile)
@@ -50,5 +51,5 @@ def main(date):
     return data
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1],sys.argv[2])
     

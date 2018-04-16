@@ -9,6 +9,7 @@ from pymongo import MongoClient
 import time
 import os
 import datetime
+from pathlib import Path
 
 def GetSubredditDocument(db, subreddit):
     cursor = db.subreddits.find(
@@ -305,33 +306,35 @@ def SetCurrencyMentionsByDay(RA, db, subreddit):
                 {"id": subreddit},
                 { "$unset": { "currency_mentions_by_day": ""} }
             )
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$push": {
-                            "currency_mentions_by_day": {
-                                "$each": cmbd
+            if cmbd != None:
+                db.subreddits.update_one(
+                        {
+                            "id": subreddit
+                        },
+                        {
+                            "$push": {
+                                "currency_mentions_by_day": {
+                                    "$each": cmbd
+                                }
                             }
                         }
-                    }
-                )
+                    )
         # else create new object
         else:
             cmbd = RA.CurrencyMentionsByDay(None)
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$push": {
-                            "currency_mentions_by_day": {
-                                "$each": cmbd
+            if cmbd != None:
+                db.subreddits.update_one(
+                        {
+                            "id": subreddit
+                        },
+                        {
+                            "$push": {
+                                "currency_mentions_by_day": {
+                                    "$each": cmbd
+                                }
                             }
                         }
-                    }
-                )
+                    )
 
 def SetBigrams(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -375,8 +378,7 @@ def SetBigramsByDay(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
     for doc in cursor:
         if "bigram_by_day" in doc:
-            oldbigrams = GetBigramByDay(db, subreddit)
-            bbd = RA.BigramByDay(oldbigrams)
+            bbd = RA.BigramByDay(doc["bigram_by_day"])
             # Remove old data
             db.subreddits.update(
                 {"id": subreddit},
@@ -410,40 +412,49 @@ def SetBigramsByDay(RA, db, subreddit):
                     }
                 )
 
-def GetBigramByDay(db, subreddit):
-    cursor = db.subreddits.find(
-        {"id": subreddit}
-    )
-    for doc in cursor:
-        return doc["bigram_by_day"]
-    
     
 
 
-def main(subreddit, symbol):
-    
-    # comments = pd.read_csv('../data/reddit/comments_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
-    # comments = pd.read_csv('../data/reddit/small_data.csv', parse_dates=['Date'])
-    # posts = pd.read_csv('../data/reddit/post_btc_2017-01-26_2018-01-26.csv', parse_dates=['Date'])
-    # posts = pd.read_csv('../data/small_data_post.csv', parse_dates=['Date'])
+def main(subreddit, symbol, stream):
 
     # Connect to DB
     client = MongoClient("mongodb://localhost:27017/")
     db = client.dev
 
-    # Load Data
-    comments = pd.read_csv('../data/reddit/comments_'+subreddit+'.csv')
-    posts = pd.read_csv('../data/reddit/posts_'+subreddit+'.csv')
+    if stream:
+        FILE_PATH = '../data/reddit/old/'
+    else:
+        FILE_PATH = '../data/reddit/'
+        
+    # Load comments and posts
+    comments = Path(FILE_PATH + 'comments_'+subreddit+'.csv')
+    # if file exists load it
+    if comments.is_file():
+        comments = pd.read_csv(FILE_PATH+'comments_'+subreddit+'.csv')
+    # else create empty dataframe
+    else:
+        comments = pd.DataFrame(columns=['Author','Body','Date','Score'])
+
+    posts = Path(FILE_PATH+'posts_'+subreddit+'.csv')
+    # if file exists load it    
+    if posts.is_file():
+        posts = pd.read_csv(FILE_PATH+'posts_'+subreddit+'.csv')
+    # else create empty dataframe
+    else:
+        posts = pd.DataFrame(columns=['Author','Title','Date','Score'])
+        
+    # Load currencys and stop words
     currency_symbols = pd.read_csv('../data/CurrencySymbols.csv')
     stopwords = pd.read_csv('../data/stopwords.csv')
 
-    # try:
-    #     os.remove('../data/reddit/comments_'+subreddit+'.csv')
-    #     os.remove('../data/reddit/posts_'+subreddit+'.csv')
-    # except OSError:
-    #     pass
+    # Remove comments and posts .csv
+    try:
+        os.remove(FILE_PATH+'comments_'+subreddit+'.csv')
+        os.remove(FILE_PATH+'posts_'+subreddit+'.csv')
+    except OSError:
+        pass
     
-    
+    # if no comments and posts in dataframes return
     if posts.size < 1 and comments.size < 1:
         print("\nNo comments or posts found, returning.")
         return
