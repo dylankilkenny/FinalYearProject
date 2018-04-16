@@ -4,14 +4,9 @@
 
 import json
 import requests
-from bs4 import BeautifulSoup
-import csv
 import sys
 from pymongo import MongoClient
-import pandas as pd
-
 import requests
-from pymongo import MongoClient
 import json
 from datetime import datetime, timedelta
 
