@@ -12,8 +12,8 @@ const TableCoin = (props) => (
         <Table.HeaderCell>Price</Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
         <Table.HeaderCell>Market Cap</Table.HeaderCell>
-        <Table.HeaderCell>Social Volume</Table.HeaderCell>
-        <Table.HeaderCell>Social Sentiment</Table.HeaderCell>
+        <Table.HeaderCell>Social Volume Change (24h)</Table.HeaderCell>
+        <Table.HeaderCell>Social Sentiment Change (24h)</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
 
@@ -28,8 +28,8 @@ const TableCoin = (props) => (
             price_usd={coin.price_usd} 
             symbol={coin.symbol} 
             market_cap_usd={coin.market_cap_usd} 
-            social_volume={coin.social_volume} 
-            social_sentiment={coin.social_sentiment} 
+            social_volume={coin.volume_24hr} 
+            social_sentiment={coin.sentiment_24hr} 
             />
         ))
         }
