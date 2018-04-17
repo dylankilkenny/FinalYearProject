@@ -19,12 +19,13 @@ import operator
 
 class RedditAnalyser(object):
 
-    def __init__(self, comments, posts, currency_symbols, stopwords):
+    def __init__(self, comments, posts, currency_symbols, stopwords, PRE_PATH):
 
         # logging.basicConfig(filename='reddit_analyser.log',level=logging.DEBUG,
         # format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
         self.afinn = Afinn()
         self.stopwords = stopwords
+        self.PRE_PATH = PRE_PATH
         self.number_comments = len(comments.index)
         self.number_posts = len(posts.index)
         self.comments = self.CleanseData(comments, False)
@@ -595,7 +596,7 @@ class RedditAnalyser(object):
         stop = self.stopwords['word'].tolist()
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
 
-        with open("../data/banned_users.json", "r") as jsonFile:
+        with open(self.PRE_PATH + "data/banned_users.json", "r") as jsonFile:
             users = json.load(jsonFile)
 
         data = data[~data['Author'].isin(users["users"])]       

@@ -422,9 +422,11 @@ def main(subreddit, symbol, stream):
     db = client.dev
 
     if stream:
-        FILE_PATH = '../data/reddit/old/'
+        PRE_PATH = '/home/dylan/python/'
+        FILE_PATH = PRE_PATH + 'data/reddit/old/'
     else:
-        FILE_PATH = '../data/reddit/'
+        PRE_PATH = '../'        
+        FILE_PATH = PRE_PATH + 'data/reddit/'
         
     # Load comments and posts
     comments = Path(FILE_PATH + 'comments_'+subreddit+'.csv')
@@ -444,8 +446,8 @@ def main(subreddit, symbol, stream):
         posts = pd.DataFrame(columns=['Author','Title','Date','Score'])
         
     # Load currencys and stop words
-    currency_symbols = pd.read_csv('../data/CurrencySymbols.csv')
-    stopwords = pd.read_csv('../data/stopwords.csv')
+    currency_symbols = pd.read_csv(PRE_PATH + 'data/CurrencySymbols.csv')
+    stopwords = pd.read_csv(PRE_PATH + 'data/stopwords.csv')
 
     # Remove comments and posts .csv
     try:
@@ -466,7 +468,7 @@ def main(subreddit, symbol, stream):
     
     print("\nInstantiating reddit analyser...", end="\r")
     start = time.time()
-    RA = RedditAnalyser.RedditAnalyser(comments, posts, currency_symbols, stopwords)
+    RA = RedditAnalyser.RedditAnalyser(comments, posts, currency_symbols, stopwords, PRE_PATH)
     end = time.time()
     print("Instantiating reddit analyser... Time elapsed: " + str(end - start))
 
