@@ -5,6 +5,8 @@ import time
 from datetime import datetime, timedelta
 import json
 import scipy.stats as stats
+import time
+
 
 def GetSocialDocument(db, symbol):
     cursor = db.social.find(
@@ -17,29 +19,31 @@ def UpdateCoinSentiment(db, symbol):
     cursor_social = GetSocialDocument(db, symbol)
 
     if "sentiment_by_day" in cursor_social[0].keys():
-        old = cursor_social[0]["total_sentiment"]
-        sbd, total_sentiment, one_day, seven_day, thirty_day = GetSentiment(db, symbol)
-        sbd = UpdateSentimentByDay(sbd, cursor_social[0]["sentiment_by_day"])
         db.social.update(
             {"id": symbol},
             { 
                 "$unset": { "sentiment_by_day": ""},
+                "$unset": { "sentiment_24hr": ""},
+                "$unset": { "sentiment_7day": ""},
+                "$unset": { "sentiment_30day": ""},
                 "$unset": { "total_sentiment": ""}                
             }
         )
-    else:
-        sbd, total_sentiment, one_day, seven_day, thirty_day = GetSentiment(db, symbol)
-        old = 0
+
+    sbd, total_sentiment, one_day, seven_day, thirty_day = GetSentiment(db, symbol)
+
+    if len(sbd) < 1:
+        return
 
     db.social.update(    
         {"id": symbol},
         {
             "$set": {
-                "24hr_sentiment": one_day,
-                "7day_sentiment": seven_day,
-                "30day_sentiment": thirty_day,
+                "sentiment_24hr": one_day,
+                "sentiment_7day": seven_day,
+                "sentiment_30day": thirty_day,
                 "sentiment_by_day": sbd,
-                "total_sentiment": total_sentiment + old      
+                "total_sentiment": total_sentiment      
             }
         }
     )
@@ -70,14 +74,8 @@ def GetSentiment(db, symbol):
     return sbd_json, total_sentiment, one_day, seven_day, thirty_day
 
 def PercentChangeSentiment(sbd, days):
-    # dates = sbd.pop('Date')
-    # sbd.index = dates
-    # df2 = (sbd - sbd.mean())/sbd.std()
-    # print(df2)
-    # # print(df1)
-    # # df2 = (sbd - sbd.min()) / (sbd.max() - sbd.min())
-    # sbd = df2.reset_index()
-    
+    if sbd.size < 1:
+        return 0
     last_row = sbd.tail(1) # get the last row of dataframe
     last_row_date = last_row.iloc[0]["Date"] # get the date in last row        
     last_row_date = datetime.strptime(last_row_date,'%Y-%m-%d %H:%M:%S') # to object
@@ -96,59 +94,41 @@ def PercentChangeSentiment(sbd, days):
 
     df_2['dist'] = abs(df_2['Sentiment'] - df_2['Sentiment'].median())
     df_1['dist'] = abs(df_1['Sentiment'] - df_1['Sentiment'].median())
-    # print(df_1['Sentiment'].median())
-    # print( df_2['Sentiment'].median())
 
     current_period = df_1['dist'].median()
     previous_period = df_2['dist'].median()
-
-    pc_change = round(100 * (current_period - previous_period) / (previous_period + 1))
-    
-    # dtime = pd.to_datetime(sbd['Date']) # create new dataframe with dates in datetime format
-    
-    # diff = (dtime - lrd_minus) # get difference
-    # indexmax = (diff[(diff < pd.to_timedelta(1))].idxmax()) # locate index of closest date
-    
-    # last_row_n = last_row.iloc[0]["Sentiment"] # get the number of mentions in last row    
-    # item = sbd.ix[[indexmax]] # get item with closest date
-    # item_n = item.iloc[0]["Sentiment"] # get number of mentions
-    # print(last_row_n)
-    # print(item_n)
+    try:
+        pc_change = round(100 * (current_period - previous_period) / previous_period)
+    except ZeroDivisionError: 
+        pc_change = round(100 * (current_period - previous_period) / (previous_period + 1)) 
+    print("Sentiment: 100 * ({0} - {1}) / ({2} + 1) = {3}".format(current_period, previous_period,previous_period,pc_change))
     
     return pc_change
 
 def UpdateCoinVolume(db, symbol):
     cursor_social = GetSocialDocument(db, symbol)
-    vbd, volume, one_day, seven_day, thirty_day = GetVolume(db, symbol)
-
-    if "total_volume" in cursor_social[0].keys():
-        
-        old = cursor_social[0]["total_volume"]
-        vbd = UpdateVolumeByDay(vbd, cursor_social[0]["volume_by_day"])
-        
+    if "total_volume" in cursor_social[0].keys():        
         db.social.update(
             {"id": symbol},
             {
                 "$unset": { "total_volume": ""},
                 "$unset": { "volume_by_day": ""},
+                "$unset": { "volume_24hr": ""},
+                "$unset": { "volume_7day": ""},
+                "$unset": { "volume_30day": ""},
             }
         )
-    else:
-        old = 0
 
+    vbd, volume, one_day, seven_day, thirty_day = GetVolume(db, symbol)
     db.social.update(    
         {"id": symbol},
         {
             "$set": {          
-                "total_volume": int(volume + old),
-                "24hr_volume": one_day,
-                "7day_volume": seven_day,
-                "30day_volume": thirty_day
-            },
-            "$push": {
-                "volume_by_day": {
-                    "$each": vbd
-                }
+                "total_volume": int(volume),
+                "volume_24hr": one_day,
+                "volume_7day": seven_day,
+                "volume_30day": thirty_day,
+                "volume_by_day": vbd
             }
         }
     )
@@ -172,19 +152,14 @@ def PercentChangeVolume(merged, days):
 
     df_2['dist'] = abs(df_2['n'] - df_2['n'].median())
     df_1['dist'] = abs(df_1['n'] - df_1['n'].median())
-    # last_row = merged.tail(1) # get the last row of dataframe
-    # last_row_date = last_row.iloc[0]["Date"] # get the number of mentions in last row        
-    # dt = datetime.strptime(last_row_date,'%Y-%m-%d %H:%M:%S') # to object
-    # new_dt = dt - timedelta(days=days) # get datetime 24 hours ago
-    # dtime = pd.to_datetime(merged['Date']) # create new dataframe with dates in datetime format
-    # diff = (dtime - new_dt) # get difference
-    # indexmax = (diff[(diff < pd.to_timedelta(1))].idxmax()) # locate index of closest date
-    # last_row_n = last_row.iloc[0]["n"] # get the number of mentions in last row    
-    # item = merged.ix[[indexmax]] # get item with closest date
-    # item_n = item.iloc[0]["n"] # get number of mentions
-    last_row_n = df_1['dist'].median()
-    item_n = df_2['dist'].median()
-    pc_change = round(100 * (last_row_n - item_n) / item_n)
+
+    current_period = df_1['dist'].median()
+    previous_period = df_2['dist'].median()
+    try:
+        pc_change = round(100 * (current_period - previous_period) / previous_period)
+    except ZeroDivisionError: 
+        pc_change = round(100 * (current_period - previous_period) / (previous_period + 1))
+    print("Volume: 100 * ({0} - {1}) / ({2} + 1) = {3}".format(current_period, previous_period,previous_period,pc_change))    
     return pc_change
 
 
@@ -222,30 +197,10 @@ def GetVolume(db, symbol):
     one_day = PercentChangeVolume(merged, 1) # 24 hour change
     seven_day = PercentChangeVolume(merged, 7) # 3 day change
     thirty_day = PercentChangeVolume(merged, 30) # 7 day change
-    
     merged = merged.to_json(orient='records', date_format=None)
     merged = json.loads(merged)
     return merged, volume, one_day, seven_day, thirty_day
 
-def UpdateSentimentByDay(sbd, alt_sbd):
-    sbd = pd.DataFrame.from_records(sbd)
-    alt_sbd = pd.DataFrame.from_records(alt_sbd)
-    merged = pd.concat([sbd,alt_sbd])
-    merged = merged.groupby('Date').sum().reset_index()
-    merged = merged.to_json(orient='records', date_format=None)
-    merged = json.loads(merged)
-
-    return merged
-
-def UpdateVolumeByDay(vbd, alt_vbd):
-    vbd = pd.DataFrame.from_records(vbd)
-    alt_vbd = pd.DataFrame.from_records(alt_vbd)
-    merged = pd.concat([vbd,alt_vbd])
-    merged = merged.groupby('Date').sum().reset_index()
-    merged = merged.to_json(orient='records', date_format=None)
-    merged = json.loads(merged)
-
-    return merged
 
 def main(symbol):
 
@@ -267,14 +222,19 @@ def main(symbol):
     end = time.time()
     print("Done | Time elapsed: " + str(end - start))
 
-
+# main("LTC")
 if __name__ == '__main__':
     # Load subreddit list 
     # subreddits = pd.read_csv('../data/reddit/SubredditList.csv')
     # for i, row in subreddits.iterrows():
     #     main(row["Subreddit"], row["Symbol"])
-
+    start = time.time()
     currency = pd.read_csv('../data/CurrencySymbols.csv')
     for i, row in currency.iterrows():
         main(row["Symbol"])
-        break
+    end = time.time()
+    hours, rem = divmod(end-start, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
+    
+    
