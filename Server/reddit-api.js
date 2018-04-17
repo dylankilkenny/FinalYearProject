@@ -1,16 +1,14 @@
 module.exports = {
-    
-    Document: function(){
-
-    },
-    NoPostsAndComments: function(db, subreddit, callback){
-        let query = {"id":subreddit}
-        db.collection('subreddits').find(query).toArray(function(err, result) {
-            let obj = {
-                comments: result[0].no_comments,
-                posts: result[0].no_posts
-            }
-            callback(obj)
+    Social: function(db, callback){
+        let query = 
+        db.collection('social').find().project({
+            "_id":0,
+            "total_volume":0,
+            "volume_by_day":0,
+            "sentiment_by_day":0,
+            "total_sentiment":0
+        }).toArray(function(err, result) {
+            callback(result)
         }) 
     }
 }

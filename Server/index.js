@@ -36,57 +36,75 @@ function cmcReducer(item, index){
     return obj
 } 
 
-function getCoins(){
+function getCoins(callback){
     fetch('https://api.coinmarketcap.com/v1/ticker/')
         .then(res => res.json())
         .then(body => {
             var obj = body.map(cmcReducer);
-            db.collection("coins").insertMany(obj, function(err, res) {
-                if (err) throw err;
-                console.log("1 document inserted");
-            })
+            console.log(obj)                        
+            callback(obj)
+            
         })
         .catch(err => console.error(err));
 }
 // ----------------------------------------- //
  
 app.get('/', function (req, res) {
-    res.send("Hello World!")
-    RedditAPI.NoPostsAndComments(db, "btc", function(data){
-        console.log(data)
+    getCoins(function(coins){
+        RedditAPI.Social(db, function(social){
+            const result = coins.map(val => {
+                return Object.assign({}, val, social.filter(v => v.id === val.symbol)[0]);
+            });
+            res.json(result)
+        })
+        // res.json(coins)
     })
+    
 });
 
 // Retrieves all currencies from db
 app.get('/AllCurrencies', function (req, res) {
-    db.collection('coins').find().toArray(function(err, results) {
-        console.log(results)
-        res.json(results)
-        // send HTML file populated with quotes here
-    }) 
+    getCoins(function(coins){
+        RedditAPI.Social(db, function(social){
+            const result = coins.map(val => {
+                return Object.assign({}, val, social.filter(v => v.id === val.symbol)[0]);
+            });
+            res.json(result)
+        })
+        // res.json(coins)
+    })
+    
+    // db.collection('coins').find().toArray(function(err, results) {
+    //     console.log(results)
+    //     res.json(results)
+    //     // send HTML file populated with quotes here
+    // }) 
 });
 
 // Retrieves one currency from db
-app.post('/OneCurrency', function (req, res) {
+app.get('/OneCurrency', function (req, res) {
+    getCoins(function(coins){
+        res.json(coins)
+    })
+    
+    // // Specified currency
+    // var query = { id : req.body.id};
 
-    // Specified currency
-    var query = { id : req.body.id};
-
-    db.collection("coins").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        // Create new object to return
-        const response = {
-            id : result[0].id,
-            rank : result[0].rank,
-            name : result[0].name,
-            symbol : result[0].symbol,
-            price_usd : result[0].price_usd,
-            market_cap_usd : result[0].market_cap_usd,
-            social_volume : result[0].social_volume,
-            social_sentiment : result[0].social_sentiment
-        }
-        res.json(response)
-    });
+    // db.collection("coins").find(query).toArray(function(err, result) {
+    //     if (err) throw err;
+    //     // Create new object to return
+    //     const response = {
+    //         id : result[0].id,
+    //         rank : result[0].rank,
+    //         name : result[0].name,
+    //         symbol : result[0].symbol,
+    //         price_usd : result[0].price_usd,
+    //         market_cap_usd : result[0].market_cap_usd,
+    //         social_volume : result[0].social_volume,
+    //         social_sentiment : result[0].social_sentiment
+    //     }
+    //     res.json(response)
+    // });
 });
 
 //Use this cors config for production, allowing authorized origins to connect
