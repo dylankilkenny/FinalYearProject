@@ -42,7 +42,7 @@ class MyListener(StreamListener):
 
     def on_data(self, data):
         tweet = json.loads(data)
-        if "extended_tweet" in tweet:
+        if "extended_tweet" in tweet and (not tweet["retweeted"]) and ('RT @' not in tweet["text"]):
             print("Count: " + str(self.count), end="\r")
             self.count += 1
             date = time.strftime('%Y-%m-%d %H:00:00', time.strptime(tweet["created_at"],
