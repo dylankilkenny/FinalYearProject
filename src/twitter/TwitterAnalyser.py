@@ -15,6 +15,7 @@ import collections
 from langdetect import detect
 import pandas as pd
 import operator
+import enchant
 
 
 class TwitterAnalyser(object):
@@ -25,7 +26,9 @@ class TwitterAnalyser(object):
         # format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
         self.afinn = Afinn()
         self.stopwords = stopwords
-        self.tweets = self.CleanseData(tweets)
+        data, data_hashtags = self.CleanseData(tweets)
+        self.tweets = data
+        self.tweets_hashtags = data_hashtags
         self.currency_symbols = currency_symbols
 
     def TotalTweets(self):
@@ -237,6 +240,118 @@ class TwitterAnalyser(object):
             
         return bbd
 
+    def CurrencyByAuthor(self, oldcba):
+        tweets = self.tweets_hashtags.copy()
+        tweets_grouped = tweets.groupby('Author')
+
+        bigram = []
+        word_count = []        
+        # loop through groups
+        for name, group in tweets_grouped:
+            # word count
+            texts = " ".join(group['Text'])
+            word_count.append([name, dict(Counter(texts.split()))])
+            ####
+            # Bigrams
+            merged_counts = collections.Counter()
+            # Loop through text counting bigrams
+            for sent in group["Text"]:
+                words = nltk.word_tokenize(sent)
+                merged_counts.update(nltk.bigrams(words))
+            updated_full = {}
+            # join full list of bigrams to one word
+            for key, value in merged_counts.items():
+                k = ' '.join(key)
+                updated_full[k] = value
+            # append grouped date and counted bigrams to list
+            bigram.append([name, updated_full])
+        # Create dataframe with counts
+        bigram = pd.DataFrame(bigram, columns = ['Author','counts'])
+        # Create dataframe with counts
+        word_count = pd.DataFrame(word_count, columns = ['Author','counts'])
+        # Create merged dataframe
+        merged = {"Author": word_count["Author"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
+        merged = pd.DataFrame(data=merged)
+        # Group by date
+        merged = merged.groupby('Author')
+
+
+        
+        cm = self.currency_symbols.copy()
+        cm['Symbol'] = cm.Symbol.str.lower()
+        cm['Name'] = cm.Name.str.lower()
+        cm = cm.drop('Currency', 1)
+        cm["Mentions_Sym"] = 0
+        cm["Mentions_Name"] = 0
+
+        cba = [] 
+        for author, group in merged:
+            word_count = group["word_count"].tolist()
+            bigram_count = group["bigram_count"].tolist()
+            temp_cm = cm
+            for symbol in temp_cm['Symbol']:
+                if symbol in word_count[0]:
+                    temp_cm.loc[temp_cm['Symbol'] == symbol, 'Mentions_Sym'] = word_count[0][symbol]
+            for name in temp_cm['Name']:
+                if len(name.split()) == 1:
+                    if name in word_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = word_count[0][name]
+                else:
+                    if name in bigram_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = bigram_count[0][name]
+
+            temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
+            temp_cm = temp_cm.drop(['Mentions_Name','Mentions_Sym'], 1)
+            temp_cm = temp_cm[temp_cm['n'] != 0]
+            for i, item in temp_cm.iterrows():
+                cba.append([author, item['Symbol'], item['Name'],item['n']])
+
+        
+        cba = pd.DataFrame(cba, columns = ['Author','Symbol', 'Name', 'n'])
+        cba = cba.groupby(['Symbol','Name', 'Author'])['n'].sum().reset_index()
+        cba = cba.groupby(['Symbol','Name', 'Author'], as_index=False).head(500)
+
+        transformed = []
+        for name, group in cba.groupby(['Symbol','Name']):
+            objs = [{'Author':a, 'n':b} for a,b in zip(group.Author, group.n)]
+            transformed.append([name[0], name[1], objs])
+
+        cba = pd.DataFrame(transformed, columns = ['Symbol', 'Name', 'counts'])
+        
+
+        if oldcba != None:
+            
+            oldcba = pd.DataFrame.from_records(data=oldcba)
+            oldnew_merged = pd.concat([cba,oldcba])
+            oldnew_merged = oldnew_merged.groupby(['Symbol','Name'])
+            flattened = []
+            # loop through groups
+            for name, group in oldnew_merged:
+                for obj in list(group["counts"]):
+                    for item in obj:
+                        flattened.append([name[0], name[1], item['Author'], item['n']])
+
+            
+
+            flattened = pd.DataFrame(flattened, columns = ['Symbol','Name','Author','n'])
+            flattened = flattened.groupby(['Author','Symbol','Name'])['n'].sum().reset_index()
+            flattened = flattened.groupby(['Symbol','Name', 'Author'], as_index=False).head(1000)
+            
+            transformed = []
+            for name, group in flattened.groupby(['Symbol','Name']):
+                objs = [{'Author':a, 'n':b} for a,b in zip(group.Author, group.n)]
+                transformed.append([name[0], name[1], objs])
+
+            transformed = pd.DataFrame(transformed, columns = ['Symbol', 'Name', 'counts'])
+            
+            transformed = transformed.to_json(orient='records', date_format=None)
+            transformed= json.loads(transformed)
+            return transformed
+
+        cba = cba.to_json(orient='records', date_format=None)
+        cba = json.loads(cba)
+        return cba
+        
 
     def WordCount(self, oldwc):
         wc = self.tweets.copy()
@@ -381,7 +496,7 @@ class TwitterAnalyser(object):
         return json.loads(cm)
 
     def CurrencyMentionsByDay(self, oldcmbd):
-        tweets = self.tweets.copy()
+        tweets = self.tweets_hashtags.copy()
         # Change date format from timestamp
         tweets["Date"] = pd.to_datetime(tweets['Date'], errors='coerce')
         # Convert back to string date without hours
@@ -508,17 +623,26 @@ class TwitterAnalyser(object):
         #Remove Na's
         data = data.dropna(how='any',axis=0)
         # Remove Hashtags
+        data_hashtags = data.copy()
         data["Text"] = data["Text"].str.replace(r"#(\w+)",'')
         #Remove punctuation
+        data_hashtags["Text"] = data_hashtags["Text"].str.replace('[^\w\s]','')
         data["Text"] = data["Text"].str.replace('[^\w\s]','')
         #To lower case
+        data_hashtags['Text'] = data_hashtags.Text.str.lower()
         data['Text'] = data.Text.str.lower()
         #Remove Stop words and no english words
         stop = self.stopwords['word'].tolist()   
+        data_hashtags["Text"] = data_hashtags["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop ]))
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop ]))
         try:
-            data = data[data["Text"].apply(lambda x: detect(x) == 'en')]
+            dictionary = enchant.Dict("en_US")
+            data["Text"] = data["Text"].apply(lambda x:  ' '.join([word for word in x.split() if dictionary.check(word)]))
+            data_hashtags["Text"] = data_hashtags["Text"].apply(lambda x:  ' '.join([word for word in x.split() if dictionary.check(word)]))
         except:
             print("No language detected")
-        
-        return data
+        # Remove rows with no text
+        data = data[data['Text'] != '']
+        data_hashtags = data_hashtags[data_hashtags['Text'] != '']
+
+        return data, data_hashtags
