@@ -20,7 +20,8 @@ def main():
         # if already processed continue 
         if row["done"] == 1:
             continue
-
+        if row["Subreddit"] != "btc":
+            continue
 
         print("Fetching("+str(i+1)+"/"+str(len(subreddits))+"): " + row["Subreddit"])
         
@@ -29,8 +30,13 @@ def main():
 
         # if any posts or comments process them
         if comments or posts:
-            RedditDB.main(row["Subreddit"], row["Symbol"], False)
-        
+            comments_path = "{0}data/reddit/comments_{1}.csv".format(PATH, row["Subreddit"])
+            posts_path = "{0}data/reddit/posts_{1}.csv".format(PATH, row["Subreddit"])
+            currency_symbols_path = "{0}data/CurrencySymbols.csv".format(PATH)
+            stopwords_path = "{0}data/stopwords.csv".format(PATH)
+            banned_path = "{0}data/banned_users.json".format(PATH)
+            RedditDB.main(row["Subreddit"], comments_path, posts_path, currency_symbols_path, stopwords_path, banned_path)
+         
         # Mark as done
         subreddits.loc[subreddits['Subreddit'] == row["Subreddit"], 'done'] = 1
         subreddits.to_csv('../data/reddit/SubredditList.csv' , sep=',', index=False)
@@ -50,6 +56,11 @@ def main():
     #     RedditCoin.main(row["Subreddit"], row["Symbol"])
 
 if __name__ == '__main__':
+    if "prod" in sys.argv:
+        PATH = "/home/dylan/python/"
+    else:
+        PATH = "../"
+
     main()
 
     

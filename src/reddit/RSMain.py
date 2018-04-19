@@ -18,14 +18,19 @@ def main():
 
     FILES = listdir(PATH + "data/reddit/old")
     FILES_LENGTH = len(FILES)
-    j = 1
+    j = 2
     # Loop through subreddits
     for i, row in subreddits.iterrows():
         FILE_NAME = "comments_"+row["Subreddit"]+".csv"
         if FILE_NAME in FILES:
-            print("Processing ("+str(j)+"/"+str(FILES_LENGTH)+"): " + row["Subreddit"])
-            RedditDB.main(row["Subreddit"], row["Symbol"], True)
-            j += 1
+            comments_path = "{0}data/reddit/old/comments_{1}.csv".format(PATH, row["Subreddit"])
+            posts_path = "{0}data/reddit/old/posts_{1}.csv".format(PATH, row["Subreddit"])
+            currency_symbols_path = "{0}data/CurrencySymbols.csv".format(PATH)
+            stopwords_path = "{0}data/stopwords.csv".format(PATH)
+            banned_path = "{0}data/banned_users.json".format(PATH)
+            print("\nProcessing ("+str(j)+"/"+str(FILES_LENGTH)+"): " + row["Subreddit"])
+            RedditDB.main(row["Subreddit"], comments_path, posts_path, currency_symbols_path, stopwords_path, banned_path)
+            j += 2
 
 def RemoveFiles():
     LATEST_PATH = PATH + "data/reddit/latest"

@@ -19,13 +19,13 @@ import operator
 
 class RedditAnalyser(object):
 
-    def __init__(self, comments, posts, currency_symbols, stopwords, PRE_PATH):
+    def __init__(self, comments, posts, currency_symbols, stopwords, banned_path):
 
         # logging.basicConfig(filename='reddit_analyser.log',level=logging.DEBUG,
         # format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
         self.afinn = Afinn()
         self.stopwords = stopwords
-        self.PRE_PATH = PRE_PATH
+        self.banned_path = banned_path
         self.number_comments = len(comments.index)
         self.number_posts = len(posts.index)
         self.comments = self.CleanseData(comments, False)
@@ -71,36 +71,18 @@ class RedditAnalyser(object):
         mau['Activity'] = mau['Comments'] + mau['Posts']
         mau = mau.sort_values('Activity', ascending=False).head(100)
         mau.fillna(0, inplace=True)
-        mau = mau.to_json(orient='records', date_format=None)
 
         if oldmau != None:
-            mau = json.loads(mau)
-            updatedmau = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            
-            for user in range(len(oldmau)-1):
-                for newuser in range(len(mau)-1):
-                    if oldmau[user]['Author'] == mau[newuser]['Author']:
-                        updateduser = {}
-                        updateduser["Author"] = oldmau[user]["Author"]
-                        updateduser["Comments"] = oldmau[user]["Comments"] + mau[newuser]["Comments"]
-                        updateduser["Posts"] = oldmau[user]["Posts"] + mau[newuser]["Posts"]
-                        updateduser["Activity"] = oldmau[user]["Activity"] + mau[newuser]["Activity"]
-                        updatedmau.append(updateduser)
-                        mau.pop(newuser)
-
-            # Append all newly found users to updatedmau list
-            for newuser in mau:
-                updatedmau.append(newuser)
-
-            j = json.dumps(updatedmau)
-            return json.loads(j)
-        
+            oldmau = pd.DataFrame.from_records(data=oldmau)
+            oldnew_merged = pd.concat([mau,oldmau])
+            oldnew_merged = oldnew_merged.groupby('Author').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+        mau = mau.to_json(orient='records', date_format=None)
         return json.loads(mau)
 
-    def OverallUserScore(self, oldous):
+    def OverallUserScoreHead(self, oldous):
         ousc = self.comments.copy()
         ousc =  ousc.groupby('Author')['Score'].sum().reset_index().rename(
             columns={'Author': 'Author', 'Score': 'Comments'})
@@ -113,33 +95,41 @@ class RedditAnalyser(object):
         ous['TotalScore'] = ous['Comments'] + ous['Posts']
         ous = ous.sort_values('TotalScore', ascending=False).head(100)
         ous.fillna(0, inplace=True)        
-        ous = ous.to_json(orient='records', date_format=None)
 
         if oldous != None:
-            ous = json.loads(ous)
-            updatedous = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for user in range(len(oldous)-1):
-                for newuser in range(len(ous)-1):
-                    if oldous[user]['Author'] == ous[newuser]['Author']:
-                        updateduser = {}
-                        updateduser["Author"] = oldous[user]["Author"]
-                        updateduser["Comments"] = oldous[user]["Comments"] + ous[newuser]["Comments"]
-                        updateduser["Posts"] = oldous[user]["Posts"] + ous[newuser]["Posts"]
-                        updateduser["TotalScore"] = oldous[user]["TotalScore"] + ous[newuser]["TotalScore"]
-                        updatedous.append(updateduser)
-                        ous.pop(newuser)
-
-            # Append all newly found users to updatedous list
-            for newuser in ous:
-                updatedous.append(newuser)
-
-            j = json.dumps(updatedous)
-            return json.loads(j)
-
+            oldous = pd.DataFrame.from_records(data=oldous)
+            oldnew_merged = pd.concat([ous,oldous])
+            oldnew_merged = oldnew_merged.groupby('Author').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+        ous = ous.to_json(orient='records', date_format=None)        
         return json.loads(ous)       
+
+    def OverallUserScoreTail(self, oldous):
+        ousc = self.comments.copy()
+        ousc =  ousc.groupby('Author')['Score'].sum().reset_index().rename(
+            columns={'Author': 'Author', 'Score': 'Comments'})
+
+        ousp = self.posts.copy()
+        ousp =  ousp.groupby('Author')['Score'].sum().reset_index().rename(
+            columns={'Author': 'Author', 'Score': 'Posts'})
+
+        ous = pd.merge(ousc, ousp, on='Author', how='outer').sort_values('Comments', ascending=False)
+        ous['TotalScore'] = ous['Comments'] + ous['Posts']
+        ous = ous.sort_values('TotalScore', ascending=False).tail(100)
+        ous.fillna(0, inplace=True)        
+        
+        if oldous != None:
+            oldous = pd.DataFrame.from_records(data=oldous)
+            oldnew_merged = pd.concat([ous,oldous])
+            oldnew_merged = oldnew_merged.groupby('Author').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+
+        ous = ous.to_json(orient='records', date_format=None)
+        return json.loads(ous)  
 
     def SentimentByDay(self, oldsbd):
         cs = self.comments.copy()
@@ -191,36 +181,17 @@ class RedditAnalyser(object):
         bigram.fillna(0, inplace=True)
         bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
         self.bigram = bigram
-        bigram = bigram.head(500)
-        bigram = bigram.to_json(orient='records', date_format=None)
+        bigram = bigram.sort_values('n', ascending=False).head(500)        
 
         if oldb != None:
-            
-            bigram = json.loads(bigram)
-            updatedbigrams = []
-
-            for oldbigram in range(len(oldb)-1):
-                oldelement = oldb[oldbigram]
-                for newbigram in range(len(bigram)-1):
-                    newelement = bigram[newbigram]
-                    if oldelement["bigram"] == newelement["bigram"]:
-                        
-                        updated = {}
-                        updated["bigram"] = oldelement["bigram"]
-                        updated["n_post"] = oldelement["n_post"] + newelement["n_post"]
-                        updated["n_comment"] = oldelement["n_comment"] + newelement["n_comment"]
-                        updated["n"] = oldelement["n"] + newelement["n"]
-
-                        updatedbigrams.append(updated)
-                        bigram.pop(newbigram)
-            
-            # Append all newly found users to updatedous list
-            for b in bigram:
-                updatedbigrams.append(b)
-
-            j = json.dumps(updatedbigrams)
-            return json.loads(j)
-
+            oldb = pd.DataFrame.from_records(data=oldb)
+            oldnew_merged = pd.concat([bigram,oldb])
+            oldnew_merged = oldnew_merged.groupby('bigram').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+        bigram = bigram.to_json(orient='records', date_format=None)
+        
         return json.loads(bigram)
     
     def BigramByDay(self, oldbigrams):
@@ -301,32 +272,15 @@ class RedditAnalyser(object):
         wc.fillna(0, inplace=True)
         wc['n'] = wc['n_comment'] + wc['n_post']      
         self.word_count = wc
-        wc = wc.head(500)
-        wc = wc.to_json(orient='records', date_format=None)
+        wc = wc.sort_values('n', ascending=False).head(500)                
         if oldwc != None:
-            wc = json.loads(wc)
-            updatedwc = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for word in range(len(oldwc)-1):
-                for newword in range(len(wc)-1):
-                    if oldwc[word]['word'] == wc[newword]['word']:
-                        updatedword = {}
-                        updatedword["word"] = oldwc[word]["word"]
-                        updatedword["n_comment"] = oldwc[word]["n_comment"] + wc[newword]["n_comment"]
-                        updatedword["n_post"] = oldwc[word]["n_post"] + wc[newword]["n_post"]
-                        updatedword["n"] = oldwc[word]["n"] + wc[newword]["n"]
-                        updatedwc.append(updatedword)
-                        wc.pop(newword)
-
-            # Append all newly found users to updatedous list
-            for newword in wc:
-                updatedwc.append(newword)
-
-            j = json.dumps(updatedwc)
-            return json.loads(j)
-
+            oldwc = pd.DataFrame.from_records(data=oldwc)
+            oldnew_merged = pd.concat([wc,oldwc])
+            oldnew_merged = oldnew_merged.groupby('word').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+        wc = wc.to_json(orient='records', date_format=None)
         return json.loads(wc)
     
     def WordCountByDay(self, oldwordcount):
@@ -390,7 +344,6 @@ class RedditAnalyser(object):
             
         return wcbd
 
-
     def CurrencyMentions(self, oldcm):
         # Currency mentions single word
         word_count = self.word_count
@@ -417,32 +370,16 @@ class RedditAnalyser(object):
                     cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
         
         cm["n"] = cm["Mentions_Name"] + cm["Mentions_Sym"]
-        cm = cm.to_json(orient='records', date_format=None)
 
         if oldcm != None:
-            cm = json.loads(cm)
-            updatedcm = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for currency in range(len(oldcm)-1):
-                for newcurrency in range(len(cm)-1):
-                    if oldcm[currency]['Name'] == cm[newcurrency]['Name']:
-                        updatedcurrency = {}
-                        updatedcurrency["Name"] = oldcm[currency]["Name"]
-                        updatedcurrency["Symbol"] = oldcm[currency]["Symbol"]
-                        updatedcurrency["Currency"] = oldcm[currency]["Currency"]
-                        updatedcurrency["Mentions_Name"] = oldcm[currency]["Mentions_Name"] + cm[newcurrency]["Mentions_Name"]
-                        updatedcurrency["Mentions_Sym"] = oldcm[currency]["Mentions_Sym"] + cm[newcurrency]["Mentions_Sym"]
-                        updatedcm.append(updatedcurrency)
-                        cm.pop(newcurrency)
+            oldcm = pd.DataFrame.from_records(data=oldcm)
+            oldnew_merged = pd.concat([cm,oldcm])
+            oldnew_merged = oldnew_merged.groupby(["Name", "Currency", "Symbol"]).sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
 
-            # Append all newly found users to updatedous list
-            for newcurrency in cm:
-                updatedcm.append(newcurrency)
-
-            j = json.dumps(updatedcm)
-            return json.loads(j)
+        cm = cm.to_json(orient='records', date_format=None)
         return json.loads(cm)
     
     def CurrencyMentionsByDay(self, oldcmbd):
@@ -526,7 +463,6 @@ class RedditAnalyser(object):
                 
         
         cmbd = pd.DataFrame(cmbd, columns = ['Date','counts'])
-        
         if oldcmbd != None:
             oldcmbd = pd.DataFrame.from_records(data=oldcmbd)
             oldnew_merged = pd.concat([cmbd,oldcmbd])
@@ -564,6 +500,124 @@ class RedditAnalyser(object):
         cmbd = json.loads(cmbd)
 
         return cmbd
+
+    def CurrencyByAuthor(self, oldcba):
+        # Merge both datasets
+        comments = self.comments.copy()
+        posts = self.posts.copy()
+        merged = pd.concat([posts,comments]) 
+
+        merged_grouped = merged.groupby('Author')
+
+        bigram = []
+        word_count = []        
+        # loop through groups
+        for name, group in merged_grouped:
+            # word count
+            texts = " ".join(group['Text'])
+            word_count.append([name, dict(Counter(texts.split()))])
+            ####
+            # Bigrams
+            merged_counts = collections.Counter()
+            # Loop through text counting bigrams
+            for sent in group["Text"]:
+                words = nltk.word_tokenize(sent)
+                merged_counts.update(nltk.bigrams(words))
+            updated_full = {}
+            # join full list of bigrams to one word
+            for key, value in merged_counts.items():
+                k = ' '.join(key)
+                updated_full[k] = value
+            # append grouped date and counted bigrams to list
+            bigram.append([name, updated_full])
+        # Create dataframe with counts
+        bigram = pd.DataFrame(bigram, columns = ['Author','counts'])
+        # Create dataframe with counts
+        word_count = pd.DataFrame(word_count, columns = ['Author','counts'])
+        # Create merged dataframe
+        merged = {"Author": word_count["Author"], "word_count": word_count["counts"], "bigram_count": bigram["counts"]}
+        merged = pd.DataFrame(data=merged)
+        # Group by date
+        merged = merged.groupby('Author')
+
+
+        
+        cm = self.currency_symbols.copy()
+        cm['Symbol'] = cm.Symbol.str.lower()
+        cm['Name'] = cm.Name.str.lower()
+        cm = cm.drop('Currency', 1)
+        cm["Mentions_Sym"] = 0
+        cm["Mentions_Name"] = 0
+
+        cba = [] 
+        for author, group in merged:
+            word_count = group["word_count"].tolist()
+            bigram_count = group["bigram_count"].tolist()
+            temp_cm = cm
+            for symbol in temp_cm['Symbol']:
+                if symbol in word_count[0]:
+                    temp_cm.loc[temp_cm['Symbol'] == symbol, 'Mentions_Sym'] = word_count[0][symbol]
+            for name in temp_cm['Name']:
+                if len(name.split()) == 1:
+                    if name in word_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = word_count[0][name]
+                else:
+                    if name in bigram_count[0]:
+                        temp_cm.loc[temp_cm['Name'] == name, 'Mentions_Name'] = bigram_count[0][name]
+
+            temp_cm["n"] = temp_cm["Mentions_Name"] + temp_cm["Mentions_Sym"]
+            temp_cm = temp_cm.drop(['Mentions_Name','Mentions_Sym'], 1)
+            temp_cm = temp_cm[temp_cm['n'] != 0]
+            for i, item in temp_cm.iterrows():
+                cba.append([author, item['Symbol'], item['Name'],item['n']])
+
+        
+        cba = pd.DataFrame(cba, columns = ['Author','Symbol', 'Name', 'n'])
+        if cba.size < 1:
+            return None
+        cba = cba.groupby(['Symbol','Name', 'Author'])['n'].sum().reset_index()
+        cba = cba.groupby(['Symbol','Name', 'Author'], as_index=False).head(500)
+
+        transformed = []
+        for name, group in cba.groupby(['Symbol','Name']):
+            objs = [{'Author':a, 'n':b} for a,b in zip(group.Author, group.n)]
+            transformed.append([name[0], name[1], objs])
+
+        cba = pd.DataFrame(transformed, columns = ['Symbol', 'Name', 'counts'])
+        
+
+        if oldcba != None:
+            
+            oldcba = pd.DataFrame.from_records(data=oldcba)
+            oldnew_merged = pd.concat([cba,oldcba])
+            oldnew_merged = oldnew_merged.groupby(['Symbol','Name'])
+            flattened = []
+            # loop through groups
+            for name, group in oldnew_merged:
+                for obj in list(group["counts"]):
+                    for item in obj:
+                        flattened.append([name[0], name[1], item['Author'], item['n']])
+
+            
+
+            flattened = pd.DataFrame(flattened, columns = ['Symbol','Name','Author','n'])
+            flattened = flattened.groupby(['Author','Symbol','Name'])['n'].sum().reset_index()
+            flattened = flattened.groupby(['Symbol','Name', 'Author'], as_index=False).head(1000)
+            
+            transformed = []
+            for name, group in flattened.groupby(['Symbol','Name']):
+                objs = [{'Author':a, 'n':b} for a,b in zip(group.Author, group.n)]
+                transformed.append([name[0], name[1], objs])
+
+            transformed = pd.DataFrame(transformed, columns = ['Symbol', 'Name', 'counts'])
+            
+            transformed = transformed.to_json(orient='records', date_format=None)
+            transformed= json.loads(transformed)
+            return transformed
+
+        cba = cba.to_json(orient='records', date_format=None)
+        cba = json.loads(cba)
+        return cba
          
     def CleanText(self, text):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text)).split())
@@ -596,7 +650,7 @@ class RedditAnalyser(object):
         stop = self.stopwords['word'].tolist()
         data["Text"] = data["Text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stop]))
 
-        with open(self.PRE_PATH + "data/banned_users.json", "r") as jsonFile:
+        with open(self.banned_path, "r") as jsonFile:
             users = json.load(jsonFile)
 
         data = data[~data['Author'].isin(users["users"])]       
