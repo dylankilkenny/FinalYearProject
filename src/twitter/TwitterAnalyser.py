@@ -144,34 +144,17 @@ class TwitterAnalyser(object):
 
         bigram["bigram"] = bigram["bigram"].apply(lambda x: ' '.join(x))
         self.bigram = bigram
-        bigram = bigram.head(500)
-        bigram = bigram.to_json(orient='records', date_format=None)
+        bigram = bigram.sort_values('n', ascending=False).head(500)        
 
         if oldb != None:
-            
-            bigram = json.loads(bigram)
-            updatedbigrams = []
+            oldb = pd.DataFrame.from_records(data=oldb)
+            oldnew_merged = pd.concat([bigram,oldb])
+            oldnew_merged = oldnew_merged.groupby('bigram').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
 
-            for oldbigram in range(len(oldb)-1):
-                oldelement = oldb[oldbigram]
-                for newbigram in range(len(bigram)-1):
-                    newelement = bigram[newbigram]
-                    if oldelement["bigram"] == newelement["bigram"]:
-                        
-                        updated = {}
-                        updated["bigram"] = oldelement["bigram"]
-                        updated["n"] = oldelement["n"] + newelement["n"]
-
-                        updatedbigrams.append(updated)
-                        bigram.pop(newbigram)
-            
-            # Append all newly found users to updatedous list
-            for b in bigram:
-                updatedbigrams.append(b)
-
-            j = json.dumps(updatedbigrams)
-            return json.loads(j)
-
+        bigram = bigram.to_json(orient='records', date_format=None)
         return json.loads(bigram)
     
     def BigramByDay(self, oldbigrams):
@@ -360,31 +343,15 @@ class TwitterAnalyser(object):
         
         # wc.fillna(0, inplace=True)                
         self.word_count = wc
-        wc = wc.head(500)        
-        wc = wc.to_json(orient='records', date_format=None) 
-
+        wc = wc.sort_values('n', ascending=False).head(500)                
         if oldwc != None:
-            wc = json.loads(wc)
-            updatedwc = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for word in range(len(oldwc)-1):
-                for newword in range(len(wc)-1):
-                    if oldwc[word]['word'] == wc[newword]['word']:
-                        updatedword = {}
-                        updatedword["word"] = oldwc[word]["word"]
-                        updatedword["n"] = oldwc[word]["n"] + wc[newword]["n"]
-                        updatedwc.append(updatedword)
-                        wc.pop(newword)
-
-            # Append all newly found users to updatedous list
-            for newword in wc:
-                updatedwc.append(newword)
-
-            j = json.dumps(updatedwc)
-            return json.loads(j)
-
+            oldwc = pd.DataFrame.from_records(data=oldwc)
+            oldnew_merged = pd.concat([wc,oldwc])
+            oldnew_merged = oldnew_merged.groupby('word').sum().reset_index()
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
+        wc = wc.to_json(orient='records', date_format=None) 
         return json.loads(wc)
     
     def WordCountByDay(self, oldwordcount):
@@ -466,33 +433,20 @@ class TwitterAnalyser(object):
             else:
                 c = bigram.loc[bigram['bigram'] == name, 'n'].values
                 if len(c) > 0:
-                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]        
+                    cm.loc[cm['Name'] == name, 'Mentions_Name'] = c[0]
 
-        cm = cm.to_json(orient='records', date_format=None)
+        cm["n"] = cm["Mentions_Name"] + cm["Mentions_Sym"]
 
         if oldcm != None:
-            cm = json.loads(cm)
-            updatedcm = []
-            # Compare new users against users already in database 
-            # and update old users with new info, popping from array
-            # once processed
-            for currency in range(len(oldcm)-1):
-                for newcurrency in range(len(cm)-1):
-                    if oldcm[currency]['Name'] == cm[newcurrency]['Name']:
-                        updatedcurrency = {}
-                        updatedcurrency["Name"] = oldcm[currency]["Name"]
-                        updatedcurrency["Symbol"] = oldcm[currency]["Symbol"]
-                        updatedcurrency["Mentions_Name"] = oldcm[currency]["Mentions_Name"] + cm[newcurrency]["Mentions_Name"]
-                        updatedcurrency["Mentions_Sym"] = oldcm[currency]["Mentions_Sym"] + cm[newcurrency]["Mentions_Sym"]
-                        updatedcm.append(updatedcurrency)
-                        cm.pop(newcurrency)
+            oldcm = pd.DataFrame.from_records(data=oldcm)
+            oldnew_merged = pd.concat([cm,oldcm])
+            oldnew_merged = oldnew_merged.groupby(["Name", "Currency", "Symbol"]).sum().reset_index()
+            oldnew_merged = oldnew_merged.sort_values('n', ascending=False)                
+            oldnew_merged = oldnew_merged.to_json(orient='records', date_format=None)
+            oldnew_merged= json.loads(oldnew_merged)
+            return oldnew_merged
 
-            # Append all newly found users to updatedous list
-            for newcurrency in cm:
-                updatedcm.append(newcurrency)
-
-            j = json.dumps(updatedcm)
-            return json.loads(j)
+        cm = cm.to_json(orient='records', date_format=None)
         return json.loads(cm)
 
     def CurrencyMentionsByDay(self, oldcmbd):
