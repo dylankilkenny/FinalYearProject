@@ -41,7 +41,6 @@ def GetData(subs):
         PostIDs = pd.read_csv('../data/reddit/PostIDs.csv')
 
         if PostIDs['ID'].str.contains(submission.id).any():
-            print("\nSkipped")
             continue
         PostIDs.loc[len(PostIDs)] = submission.id 
         PostIDs.to_csv('../data/reddit/PostIDs.csv', sep=',', index=False)
