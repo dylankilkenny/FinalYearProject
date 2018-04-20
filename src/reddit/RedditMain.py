@@ -1,3 +1,7 @@
+import sys
+sys.path.append('../utility')
+from logger import log
+
 import RedditDB
 import redditapi
 import RedditPosts
@@ -23,7 +27,7 @@ def main():
         if row["Subreddit"] != "btc":
             continue
 
-        print("Fetching("+str(i+1)+"/"+str(len(subreddits))+"): " + row["Subreddit"])
+        log("Fetching("+str(i+1)+"/"+str(len(subreddits))+"): " + row["Subreddit"])
         
         # Gather posts and save to csv
         (comments, posts) = redditapi.GetData(row["Subreddit"])

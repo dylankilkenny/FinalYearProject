@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Gathering reddit posts"""
+import sys
+sys.path.append('../utility')
+from logger import log
 
 
 import csv
@@ -62,7 +65,7 @@ def GetData(subs):
 def Logger(date,CommentCounter,PostCounter):
 
     date = datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d %H:%M:%S')
-    print("Posts processed: " + str(PostCounter) + " - Comments processed: " + str(CommentCounter) + " - Last Post: " + str(date), end="\r")
+    log("({0}) Posts:{1} - Comments:{2} - Last:{3}".format(subreddit,PostCounter,CommentCounter,date), returnline=True)
 
     
 

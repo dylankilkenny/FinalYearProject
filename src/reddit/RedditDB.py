@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Save reddit posts to db"""
-
+import sys
+sys.path.append('../utility')
+from logger import log
 
 import RedditAnalyser
 import pandas as pd
@@ -621,15 +623,15 @@ def main(subreddit, comments_path, posts_path, currency_symbols_path, stopwords_
     stopwords = pd.read_csv(stopwords_path)
 
     # Remove comments and posts .csv
-    try:
-        os.remove(comments_path)
-        os.remove(posts_path)
-    except OSError:
-        pass
+    # try:
+    #     os.remove(comments_path)
+    #     os.remove(posts_path)
+    # except OSError:
+    #     pass
     
     # if no comments and posts in dataframes return
     if posts.size < 1 and comments.size < 1:
-        print("\nNo comments or posts found, returning.")
+        log("No comments or posts found, returning.", newline=True)
         return
 
     # Check if currency is already in subreddits
@@ -637,89 +639,56 @@ def main(subreddit, comments_path, posts_path, currency_symbols_path, stopwords_
         db.subreddits.insert(
             {"id": subreddit})
     
-    print("\nInstantiating reddit analyser...", end="\r")
-    start = time.time()
+    log("Instantiating reddit analyser...", newline=True)
     RA = RedditAnalyser.RedditAnalyser(comments, posts, currency_symbols, stopwords, banned_path)
-    end = time.time()
-    print("Instantiating reddit analyser... Time elapsed: " + str(end - start))
 
-    print("Counting bigrams...", end="\r")    
-    start = time.time()
+    log("Counting bigrams...")    
     SetBigrams(RA, db, subreddit)
-    end = time.time()
-    print("Counting bigrams... Time elapsed: " + str(end - start)) 
 
-    print("bigrams by day...", end="\r")    
-    start = time.time()
+    log("bigrams by day...")    
     SetBigramsByDay(RA, db, subreddit)
-    end = time.time()
-    print("bigrams by day... Time elapsed: " + str(end - start)) 
 
-    print("Count number comments and posts...", end="\r")    
-    start = time.time()
+    log("Count number comments and posts...")    
     SetNoPostComments(RA, db, subreddit)
-    end = time.time()
-    print("Count number comments and posts... Time elapsed: " + str(end - start))
 
-    print("Gathering most active users...", end="\r")    
-    start = time.time()
+    log("Gathering most active users...")    
     SetMostActiveUsers(RA, db, subreddit)
-    end = time.time()
-    print("Gathering most active users... Time elapsed: " + str(end - start))
 
-    print("Gathering comments and posts per day...", end="\r")    
-    start = time.time()
+
+    log("Gathering comments and posts per day...")    
     SetCommentsPostsByDay(RA, db, subreddit)
-    end = time.time()
-    print("Gathering comments and posts per day... Time elapsed: " + str(end - start))
+
     
-    print("Gathering overall user score head...", end="\r")    
-    start = time.time()
+    log("Gathering overall user score head...")    
     SetOverallUserScoreHead(RA, db, subreddit)
-    end = time.time()
-    print("Gathering overall user score head... Time elapsed: " + str(end - start))
 
-    print("Gathering overall user score tail...", end="\r")    
-    start = time.time()
+
+    log("Gathering overall user score tail...")    
     SetOverallUserScoreTail(RA, db, subreddit)
-    end = time.time()
-    print("Gathering overall user score tail... Time elapsed: " + str(end - start))
     
-    print("Calcuating sentiment by day...", end="\r")    
-    start = time.time()
+    log("Calcuating sentiment by day...", "")    
     SetSentimentByDay(RA, db, subreddit)
-    end = time.time()
-    print("Calcuating sentiment by day... Time elapsed: " + str(end - start))
+
     
-    print("performing word count...", end="\r")    
-    start = time.time()
+    log("performing word count...")    
     SetWordCount(RA, db, subreddit)
-    end = time.time()
-    print("performing word count... Time elapsed: " + str(end - start))
 
-    print("performing word count by day...", end="\r")    
-    start = time.time()
+
+    log("performing word count by day...")    
     SetWordCountByDay(RA, db, subreddit)
-    end = time.time()
-    print("performing word count by day... Time elapsed: " + str(end - start))
+
     
-    print("Gathering currency mentions...", end="\r")    
-    start = time.time()
+    log("Gathering currency mentions...")    
     SetCurrencyMentions(RA, db, subreddit)
-    end = time.time()
-    print("Gathering currency mentions... Time elapsed: " + str(end - start))
 
-    print("Currency mentions by day...", end="\r")    
-    start = time.time()
+
+    log("Currency mentions by day...")    
     SetCurrencyMentionsByDay(RA, db, subreddit)
-    end = time.time()
-    print("Currency mentions by day... Time elapsed: " + str(end - start))
 
-    print("Currency by author...", end="\r")    
-    start = time.time()
+
+    log("Currency by author...")    
     SetCurrencyByAuthor(RA, db, subreddit)
-    end = time.time()
-    print("Currency by author... Time elapsed: " + str(end - start))
+
 
 # PATH = "../"
 # comments_path = "{0}data/reddit/comments_{1}.csv".format(PATH, "btc")

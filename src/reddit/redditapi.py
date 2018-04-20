@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Gathering reddit posts"""
-
+import sys
+sys.path.append('../utility')
+from logger import log
 
 import csv
 import sys
@@ -35,7 +37,7 @@ def GetData(subreddit):
             post_ids = item['id']
             break
             
-    print("No. Posts:" + str(len(post_ids)))
+    log("No. Posts:" + str(len(post_ids)))
     #Set .csv Headers
     posts.append(["ID", "Title", "Subreddit", "Date", "Score", "No. Comments", "Author", "Shortlink"])
     comments.append(["ID", "PostID", "Body", "Date", "Score", "Author"])
@@ -90,7 +92,7 @@ def GetData(subreddit):
 def Logger(date,subreddit,CommentCounter,PostCounter):
 
     date = datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d %H:%M:%S')
-    print("Posts processed ("+subreddit+"): " + str(PostCounter) + " - Comments processed: " + str(CommentCounter) + " - Last Post: " + str(date), end="\r")
+    log("({0}) Posts:{1} - Comments:{2} - Last:{3}".format(subreddit,PostCounter,CommentCounter,date), returnline=True)
 
     
 

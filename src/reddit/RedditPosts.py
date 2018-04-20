@@ -1,3 +1,7 @@
+import sys
+sys.path.append('../utility')
+from logger import log
+
 import time
 import praw
 import pandas as pd
@@ -24,13 +28,12 @@ def main(after, before):
     for i, row in subreddits.iterrows():
         
         sub = row["Subreddit"]
-        print("Fetching post ID's for "+ row["Subreddit"]+" ("+str(i+1)+"/"+str(len(subreddits))+")")
+        log("Fetching post ID's for "+ row["Subreddit"]+" ("+str(i+1)+"/"+str(len(subreddits))+")")
 
         data = getPushshiftData(sub=sub, after=after, before=before)
         while len(data) > 0:
             for submission in data:
                 post_ids.append(submission["id"])
-                print(submission['created_utc'])
             data = getPushshiftData(sub=sub, after=data[-1]['created_utc'], before=before)
 
         with open("submissions.json", "r") as jsonFile:
@@ -45,7 +48,7 @@ def main(after, before):
         with open("submissions.json", "w") as jsonFile:
             json.dump(js, jsonFile)
         
-        print("No. Posts: "+ str(len(post_ids)))
+        log("No. Posts: "+ str(len(post_ids)))
         post_ids = []
     
     return data
