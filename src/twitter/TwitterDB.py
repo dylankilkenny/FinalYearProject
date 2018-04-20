@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Save reddit posts to db"""
-
+import sys
+sys.path.append('../utility')
+from logger import log
 
 import TwitterAnalyser
 import pandas as pd
@@ -520,7 +522,7 @@ def main():
 
     for file in listdir("../data/twitter"):
         if ".csv" in file:
-            print("\n"+file)
+            log(file, newline=True)
             # Connect to DB
             client = MongoClient("mongodb://localhost:27017/")
             db = client.dev
@@ -537,82 +539,54 @@ def main():
                 db.tweets.insert(
                     {"id": "tweets"})
                 
-            print("\nInstantiating twitter analyser...", end="\r")
-            start = time.time()
+            log("Instantiating twitter analyser...", newline=True)
             TA = TwitterAnalyser.TwitterAnalyser(tweets, currency_symbols, stopwords)
-            end = time.time()
-            print("Instantiating twitter analyser... Time elapsed: " + str(end - start))
 
-            print("Total tweets...", end="\r")    
-            start = time.time()
+            log("Total tweets...")    
             SetTotalTweets(TA, db)
-            end = time.time()
-            print("Total tweets... Time elapsed: " + str(end - start)) 
 
-            print("Counting bigrams...", end="\r")    
-            start = time.time()
+
+            log("Counting bigrams...")    
             SetBigrams(TA, db)
-            end = time.time()
-            print("Counting bigrams... Time elapsed: " + str(end - start)) 
 
-            print("bigrams by day...", end="\r")     
-            start = time.time()
+            log("bigrams by day...")     
             SetBigramsByDay(TA, db)
-            end = time.time()
-            print("bigrams by day... Time elapsed: " + str(end - start)) 
 
 
-            print("Gathering most active users...", end="\r")    
-            start = time.time()
+            log("Gathering most active users...")    
             SetMostActiveUsers(TA, db)
-            end = time.time()
-            print("Gathering most active users... Time elapsed: " + str(end - start))
 
-            print("Calcuating sentiment by day...", end="\r")    
-            start = time.time()
+            log("Calcuating sentiment by day...")    
             SetSentimentByDay(TA, db)
-            end = time.time()
-            print("Calcuating sentiment by day... Time elapsed: " + str(end - start))
             
-            print("performing word count...", end="\r")    
-            start = time.time()
+            log("performing word count...")    
             SetWordCount(TA, db)
-            end = time.time()
-            print("performing word count... Time elapsed: " + str(end - start))
 
-            print("performing word count by day...", end="\r")    
-            start = time.time()
+            log("performing word count by day...")    
             SetWordCountByDay(TA, db)
-            end = time.time()
-            print("erforming word count by day... Time elapsed: " + str(end - start))
+
                     
-            print("Gathering currency mentions...", end="\r")    
-            start = time.time()
+            log("Gathering currency mentions...")    
             SetCurrencyMentions(TA, db)
-            end = time.time()
-            print("Gathering currency mentions... Time elapsed: " + str(end - start))
 
-            print("Currency mentions by day...", end="\r")    
-            start = time.time()
+
+            log("Currency mentions by day...")    
             SetCurrencyMentionsByDay(TA, db)
-            end = time.time()
-            print("Currency mentions by day... Time elapsed: " + str(end - start))
 
-            print("Currency by author...", end="\r")    
-            start = time.time()
+
+            log("Currency by author...")    
             SetCurrencyByAuthor(TA, db)
-            end = time.time()
-            print("Currency by author... Time elapsed: " + str(end - start))
+
             
-            # print("Sentiment by currency...", end="\r")    
+            # print("Sentiment by currency...")    
             # start = time.time()
             # SetSentimentByCurrency(TA, db)
             # end = time.time()
             # print("Sentiment by currency... Time elapsed: " + str(end - start))
             
-            # try:
-            #     os.remove("../data/twitter/"+file)
-            # except OSError:
-            #     pass
+            try:
+                os.remove("../data/twitter/"+file)
+            except OSError:
+                pass
 
 main()
