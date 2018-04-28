@@ -93,61 +93,60 @@ def GetSentimentByCurrency(db):
             if day["Date"] == str(datetime.datetime.now().strftime('%Y-%m-%d  %H:00:00')):
                 return day["SA"]
 
-def QuerySBD(db, _id):
+def QuerySBD(db):
     sbd = db.sentimentbd.find(
         {
-            "_id": _id
+            "id": "tweets"
         },
         {
             "sentiment_by_day": 1
         }
     )
+    sbd_list = []
     for doc in sbd:
-       return doc["sentiment_by_day"]
+        for obj in doc["sentiment_by_day"]:
+            sbd_list.append(obj)
+
+    return sbd_list
     
 def SetSentimentByDay(TA, db):
-    cursor = db.tweets.find()
-    for doc in cursor:
-        if "sentiment_by_day" in doc:
-            _id =  ObjectId(doc["sentiment_by_day"])
-            sbd_prev = QuerySBD(db, _id)                               
-            sbd = TA.SentimentByDay(sbd_prev)
-            # Remove old data
-            db.sentimentbd.update(
-                {"_id": _id},
-                { "$unset": { "sentiment_by_day": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.sentimentbd.find({"id": "tweets"})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        sbd_prev = QuerySBD(db)                     
+        sbd = TA.SentimentByDay(sbd_prev)
+        array_list = [sbd[i:i + LIMIT] for i in range(0, len(sbd), LIMIT)]
+        # Remove old data
+        db.sentimentbd.remove(
+            {"id": "tweets"}
+        )
+        for arr in array_list:
             db.sentimentbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "sentiment_by_day": sbd
-                        }
+                {
+                    "id": "tweets", 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "sentiment_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-        # else create new object
-        else:
-            sbd = TA.SentimentByDay(None)
-            objectid = ObjectId()
-            wcbdresult = db.sentimentbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "sentiment_by_day": sbd
-                        }
-                    ) 
-            db.tweets.update_one(
-                    {
-                        "id": "tweets"
-                    },
-                    {
-                        "$set": {
-                            "sentiment_by_day": objectid
-                        }
-                    }
-                )
-
+                },upsert=True
+            )
+    else:
+        sbd = TA.SentimentByDay(None)
+        db.sentimentbd.insert_one(
+            {      
+                "id": "tweets",
+                "sentiment_by_day": sbd,
+                "count":len(sbd)
+            }
+        )   
 
 def SetMostActiveUsers(TA, db):
     
@@ -218,62 +217,60 @@ def SetWordCount(TA, db):
                 }
             )
 
-def QueryWCBD(db, _id):
+def QueryWCBD(db):
     wcbd = db.wordcountbd.find(
         {
-            "_id": _id
+            "id": "tweets"
         },
         {
             "wordcount_by_day": 1
         }
     )
+    wcbd_list = []
     for doc in wcbd:
-       return doc["wordcount_by_day"]
+        for obj in doc["wordcount_by_day"]:
+            wcbd_list.append(obj)
+    return wcbd_list
 
 def SetWordCountByDay(TA, db):
-    cursor = GetTweetDocument(db)
-    for doc in cursor:
-        if "wordcount_by_day" in doc:
-            _id =  ObjectId(doc["wordcount_by_day"])
-            wcbd_prev = QueryWCBD(db, _id)                                 
-            
-            wcbd = TA.WordCountByDay(wcbd_prev)
-            # Remove old data
-            db.wordcountbd.update(
-                {"_id": _id},
-                { "$unset": { "wordcount_by_day": ""} }
-            )
+     # Find all docs for subreddit 
+    cursor = db.wordcountbd.find({"id": "tweets"})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        wcbd_prev = QueryWCBD(db)                     
+        wcbd = TA.WordCountByDay(wcbd_prev)
+        array_list = [wcbd[i:i + LIMIT] for i in range(0, len(wcbd), LIMIT)]
+        # Remove old data
+        db.wordcountbd.remove(
+            {"id": "tweets"}
+        )
+        for arr in array_list:
             db.wordcountbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "wordcount_by_day": wcbd
-                        }
+                {
+                    "id": "tweets", 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "wordcount_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-        # else create new object
-        else:
-            wcbd = TA.WordCountByDay(None)
-            objectid = ObjectId()
-            wcbdresult = db.wordcountbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "wordcount_by_day": wcbd
-                        }
-                    )
-            print(wcbdresult)                                
-            db.tweets.update_one(
-                    {
-                        "id": "tweets"
-                    },
-                    {
-                        "$set": {
-                            "wordcount_by_day": objectid
-                        }
-                    }
-                )
+                },upsert=True
+            )
+    else:
+        wcbd = TA.WordCountByDay(None)
+        db.wordcountbd.insert_one(
+            {      
+                "id": "tweets",
+                "wordcount_by_day": wcbd,
+                "count":len(wcbd)
+            }
+        )     
+
 
 def SetBigrams(TA, db):
     cursor = GetTweetDocument(db)
@@ -313,63 +310,63 @@ def SetBigrams(TA, db):
                 }
             )
 
-def QueryBBD(db, _id):
+def QueryBBD(db):
     bbd = db.bigramsbd.find(
         {
-            "_id": _id
+            "id": "tweets"
         },
         {
             "bigram_by_day": 1
         }
     )
+    bbd_list = []
     for doc in bbd:
-       return doc["bigram_by_day"]
+        for obj in doc["bigram_by_day"]:
+            bbd_list.append(obj)
+
+    return bbd_list
+
 
 def SetBigramsByDay(TA, db):
-    cursor = GetTweetDocument(db)
-    for doc in cursor:
-        if "bigram_by_day" in doc:
-            _id =  ObjectId(doc["bigram_by_day"])
-            bbd_prev = QueryBBD(db, _id)                     
-            
-            bbd = TA.BigramByDay(bbd_prev)
-            # Remove old data
-            db.bigramsbd.update(
-                {"_id": _id},
-                { "$unset": { "bigram_by_day": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.bigramsbd.find({"id": "tweets"})
+    LIMIT = 500
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        bbd_prev = QueryBBD(db)                     
+        bbd = TA.BigramByDay(bbd_prev)
+        array_list = [bbd[i:i + LIMIT] for i in range(0, len(bbd), LIMIT)]
+        # Remove old data
+        db.bigramsbd.remove(
+            {"id": "tweets"}
+        )
+        for arr in array_list:
             db.bigramsbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "bigram_by_day": bbd
-                        }
+                {
+                    "id": "tweets", 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "bigram_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-            
-        # else create new object
-        else:
-            bbd = TA.BigramByDay(None)
-            objectid = ObjectId()      
+                },upsert=True
+            )
+    else:
+        bbd = TA.BigramByDay(None)
+        array_list = [bbd[i:i + LIMIT] for i in range(0, len(bbd), LIMIT)]
+        for arr in array_list:
             bbdresult = db.bigramsbd.insert_one(
                         {      
-                            "_id": objectid,
-                            "bigram_by_day": bbd
+                            "id": "tweets",
+                            "bigram_by_day": bbd,
+                            "count": len(bbd)
                         }
                     )
-            print(bbdresult)
-            db.tweets.update_one(
-                    {
-                        "id": "tweets"
-                    },
-                    {
-                        "$set": {
-                            "bigram_by_day": objectid
-                        }
-                    }
-                )
     
 
 def SetCurrencyMentions(TA, db):
@@ -404,62 +401,69 @@ def SetCurrencyMentions(TA, db):
                 }
             )
 
-def QueryCMBD(db, _id):
+def QueryCMBD(db):
     cmbd = db.currencymentionsbd.find(
         {
-            "_id": _id
+            "id": "tweets"
         },
         {
             "currency_mentions_by_day": 1
         }
     )
+    cmbd_list = []
     for doc in cmbd:
-       return doc["currency_mentions_by_day"]
+        for obj in doc["currency_mentions_by_day"]:
+            cmbd_list.append(obj)
+    return cmbd_list
+
 
 def SetCurrencyMentionsByDay(TA, db):
-    cursor = GetTweetDocument(db)
-    for doc in cursor:
-        if "currency_mentions_by_day" in doc:
-            _id =  ObjectId(doc["currency_mentions_by_day"])
-            cmbd_prev = QueryCMBD(db, _id)
-            cmbd = TA.CurrencyMentionsByDay(cmbd_prev)
-            # Remove old data
-            db.currencymentionsbd.update(
-                {"_id": _id},
-                { "$unset": { "currency_mentions_by_day": ""} }
-            )
+     # Find all docs for subreddit 
+    cursor = db.currencymentionsbd.find({"id": "tweets"})
+    LIMIT = 500    
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        cmbd_prev = QueryCMBD(db)                     
+        cmbd = TA.CurrencyMentionsByDay(cmbd_prev)
+        # return if no mentions
+        if cmbd == None:
+            return
+        array_list = [cmbd[i:i + LIMIT] for i in range(0, len(cmbd), LIMIT)]
+        # Remove old data
+        db.currencymentionsbd.remove(
+            {"id": "tweets"}
+        )
+        for arr in array_list:
             db.currencymentionsbd.update_one(
-                        {
-                            "_id": _id
-                        },
-                        {
-                            "$set": {
-                                "currency_mentions_by_day": cmbd
-                            }
-                        }
-                    )
-
-        # else create new object
-        else:
-            cmbd = TA.CurrencyMentionsByDay(None)
-            objectid = ObjectId()
-            cmbdresult = db.currencymentionsbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "currency_mentions_by_day": cmbd
-                        }
-                    )
-            print(cmbdresult)
-            db.tweets.update_one(
-                    {
-                        "id": "tweets"
-                    },
-                    {
-                        "$set": {
-                            "currency_mentions_by_day": objectid
-                        }
+                {
+                    "id": "tweets", 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "currency_mentions_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
+                },upsert=True
+            )
+    else:
+        cmbd = TA.CurrencyMentionsByDay(None)
+        # return if no mentions
+        if cmbd == None:
+            return
+        array_list = [cmbd[i:i + LIMIT] for i in range(0, len(cmbd), LIMIT)]
+        for arr in array_list:   
+            db.currencymentionsbd.insert_one(
+                {      
+                    "id": "tweets",
+                    "currency_mentions_by_day": arr,
+                    "count":len(arr)
+                }
+            )  
+        
 
 def QueryCBA(db, _id):
     cba = db.currencybyauthor.find(
@@ -574,8 +578,8 @@ def main():
             SetCurrencyMentionsByDay(TA, db)
 
 
-            log("Currency by author...")    
-            SetCurrencyByAuthor(TA, db)
+            # log("Currency by author...")    
+            # SetCurrencyByAuthor(TA, db)
 
             
             # print("Sentiment by currency...")    
@@ -584,9 +588,9 @@ def main():
             # end = time.time()
             # print("Sentiment by currency... Time elapsed: " + str(end - start))
             
-            try:
-                os.remove("../data/twitter/"+file)
-            except OSError:
-                pass
+            # try:
+            #     os.remove("../data/twitter/"+file)
+            # except OSError:
+            #     pass
 
 main()
