@@ -11,7 +11,7 @@ import sys
 import os
 import datetime
 from pathlib import Path
-from prawcore.exceptions import RequestException
+from prawcore.exceptions import PrawcoreException
 import praw
 import json
 import pandas as pd
@@ -31,28 +31,40 @@ def GetData(subs):
     CommentCounter = 0
     PostCounter = 0
 
-    subreddits = reddit.subreddit(subs)
-    for comment in subreddits.stream.comments():
+    running = True
 
-        submission = comment.submission        
-        comments.append([comment.id, comment.id, comment.body, comment.created_utc, comment.score, comment.author])
-        CommentCounter += 1        
-        SaveComments(str(submission.subreddit), comments)
-        Logger(submission.created_utc, CommentCounter, PostCounter)
-        comments[:] = []
+    while running:
+        try:
+            subreddits = reddit.subreddit(subs)
+            for comment in subreddits.stream.comments():
 
-        PostIDs = pd.read_csv('../data/reddit/PostIDs.csv')
+                submission = comment.submission        
+                comments.append([comment.id, comment.id, comment.body, comment.created_utc, comment.score, comment.author])
+                CommentCounter += 1        
+                SaveComments(str(submission.subreddit), comments)
+                Logger(submission.subreddit,submission.created_utc, CommentCounter, PostCounter)
+                comments[:] = []
 
-        if PostIDs['ID'].str.contains(submission.id).any():
-            continue
-        PostIDs.loc[len(PostIDs)] = submission.id 
-        PostIDs.to_csv('../data/reddit/PostIDs.csv', sep=',', index=False)
-        #Add post to the list
-        posts.append([submission.id, submission.title, submission.created_utc, submission.score, submission.num_comments, submission.author])
-        SavePosts(str(submission.subreddit), posts)
-        PostCounter += 1
-        Logger(submission.created_utc,CommentCounter,PostCounter)
-        posts[:] = []
+                PostIDs = pd.read_csv('../data/reddit/PostIDs.csv')
+
+                if PostIDs['ID'].str.contains(submission.id).any():
+                    continue
+                PostIDs.loc[len(PostIDs)] = submission.id 
+                PostIDs.to_csv('../data/reddit/PostIDs.csv', sep=',', index=False)
+                #Add post to the list
+                posts.append([submission.id, submission.title, submission.created_utc, submission.score, submission.num_comments, submission.author])
+                SavePosts(str(submission.subreddit), posts)
+                PostCounter += 1
+                Logger(submission.subreddit,submission.created_utc,CommentCounter,PostCounter)
+                posts[:] = []
+
+        except KeyboardInterrupt:
+            log('Termination received. Goodbye!')
+            running = False
+        except PrawcoreException:
+            log(PrawcoreException, newline=True)
+            
+        
         
         
     
@@ -62,10 +74,10 @@ def GetData(subs):
     
         
 #Display mining information to the terminal
-def Logger(date,CommentCounter,PostCounter):
+def Logger(sub,date,CommentCounter,PostCounter):
 
     date = datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d %H:%M:%S')
-    log("({0}) Posts:{1} - Comments:{2} - Last:{3}".format(subreddit,PostCounter,CommentCounter,date), returnline=True)
+    log("({0}) Posts:{1} - Comments:{2} - Last:{3}".format(sub,PostCounter,CommentCounter,date), returnline=True)
 
     
 
