@@ -84,61 +84,60 @@ def SetMostActiveUsers(RA, db, subreddit):
                 }
             )
 
-def QueryCPBD(db, _id):
+def QueryCPBD(db, subreddit):
     cpbd = db.commentpostbd.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "comments_posts_by_day": 1
         }
     )
+    cpbd_list = []
     for doc in cpbd:
-       return doc["comments_posts_by_day"]
+        for obj in doc["comments_posts_by_day"]:
+            cpbd_list.append(obj)
+
+    return cpbd_list
+
 
 def SetCommentsPostsByDay(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "comments_posts_by_day" in doc:
-            _id =  ObjectId(doc["comments_posts_by_day"])
-            cpbd_prev = QueryCPBD(db, _id)                               
-                      
-            cpbd = RA.CommentsPostsByDay(cpbd_prev)
-            # Remove old data
-            db.commentpostbd.update(
-                {"_id": _id},
-                { "$unset": { "comments_posts_by_day": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.commentpostbd.find({"id": subreddit})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        cpbd_prev = QueryCPBD(db, subreddit)                     
+        cpbd = RA.CommentsPostsByDay(cpbd_prev)
+        array_list = [cpbd[i:i + LIMIT] for i in range(0, len(cpbd), LIMIT)]
+        # Remove old data
+        db.commentpostbd.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
             db.commentpostbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "comments_posts_by_day": cpbd
-                        }
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "comments_posts_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-        # else create new object
-        else:
-            cpbd = RA.CommentsPostsByDay(None)
-            objectid = ObjectId()
-            cpbdresult = db.commentpostbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "comments_posts_by_day": cpbd
-                        }
-                    )            
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$set": {
-                            "comments_posts_by_day": objectid
-                        }
-                    }
-                )
+                },upsert=True
+            )
+    else:
+        cpbd = RA.CommentsPostsByDay(None)
+        db.commentpostbd.insert_one(
+            {      
+                "id": subreddit,
+                "comments_posts_by_day": cpbd
+            }
+        )    
 
 def SetOverallUserScoreTail(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -200,62 +199,60 @@ def SetOverallUserScoreHead(RA, db, subreddit):
                 }
             )
 
-def QuerySBD(db, _id):
+def QuerySBD(db, subreddit):
     sbd = db.sentimentbd.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "sentiment_by_day": 1
         }
     )
+    sbd_list = []
     for doc in sbd:
-       return doc["sentiment_by_day"]
+        for obj in doc["sentiment_by_day"]:
+            sbd_list.append(obj)
+
+    return sbd_list
 
 def SetSentimentByDay(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "sentiment_by_day" in doc:
-            _id =  ObjectId(doc["sentiment_by_day"])
-            sbd_prev = QuerySBD(db, _id)                               
-            sbd = RA.SentimentByDay(sbd_prev)
-            # Remove old data
-            db.sentimentbd.update(
-                {"_id": _id},
-                { "$unset": { "sentiment_by_day": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.sentimentbd.find({"id": subreddit})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        sbd_prev = QuerySBD(db, subreddit)                     
+        sbd = RA.SentimentByDay(sbd_prev)
+        array_list = [sbd[i:i + LIMIT] for i in range(0, len(sbd), LIMIT)]
+        # Remove old data
+        db.sentimentbd.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
             db.sentimentbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "sentiment_by_day": sbd
-                        }
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "sentiment_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-            
-        # else create new object
-        else:
-            sbd = RA.SentimentByDay(None)
-            objectid = ObjectId()
-            wcbdresult = db.sentimentbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "sentiment_by_day": sbd
-                        }
-                    )     
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$set": {
-                            "sentiment_by_day": objectid
-                        }
-                    }
-                )
-
+                },upsert=True
+            )
+    else:
+        sbd = RA.SentimentByDay(None)
+        db.sentimentbd.insert_one(
+            {      
+                "id": subreddit,
+                "sentiment_by_day": sbd,
+                "count":len(sbd)
+            }
+        )    
 
 def SetWordCount(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -295,61 +292,59 @@ def SetWordCount(RA, db, subreddit):
                 }
             )
 
-def QueryWCBD(db, _id):
+def QueryWCBD(db, subreddit):
     wcbd = db.wordcountbd.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "wordcount_by_day": 1
         }
     )
+    wcbd_list = []
     for doc in wcbd:
-       return doc["wordcount_by_day"]
+        for obj in doc["wordcount_by_day"]:
+            wcbd_list.append(obj)
+    return wcbd_list
 
 def SetWordCountByDay(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "wordcount_by_day" in doc:
-            _id =  ObjectId(doc["wordcount_by_day"])
-            wcbd_prev = QueryWCBD(db, _id)                                 
-            wcbd = RA.WordCountByDay(wcbd_prev)
-            # Remove old data
-            db.wordcountbd.update(
-                {"_id": _id},
-                { "$unset": { "wordcount_by_day": ""} }
-            )
+     # Find all docs for subreddit 
+    cursor = db.wordcountbd.find({"id": subreddit})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        wcbd_prev = QueryWCBD(db, subreddit)                     
+        wcbd = RA.WordCountByDay(wcbd_prev)
+        array_list = [wcbd[i:i + LIMIT] for i in range(0, len(wcbd), LIMIT)]
+        # Remove old data
+        db.wordcountbd.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
             db.wordcountbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "wordcount_by_day": wcbd
-                        }
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "wordcount_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-        # else create new object
-        else:
-            wcbd = RA.WordCountByDay(None)
-            objectid = ObjectId()
-            wcbdresult = db.wordcountbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "wordcount_by_day": wcbd
-                        }
-                    )
-            print(wcbdresult)                
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$set": {
-                            "wordcount_by_day": objectid
-                        }
-                    }
-                )                
+                },upsert=True
+            )
+    else:
+        wcbd = RA.WordCountByDay(None)
+        db.wordcountbd.insert_one(
+            {      
+                "id": subreddit,
+                "wordcount_by_day": wcbd,
+                "count":len(wcbd)
+            }
+        )     
 
 def SetCurrencyMentions(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -381,65 +376,67 @@ def SetCurrencyMentions(RA, db, subreddit):
                 }
             )
 
-def QueryCMBD(db, _id):
+def QueryCMBD(db, subreddit):
     cmbd = db.currencymentionsbd.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "currency_mentions_by_day": 1
         }
     )
+    cmbd_list = []
     for doc in cmbd:
-       return doc["currency_mentions_by_day"]
+        for obj in doc["currency_mentions_by_day"]:
+            cmbd_list.append(obj)
+    return cmbd_list
 
 def SetCurrencyMentionsByDay(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "currency_mentions_by_day" in doc:
-            
-            _id =  ObjectId(doc["currency_mentions_by_day"])
-            cmbd_prev = QueryCMBD(db, _id)
-            cmbd = RA.CurrencyMentionsByDay(cmbd_prev)
-
-            # Remove old data
-            db.currencymentionsbd.update(
-                {"_id": _id},
-                { "$unset": { "currency_mentions_by_day": ""} }
+    # Find all docs for subreddit 
+    cursor = db.currencymentionsbd.find({"id": subreddit})
+    LIMIT = 500    
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        cmbd_prev = QueryCMBD(db, subreddit)                     
+        cmbd = RA.CurrencyMentionsByDay(cmbd_prev)
+        # return if no mentions
+        if cmbd == None:
+            return
+        array_list = [cmbd[i:i + LIMIT] for i in range(0, len(cmbd), LIMIT)]
+        # Remove old data
+        db.currencymentionsbd.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
+            db.currencymentionsbd.update_one(
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "currency_mentions_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
+                    }
+                },upsert=True
             )
-            if cmbd != None:
-                db.currencymentionsbd.update_one(
-                        {
-                            "_id": _id
-                        },
-                        {
-                            "$set": {
-                                "currency_mentions_by_day": cmbd
-                            }
-                        }
-                    )
-        # else create new object
-        else:
-            cmbd = RA.CurrencyMentionsByDay(None)
-            objectid = ObjectId()
-            if cmbd != None:
-                cmbdresult = db.currencymentionsbd.insert_one(
-                        {      
-                            "_id": objectid,
-                            "currency_mentions_by_day": cmbd
-                        }
-                    )
-                print(cmbdresult)
-                db.subreddits.update_one(
-                        {
-                            "id": subreddit
-                        },
-                        {
-                            "$set": {
-                                "currency_mentions_by_day": objectid
-                            }
-                        }
-                    )
+    else:
+        cmbd = RA.CurrencyMentionsByDay(None)
+        # return if no mentions
+        if cmbd == None:
+            return
+        array_list = [cmbd[i:i + LIMIT] for i in range(0, len(cmbd), LIMIT)]
+        for arr in array_list:   
+            db.currencymentionsbd.insert_one(
+                {      
+                    "id": subreddit,
+                    "currency_mentions_by_day": arr,
+                    "count":len(arr)
+                }
+            )  
 
 def SetBigrams(RA, db, subreddit):
     cursor = GetSubredditDocument(db, subreddit)
@@ -479,121 +476,163 @@ def SetBigrams(RA, db, subreddit):
                 }
             )
 
-def QueryBBD(db, _id):
+def QueryBBD(db, subreddit):
     bbd = db.bigramsbd.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "bigram_by_day": 1
         }
     )
+    bbd_list = []
     for doc in bbd:
-       return doc["bigram_by_day"]
+        for obj in doc["bigram_by_day"]:
+            bbd_list.append(obj)
+
+    return bbd_list
 
 def SetBigramsByDay(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "bigram_by_day" in doc:
-            _id =  ObjectId(doc["bigram_by_day"])
-            bbd_prev = QueryBBD(db, _id)                     
-            bbd = RA.BigramByDay(bbd_prev)
-            # Remove old data
-            db.bigramsbd.update(
-                {"_id": _id},
-                { "$unset": { "bigram_by_day": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.bigramsbd.find({"id": subreddit})
+    LIMIT = 500
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        bbd_prev = QueryBBD(db, subreddit)                     
+        bbd = RA.BigramByDay(bbd_prev)
+        array_list = [bbd[i:i + LIMIT] for i in range(0, len(bbd), LIMIT)]
+        # Remove old data
+        db.bigramsbd.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
             db.bigramsbd.update_one(
-                    {
-                        "_id": _id
-                    },
-                    {
-                        "$set": {
-                            "bigram_by_day": bbd
-                        }
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "bigram_by_day": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
-        # else create new object
-        else:
-            bbd = RA.BigramByDay(None)
-            objectid = ObjectId()      
+                },upsert=True
+            )
+    else:
+        bbd = RA.BigramByDay(None)
+        array_list = [bbd[i:i + LIMIT] for i in range(0, len(bbd), LIMIT)]
+        for arr in array_list:
             bbdresult = db.bigramsbd.insert_one(
                         {      
-                            "_id": objectid,
-                            "bigram_by_day": bbd
+                            "id": subreddit,
+                            "bigram_by_day": bbd,
+                            "count": len(bbd)
                         }
                     )
-            print(bbdresult)      
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$set": {
-                            "bigram_by_day": objectid
-                        }
-                    }
-                )
 
-def QueryCBA(db, _id):
+def QueryCBA(db, subreddit):
     cba = db.currencybyauthor.find(
         {
-            "_id": _id
+            "id": subreddit
         },
         {
             "currency_by_author": 1
         }
     )
+    cba_list = []
     for doc in cba:
-       return doc["currency_by_author"]
+        for obj in doc["currency_by_author"]:
+            cba_list.append(obj)
+    return cba_list
 
 def SetCurrencyByAuthor(RA, db, subreddit):
-    cursor = GetSubredditDocument(db, subreddit)
-    for doc in cursor:
-        if "currency_by_author" in doc:
-            _id =  ObjectId(doc["currency_by_author"])
-            cba_prev = QueryCBA(db, _id)
-            cba = RA.CurrencyByAuthor(cba_prev)
-            # Remove old data
-            db.currencybyauthor.update(
-                {"_id": _id},
-                { "$unset": { "currency_by_author": ""} }
-            )
+    # Find all docs for subreddit 
+    cursor = db.currencybyauthor.find({"id": subreddit})
+    # if more than 0
+    if cursor.count() > 0:
+        # Array limit per doc
+        LIMIT = 500
+        cba_prev = QueryCBA(db, subreddit)                     
+        cba = RA.CurrencyByAuthor(cba_prev)
+        array_list = [cba[i:i + LIMIT] for i in range(0, len(cba), LIMIT)]
+        # Remove old data
+        db.currencybyauthor.remove(
+            {"id": subreddit}
+        )
+        for arr in array_list:
             db.currencybyauthor.update_one(
-                        {
-                            "_id": _id
-                        },
-                        {
-                            "$set": {
-                                "currency_by_author": cba
-                            }
-                        }
-                    )
-
-        # else create new object
-        else:
-            cba = RA.CurrencyByAuthor(None)
-            if cba == None:
-                return
-            objectid = ObjectId()
-            cbaresult = db.currencybyauthor.insert_one(
-                        {      
-                            "_id": objectid,
-                            "currency_by_author": cba
-                        }
-                    )
-            print(cbaresult)
-            db.subreddits.update_one(
-                    {
-                        "id": subreddit
-                    },
-                    {
-                        "$set": {
-                            "currency_by_author": objectid
-                        }
+                {
+                    "id": subreddit, 
+                    "count": { "$lt" : LIMIT}
+                },
+                {
+                    "$set": {
+                        "currency_by_author": arr
+                    }, 
+                    "$inc": { 
+                        "count": len(arr)
                     }
-                )
+                },upsert=True
+            )
+    else:
+        cba = RA.CurrencyByAuthor(None)
+        db.currencybyauthor.insert_one(
+            {      
+                "id": subreddit,
+                "currency_by_author": cba,
+                "count": len(cba)
+            }
+        )
 
+
+    # cursor = GetSubredditDocument(db, subreddit)
+    # for doc in cursor:
+    #     if "currency_by_author" in doc:
+    #         _id =  ObjectId(doc["currency_by_author"])
+    #         cba_prev = QueryCBA(db, _id)
+    #         cba = RA.CurrencyByAuthor(cba_prev)
+    #         # Remove old data
+    #         db.currencybyauthor.update(
+    #             {"_id": _id},
+    #             { "$unset": { "currency_by_author": ""} }
+    #         )
+    #         db.currencybyauthor.update_one(
+    #                     {
+    #                         "_id": _id
+    #                     },
+    #                     {
+    #                         "$set": {
+    #                             "currency_by_author": cba
+    #                         }
+    #                     }
+    #                 )
+
+    #     # else create new object
+    #     else:
+    #         cba = RA.CurrencyByAuthor(None)
+    #         if cba == None:
+    #             return
+    #         objectid = ObjectId()
+    #         cbaresult = db.currencybyauthor.insert_one(
+    #                     {      
+    #                         "_id": objectid,
+    #                         "currency_by_author": cba
+    #                     }
+    #                 )
+    #         print(cbaresult)
+    #         db.subreddits.update_one(
+    #                 {
+    #                     "id": subreddit
+    #                 },
+    #                 {
+    #                     "$set": {
+    #                         "currency_by_author": objectid
+    #                     }
+    #                 }
+    #             )
 
 def main(subreddit, comments_path, posts_path, currency_symbols_path, stopwords_path, banned_path):
 
@@ -623,11 +662,11 @@ def main(subreddit, comments_path, posts_path, currency_symbols_path, stopwords_
     stopwords = pd.read_csv(stopwords_path)
 
     # Remove comments and posts .csv
-    # try:
-    #     os.remove(comments_path)
-    #     os.remove(posts_path)
-    # except OSError:
-    #     pass
+    try:
+        os.remove(comments_path)
+        os.remove(posts_path)
+    except OSError:
+        pass
     
     # if no comments and posts in dataframes return
     if posts.size < 1 and comments.size < 1:
@@ -686,14 +725,15 @@ def main(subreddit, comments_path, posts_path, currency_symbols_path, stopwords_
     SetCurrencyMentionsByDay(RA, db, subreddit)
 
 
-    log("Currency by author...")    
-    SetCurrencyByAuthor(RA, db, subreddit)
+    # log("Currency by author...")    
+    # SetCurrencyByAuthor(RA, db, subreddit)
 
 
 # PATH = "../"
-# comments_path = "{0}data/reddit/comments_{1}.csv".format(PATH, "btc")
-# posts_path = "{0}data/reddit/posts_{1}.csv".format(PATH,  "btc")
+# comments_path = "../data/reddit/comments_bitcoin_2017-01-26_2017-05-22.csv"
+# # comments_path = "{0}data/reddit/comments_{1}.csv".format(PATH,  "CryptoCurrency")
+# posts_path = "{0}data/reddit/posts_{1}.csv".format(PATH,  "CryptoCurrency")
 # currency_symbols_path = "{0}data/CurrencySymbols.csv".format(PATH)
 # stopwords_path = "{0}data/stopwords.csv".format(PATH)
 # banned_path = "{0}data/banned_users.json".format(PATH)
-# main("btc", comments_path, posts_path, currency_symbols_path, stopwords_path, banned_path)
+# main("CryptoCurrency", comments_path, posts_path, currency_symbols_path, stopwords_path, banned_path)
